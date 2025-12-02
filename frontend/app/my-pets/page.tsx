@@ -52,7 +52,7 @@ export default function MyPetsPage() {
                 setPets(prev => prev.map(p => p.id === pet.id ? { ...p, listedInMarketplace: true } : p));
                 alert("Pet listed successfully!");
                 if (selectedPet?.id === pet.id) {
-                    setSelectedPet(prev => ({ ...prev, listedInMarketplace: true }));
+                    setSelectedPet((prev: any) => ({ ...prev, listedInMarketplace: true }));
                 }
             } else {
                 throw new Error(result.error);
