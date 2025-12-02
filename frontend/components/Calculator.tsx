@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { clsx } from 'clsx';
-import { Sparkles, Shield, Sword } from 'lucide-react';
+import { Shield, Sword } from 'lucide-react';
 
 // Types
 type Stats = {
@@ -273,17 +273,7 @@ export function Calculator() {
 
             {/* Action Buttons */}
             <div className="flex flex-col gap-4 items-center pt-8">
-                <button className={clsx(
-                    "group relative px-8 py-3 bg-accent-blue text-white font-serif text-xl rounded-lg",
-                    "shadow-lg hover:shadow-accent-blue/50 transition-all duration-300",
-                    "hover:scale-105 active:scale-95"
-                )}>
-                    <span className="flex items-center gap-2">
-                        <Sparkles className="w-5 h-5" />
-                        Analyze with Gemini
-                    </span>
-                    <div className="absolute inset-0 rounded-lg bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </button>
+
 
                 <button
                     onClick={handleSavePet}
