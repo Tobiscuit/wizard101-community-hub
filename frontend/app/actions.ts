@@ -24,6 +24,7 @@ export async function savePet(petData: any) {
             currentStats: petData.currentStats,
             maxPossibleStats: petData.maxPossibleStats,
             talents: petData.talents || [],
+            advice: petData.advice || "",
             isMaxed: false,
             listedInMarketplace: false,
             createdAt: new Date(), // Firestore Admin prefers Date objects or Timestamp

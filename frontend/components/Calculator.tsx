@@ -140,7 +140,10 @@ export function Calculator() {
                 petAge: petInfo.age,
                 currentStats,
                 maxPossibleStats: maxStats,
-                talents
+                currentStats,
+                maxPossibleStats: maxStats,
+                talents,
+                advice
             });
 
             if (result.success) {
@@ -274,6 +277,36 @@ export function Calculator() {
                     </div>
                 </div>
             </div>
+
+            {/* Talents & Advice */}
+            {(talents.length > 0 || advice) && (
+                <div className="space-y-4 pt-4 border-t border-accent-gold/30">
+                    {talents.length > 0 && (
+                        <div>
+                            <h3 className="text-lg font-serif font-bold text-accent-gold mb-2">Manifested Talents</h3>
+                            <div className="flex flex-wrap gap-2">
+                                {talents.map((talent, i) => (
+                                    <span key={i} className="px-3 py-1 bg-primary/20 border border-primary/30 rounded-full text-sm">
+                                        {talent}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {advice && (
+                        <div className="bg-blue-900/20 p-4 rounded-lg border border-blue-500/30">
+                            <h3 className="text-lg font-serif font-bold text-blue-300 mb-1 flex items-center gap-2">
+                                <Sparkles className="w-4 h-4" />
+                                Gemini's Insight
+                            </h3>
+                            <p className="text-sm text-blue-100/90 italic">
+                                "{advice}"
+                            </p>
+                        </div>
+                    )}
+                </div>
+            )}
 
             {/* Action Buttons */}
             <div className="flex flex-col gap-4 items-center pt-8">
