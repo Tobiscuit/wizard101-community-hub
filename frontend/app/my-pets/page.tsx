@@ -5,8 +5,7 @@ import { useSession } from 'next-auth/react';
 import { Spellbook } from '@/components/Spellbook';
 import { Plus, Loader2, Store, Check } from 'lucide-react';
 import Link from 'next/link';
-import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { getPets } from '@/app/actions';
 
 export default function MyPetsPage() {
     const { data: session, status } = useSession();
@@ -18,16 +17,10 @@ export default function MyPetsPage() {
         async function fetchPets() {
             if (session?.user?.id) {
                 try {
-                    const q = query(
-                        collection(db, "user_pets"),
-                        where("userId", "==", session.user.id)
-                    );
-                    const querySnapshot = await getDocs(q);
-                    const fetchedPets = querySnapshot.docs.map(doc => ({
-                        id: doc.id,
-                        ...doc.data()
-                    }));
-                    setPets(fetchedPets);
+                    const result = await getPets();
+                    if (result.success && result.pets) {
+                        setPets(result.pets);
+                    }
                 } catch (error) {
                     console.error("Error fetching pets:", error);
                 } finally {
