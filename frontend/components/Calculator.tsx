@@ -24,9 +24,8 @@ const BASE_CAPS: Stats = {
 import { PetScanner } from './PetScanner';
 
 import { useSession, signIn } from 'next-auth/react';
-import { db } from '@/lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { Save, Loader2 } from 'lucide-react';
+import { savePet } from '@/app/actions';
 
 export function Calculator() {
     const { data: session } = useSession();
@@ -129,23 +128,23 @@ export function Calculator() {
 
         setIsSaving(true);
         try {
-            await addDoc(collection(db, "user_pets"), {
-                userId: session.user.id,
-                petNickname: petInfo.name || "",
-                petType: petInfo.type || "Unknown Pet",
-                petSchool: petInfo.school || "Unknown",
-                petAge: petInfo.age || "Baby",
+            // Call Server Action
+            const result = await savePet({
+                petNickname: petInfo.name,
+                petType: petInfo.type,
+                petSchool: petInfo.school,
+                petAge: petInfo.age,
                 currentStats,
                 maxPossibleStats: maxStats,
-                talents,
-                isMaxed: false, // TODO: Implement check
-                listedInMarketplace: false,
-                createdAt: serverTimestamp(),
-                updatedAt: serverTimestamp()
+                talents
             });
-            alert("Pet saved to your tome!");
-            localStorage.removeItem('pet_draft'); // Clear draft on success
-            // Reset form or redirect? For now, keep as is.
+
+            if (result.success) {
+                alert("Pet saved to your tome!");
+                localStorage.removeItem('pet_draft');
+            } else {
+                throw new Error(result.error);
+            }
         } catch (error) {
             console.error("Error saving pet:", error);
             alert("Failed to save pet. Please try again.");
