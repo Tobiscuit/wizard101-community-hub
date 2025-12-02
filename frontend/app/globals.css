@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+:root {
+  /* Light Mode (Parchment) */
+  --background: #F5E6C4;
+  --foreground: #2C1A0B;
+  --accent-gold: #FFD700;
+  --accent-blue: #00A8FF;
+  
+  /* Schools */
+  --school-fire: #FF4500;
+  --school-ice: #87CEEB;
+  --school-storm: #9400D3;
+  --school-life: #32CD32;
+  --school-death: #2F4F4F;
+  --school-myth: #FFD700;
+  --school-balance: #D2691E;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent-gold: var(--accent-gold);
+  --color-accent-blue: var(--accent-blue);
+  
+  --color-school-fire: var(--school-fire);
+  --color-school-ice: var(--school-ice);
+  --color-school-storm: var(--school-storm);
+  --color-school-life: var(--school-life);
+  --color-school-death: var(--school-death);
+  --color-school-myth: var(--school-myth);
+  --color-school-balance: var(--school-balance);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-serif: "Cinzel", "Times New Roman", serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark Mode (Magical Void) */
+    --background: #1a0b2e;
+    --foreground: #E0E0E0;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
