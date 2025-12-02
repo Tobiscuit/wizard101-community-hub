@@ -38,6 +38,35 @@ export function Calculator() {
     const [petInfo, setPetInfo] = useState<{ name?: string; type?: string; school?: string; age?: string }>({});
     const [confidence, setConfidence] = useState<number>(100);
 
+    // Load from localStorage on mount
+    useEffect(() => {
+        const savedDraft = localStorage.getItem('pet_draft');
+        if (savedDraft) {
+            try {
+                const data = JSON.parse(savedDraft);
+                if (data.currentStats) setCurrentStats(data.currentStats);
+                if (data.maxPossibleStats) setMaxStats(data.maxPossibleStats);
+                if (data.talents) setTalents(data.talents);
+                if (data.petInfo) setPetInfo(data.petInfo);
+                // Optional: Clear draft after loading? 
+                // Better to keep it until successfully saved to DB to prevent loss.
+            } catch (e) {
+                console.error("Failed to load draft", e);
+            }
+        }
+    }, []);
+
+    // Save to localStorage whenever important state changes
+    useEffect(() => {
+        const draft = {
+            currentStats,
+            maxPossibleStats: maxStats,
+            talents,
+            petInfo
+        };
+        localStorage.setItem('pet_draft', JSON.stringify(draft));
+    }, [currentStats, maxStats, talents, petInfo]);
+
     const handleScanComplete = (data: any) => {
         if (data.currentStats) setCurrentStats(data.currentStats);
         if (data.maxPossibleStats) setMaxStats(data.maxPossibleStats);
@@ -115,6 +144,8 @@ export function Calculator() {
                 updatedAt: serverTimestamp()
             });
             alert("Pet saved to your tome!");
+            localStorage.removeItem('pet_draft'); // Clear draft on success
+            // Reset form or redirect? For now, keep as is.
         } catch (error) {
             console.error("Error saving pet:", error);
             alert("Failed to save pet. Please try again.");
