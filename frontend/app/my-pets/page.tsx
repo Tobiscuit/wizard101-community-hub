@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { Spellbook } from '@/components/Spellbook';
 import { Plus, Loader2, Store, Check } from 'lucide-react';
 import Link from 'next/link';
-import { getPets } from '@/app/actions';
+import { getPets, listPetInMarketplace } from '@/app/actions';
 
 export default function MyPetsPage() {
     const { data: session, status } = useSession();
@@ -38,39 +38,23 @@ export default function MyPetsPage() {
         if (!confirm(`List ${pet.petNickname || pet.petType} in the marketplace?`)) return;
 
         try {
-            // 1. Create listing
-            await addDoc(collection(db, "marketplace_listings"), {
-                petId: pet.id,
-                userId: session?.user?.id,
-                ownerDisplayName: session?.user?.name || "Unknown Wizard",
-                ownerContact: {
-                    discord: session?.user?.email, // Fallback for now
-                    // discordUserId: session?.user?.id // TODO: Get from NextAuth session callback
-                },
+            const result = await listPetInMarketplace(pet.id, {
                 petType: pet.petType,
                 petSchool: pet.petSchool,
                 petAge: pet.petAge,
                 currentStats: pet.currentStats,
                 maxPossibleStats: pet.maxPossibleStats,
                 talents: pet.talents,
-                calculatedDamage: "TBD", // TODO: Calculate
-                calculatedResist: "TBD",
-                price: {
-                    type: "Empowers",
-                    amount: 50 // Default
-                },
-                listedAt: serverTimestamp()
+                calculatedDamage: "TBD",
+                calculatedResist: "TBD"
             });
 
-            // 2. Update pet status
-            await updateDoc(doc(db, "user_pets", pet.id), {
-                listedInMarketplace: true
-            });
-
-            // 3. Update local state
-            setPets(prev => prev.map(p => p.id === pet.id ? { ...p, listedInMarketplace: true } : p));
-
-            alert("Pet listed successfully!");
+            if (result.success) {
+                setPets(prev => prev.map(p => p.id === pet.id ? { ...p, listedInMarketplace: true } : p));
+                alert("Pet listed successfully!");
+            } else {
+                throw new Error(result.error);
+            }
         } catch (error) {
             console.error("Error listing pet:", error);
             alert("Failed to list pet.");

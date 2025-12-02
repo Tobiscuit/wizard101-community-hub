@@ -37,3 +37,30 @@ export async function savePet(petData: any) {
         return { success: false, error: error.message };
     }
 }
+
+export async function getPets() {
+    const session = await auth();
+
+    if (!session?.user?.id) {
+        return { success: false, error: "Unauthorized" };
+    }
+
+    try {
+        const db = getAdminFirestore();
+        const petsRef = db.collection("user_pets");
+        const snapshot = await petsRef.where("userId", "==", session.user.id).get();
+
+        const pets = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+            // Convert Timestamps to dates/strings for serialization
+            createdAt: doc.data().createdAt?.toDate?.()?.toISOString() || new Date().toISOString(),
+            updatedAt: doc.data().updatedAt?.toDate?.()?.toISOString() || new Date().toISOString()
+        }));
+
+        return { success: true, pets };
+    } catch (error: any) {
+        console.error("Server Action getPets Error:", error);
+        return { success: false, error: error.message };
+    }
+}
