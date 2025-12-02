@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 
 import { SessionProvider } from "next-auth/react";
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
+import { Navbar } from "@/components/Navbar";
 
 export default function RootLayout({
   children,
@@ -32,6 +33,7 @@ export default function RootLayout({
       >
         <SessionProvider>
           <ServiceWorkerRegister />
+          <Navbar />
           {children}
         </SessionProvider>
       </body>
