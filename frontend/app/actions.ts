@@ -64,3 +64,42 @@ export async function getPets() {
         return { success: false, error: error.message };
     }
 }
+
+export async function listPetInMarketplace(petId: string, listingData: any) {
+    const session = await auth();
+
+    if (!session?.user?.id) {
+        return { success: false, error: "Unauthorized" };
+    }
+
+    try {
+        const db = getAdminFirestore();
+
+        // 1. Create listing
+        await db.collection("marketplace_listings").add({
+            petId: petId,
+            userId: session.user.id,
+            ownerDisplayName: session.user.name || "Unknown Wizard",
+            ownerContact: {
+                discord: session.user.email, // Fallback
+            },
+            ...listingData,
+            price: {
+                type: "Empowers",
+                amount: 50
+            },
+            listedAt: new Date()
+        });
+
+        // 2. Update pet status
+        await db.collection("user_pets").doc(petId).update({
+            listedInMarketplace: true
+        });
+
+        revalidatePath('/my-pets');
+        return { success: true };
+    } catch (error: any) {
+        console.error("Server Action listPetInMarketplace Error:", error);
+        return { success: false, error: error.message };
+    }
+}
