@@ -1,0 +1,810 @@
+[
+    {
+        "petType": "Afflicted Treant",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Alert Hound",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Amaranthine Hound",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Amber Shenlong Dragon",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Amethyst Hound",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Aqua Dragon",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Arcane Helpers",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Arctic Cat",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Arctic Elf",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Arctic Ninja Pig",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Arctic Serpent",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Armordillo",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Ash Spider",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Assailing Dragon",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Avenging Fossil",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Azure Dragon",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Baba Yaga's Egg",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Babydactyl",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Balance Armaments",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Battle Cherub",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Battle Pig",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Beastmaster's Eagle",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Beguiled Gargoyle",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Betta Fish",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Black Cat",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Black Spider",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Blaze Beast",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Blazezilla",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Blighted Treant",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Blizzard Cat",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Blizzard Elf",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Bloodbat",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Blood Hound",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Bloodwing",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Blossom Pixie",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Blue Banshee",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Blue Cat Thug",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Blue Cyclops",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Blue Ghost",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Blue Spider",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Boar Knight",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Bone Dragon",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Boss Banshee",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Brainy Assistant",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Bronze Golem",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Brown Spider",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Bumble Bee",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Burning Pixie",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Charming Minstrel",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Chieftain's Owl",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Chimera",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Christmas Elf",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Clockwork Golem",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Crabling",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Crystal Butterfly",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Crystal Spider",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Cupig",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Damp Demon",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Danger Hound",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Dapper Corgi",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Death Cyclops",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Death Leprechaun",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Death Ninja",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Death Scarab",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Death Troll",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Deer Knight",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Defender Pig",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Desert Beast",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Dire Ghoul",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Diseased Wildclaw",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Dragon",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Dream Ghoul",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Earth Walker",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Efreet",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Elemental Foo Dog",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Emberstone Tiger",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Enchanted Armament",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Evil Sandman",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Evil Snowman",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Fabled Grimoire",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Fang Bat",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Fiendish Foo Dog",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Fierce Hound",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Firebat",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Firecat",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Fire Elf",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Fire Salamander",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Fire Serpent",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Firestorm Quetzal",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Firewing",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Flamezilla",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "FOG Unicorn",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Forest Lord",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Frankenbunny",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Frankie Forearms",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Friendly Dragon",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Frog",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Frost Beetle",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Frostzilla",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Ghost Dragon",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Ghoul",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Giraffe",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Gnome",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Goat Monk",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Gob-O-Lantern",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Golden Piggle",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Greater Imp",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Green Cat Thug",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Green Ghost",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Green Spider",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Grumpy Snowman",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Guardian Foo Dog",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Harpy",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Heckhound",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Helephant",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Humongofrog",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Hydra",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Ianthine Spectre",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Ice Bird",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Ice Colossus",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Ice Elf",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Ice Salamander",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Ice Wyvern",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Imp",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Imperial Foo Dog",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Inferno Cat",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Inferno Salamander",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Intrepid Seal Pup",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Ivory Shenlong Dragon",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Jade Oni",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Polar Fox",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Proper Penguin",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Purple Spider",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Queen Spider",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Red Cap",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Red Ghost",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Red Gobbler",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Rescue Rover",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Rockin' Roller",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Ruby Shenlong Dragon",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Rude Goblin",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Sailback Skink",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Samoorai",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Satyr",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Scarecrow",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Scorpion",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Sea Dragon",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Sea Turtle",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Seraph",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Shardtail Dragon",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Shock Colossus",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Silver Colossus",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Silverback Wildclaw",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Skeletal Warrior",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Snake In A Basket",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Snow Serpent",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Snowball",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Snow Beast",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Spark Beast",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Spider Golem",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Spinyfish",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Spirit of Nature",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Spirit of the Forest",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Sprite",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Squirerel",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Stained Glass Roller",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Starfish",
+        "petSchool": "Ice"
+    },
+    {
+        "petType": "Stone Colossus",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Storm Beetle",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Storm Cat",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Storm Hound",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Storm Salamander",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Storm Serpent",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Storm Snowman",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Stormzilla",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Stray Piggle",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Striped Boar",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Summer Dragon",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Sun Bird",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Sunfire Foo Dog",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Talented Piggle",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Tiki Kahuna",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Timberland Yeti",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Toaddle",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Toucan't",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Tough Troll",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Treant",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Triton",
+        "petSchool": "Storm"
+    },
+    {
+        "petType": "Trojan Horse",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Unicorn",
+        "petSchool": "Life"
+    },
+    {
+        "petType": "Utility Dragon",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Valentine Pig",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Vampire",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Velociraptor",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Vigilant Dragon",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "White Rat Magician",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Wildfire Treant",
+        "petSchool": "Fire"
+    },
+    {
+        "petType": "Winged Catastrophe",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Wood Golem",
+        "petSchool": "Balance"
+    },
+    {
+        "petType": "Wraith",
+        "petSchool": "Death"
+    },
+    {
+        "petType": "Yellow Ghost",
+        "petSchool": "Myth"
+    },
+    {
+        "petType": "Yuletide Spirit",
+        "petSchool": "Life"
+    }
+]

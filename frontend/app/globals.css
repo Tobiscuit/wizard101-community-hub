@@ -6,7 +6,7 @@
   --foreground: #2C1A0B;
   --accent-gold: #FFD700;
   --accent-blue: #00A8FF;
-  
+
   /* Schools */
   --school-fire: #FF4500;
   --school-ice: #87CEEB;
@@ -22,7 +22,7 @@
   --color-foreground: var(--foreground);
   --color-accent-gold: var(--accent-gold);
   --color-accent-blue: var(--accent-blue);
-  
+
   --color-school-fire: var(--school-fire);
   --color-school-ice: var(--school-ice);
   --color-school-storm: var(--school-storm);
@@ -48,4 +48,26 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }

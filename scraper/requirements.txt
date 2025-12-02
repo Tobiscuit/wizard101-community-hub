@@ -1,4 +1,6 @@
-cloudscraper
-firebase-admin
-google-cloud-firestore
-python-dotenv
+curl_cffi==0.6.2
+firebase-admin==6.5.0
+google-cloud-firestore==2.19.0
+python-dotenv==1.0.1
+beautifulsoup4==4.12.3
+requests==2.32.3

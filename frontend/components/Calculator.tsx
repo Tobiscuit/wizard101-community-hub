@@ -21,11 +21,36 @@ const BASE_CAPS: Stats = {
     power: 250,
 };
 
+import { PetScanner } from './PetScanner';
+
+import { useSession, signIn } from 'next-auth/react';
+import { db } from '@/lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { Save, Loader2 } from 'lucide-react';
+
 export function Calculator() {
+    const { data: session } = useSession();
+    const [isSaving, setIsSaving] = useState(false);
     // State
     const [currentStats, setCurrentStats] = useState<Stats>({ ...BASE_CAPS });
     const [maxStats, setMaxStats] = useState<Stats>({ ...BASE_CAPS });
     const [talents, setTalents] = useState<string[]>([]);
+    const [petInfo, setPetInfo] = useState<{ name?: string; type?: string; school?: string; age?: string }>({});
+    const [confidence, setConfidence] = useState<number>(100);
+
+    const handleScanComplete = (data: any) => {
+        if (data.currentStats) setCurrentStats(data.currentStats);
+        if (data.maxPossibleStats) setMaxStats(data.maxPossibleStats);
+        if (data.talents) setTalents(data.talents);
+        if (data.confidence) setConfidence(data.confidence);
+
+        setPetInfo({
+            name: data.petNickname,
+            type: data.petType,
+            school: data.petSchool,
+            age: data.petAge
+        });
+    };
 
     // Calculation Formulas
     const calculateDamage = () => {
@@ -67,8 +92,77 @@ export function Calculator() {
         setCurrentStats(prev => ({ ...prev, [stat]: num }));
     };
 
+    const handleSavePet = async () => {
+        if (!session?.user?.id) {
+            signIn(); // Redirect to login if not authenticated
+            return;
+        }
+
+        setIsSaving(true);
+        try {
+            await addDoc(collection(db, "user_pets"), {
+                userId: session.user.id,
+                petNickname: petInfo.name || "",
+                petType: petInfo.type || "Unknown Pet",
+                petSchool: petInfo.school || "Unknown",
+                petAge: petInfo.age || "Baby",
+                currentStats,
+                maxPossibleStats: maxStats,
+                talents,
+                isMaxed: false, // TODO: Implement check
+                listedInMarketplace: false,
+                createdAt: serverTimestamp(),
+                updatedAt: serverTimestamp()
+            });
+            alert("Pet saved to your tome!");
+        } catch (error) {
+            console.error("Error saving pet:", error);
+            alert("Failed to save pet. Please try again.");
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
     return (
         <div className="space-y-8">
+            <PetScanner onScanComplete={handleScanComplete} />
+
+            {petInfo.type && (
+                <div className="text-center mb-6 p-4 bg-white/30 rounded-lg border border-accent-gold/30 relative group">
+                    <button
+                        onClick={() => setPetInfo({})}
+                        className="absolute top-2 right-2 p-1 text-foreground/40 hover:text-foreground hover:bg-white/50 rounded transition-all"
+                        title="Clear and Rescan"
+                    >
+                        <span className="sr-only">Clear</span>
+                        ✕
+                    </button>
+
+                    <h3 className="text-xl font-serif font-bold text-accent-gold">
+                        {petInfo.name && <span className="text-foreground mr-2">"{petInfo.name}"</span>}
+                        {petInfo.type}
+                    </h3>
+                    <div className="flex justify-center gap-3 mt-2 text-sm">
+                        {petInfo.school && <span className="px-2 py-0.5 bg-black/10 rounded">{petInfo.school}</span>}
+                        {petInfo.age && <span className="px-2 py-0.5 bg-black/10 rounded">{petInfo.age}</span>}
+                    </div>
+
+                    <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                            onClick={() => {
+                                // Unlock by clearing specific fields but keeping stats? 
+                                // For now, let's just allow them to clear and retry, or we can make inputs editable.
+                                // Actually, let's just show the inputs but pre-filled, and remove this "locked" display if they want to edit.
+                                setPetInfo(prev => ({ ...prev, type: undefined }));
+                            }}
+                            className="text-xs text-accent-blue hover:underline"
+                        >
+                            Incorrect? Edit Details
+                        </button>
+                    </div>
+                </div>
+            )}
+
             {/* Stats Input Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-4">
@@ -147,8 +241,8 @@ export function Calculator() {
                 </div>
             </div>
 
-            {/* Action Button */}
-            <div className="flex justify-center pt-8">
+            {/* Action Buttons */}
+            <div className="flex flex-col gap-4 items-center pt-8">
                 <button className={clsx(
                     "group relative px-8 py-3 bg-accent-blue text-white font-serif text-xl rounded-lg",
                     "shadow-lg hover:shadow-accent-blue/50 transition-all duration-300",
@@ -159,6 +253,20 @@ export function Calculator() {
                         Analyze with Gemini
                     </span>
                     <div className="absolute inset-0 rounded-lg bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </button>
+
+                <button
+                    onClick={handleSavePet}
+                    disabled={isSaving}
+                    className={clsx(
+                        "flex items-center gap-2 px-6 py-2 rounded-lg font-serif text-lg",
+                        "bg-green-600 text-white shadow-md",
+                        "hover:bg-green-500 transition-all",
+                        "disabled:opacity-50"
+                    )}
+                >
+                    {isSaving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                    {session ? "Save to My Pets" : "Login to Save"}
                 </button>
             </div>
         </div>

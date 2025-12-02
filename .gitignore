@@ -36,6 +36,9 @@ yarn-error.log*
 .env.production.local
 *.env
 *.env.*
+!*.env.example
+!frontend/.env.example
+
 
 # Vercel
 .vercel
@@ -54,6 +57,7 @@ eggs/
 .eggs/
 lib/
 lib64/
+!frontend/lib/
 parts/
 sdist/
 var/
