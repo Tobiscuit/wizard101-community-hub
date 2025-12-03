@@ -127,7 +127,7 @@ export function PetDetailsModal({ pet, onClose, onListInMarketplace, onUnlistFro
                         <div className="bg-blue-900/20 p-4 rounded-lg border border-blue-500/30">
                             <h3 className="text-lg font-serif font-bold text-blue-300 mb-1 flex items-center gap-2">
                                 <Sparkles className="w-4 h-4" />
-                                Gemini's Insight
+                                Gamma's Wisdom
                             </h3>
                             <p className="text-sm text-blue-100/90 italic">
                                 "{pet.advice}"
