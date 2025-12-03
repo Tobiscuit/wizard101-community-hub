@@ -15,7 +15,9 @@ export default function MyPetsPage() {
     const [pets, setPets] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedPet, setSelectedPet] = useState<any>(null);
+    const [listingConfigPet, setListingConfigPet] = useState<any>(null);
     const [discordUsername, setDiscordUsername] = useState<string>('');
+    const [hasDiscordId, setHasDiscordId] = useState<boolean>(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -30,8 +32,13 @@ export default function MyPetsPage() {
                         setPets(petsResult.pets);
                     }
 
-                    if (profileResult.success && profileResult.profile?.discordUsername) {
-                        setDiscordUsername(profileResult.profile.discordUsername);
+                    if (profileResult.success && profileResult.profile) {
+                        if (profileResult.profile.discordUsername) {
+                            setDiscordUsername(profileResult.profile.discordUsername);
+                        }
+                        if (profileResult.profile.discordId) {
+                            setHasDiscordId(true);
+                        }
                     }
                 } catch (error) {
                     console.error("Error fetching data:", error);
@@ -213,6 +220,7 @@ export default function MyPetsPage() {
                 onConfirm={handleConfirmListing}
                 pet={listingConfigPet}
                 savedDiscordUsername={discordUsername}
+                hasDiscordOAuth={hasDiscordId}
             />
         </main>
     );

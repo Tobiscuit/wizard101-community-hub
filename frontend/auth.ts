@@ -6,12 +6,20 @@ import { authConfig } from "./auth.config";
 export const { handlers, auth, signIn, signOut } = NextAuth({
     ...authConfig,
     adapter: FirestoreAdapter(getAdminFirestore()),
-    session: { strategy: "jwt" }, // Force JWT for Edge compatibility if needed, but Adapter usually implies database. 
-    // Wait, if we use Adapter, we can't run fully on Edge for session strategy 'database'.
-    // But middleware only needs to verify the session token (JWT).
-    // If we use database sessions, middleware can't verify them without database access.
-    // Let's stick to the default strategy but ensure middleware uses authConfig which DOESN'T have the adapter.
+    session: { strategy: "jwt" },
     pages: {
         signIn: '/login',
     },
+    events: {
+        async signIn({ user, account, profile }) {
+            // When user signs in with Discord, store their Discord ID
+            if (account?.provider === 'discord' && account?.providerAccountId && user?.id) {
+                const db = getAdminFirestore();
+                await db.collection("users").doc(user.id).set({
+                    discordId: account.providerAccountId,
+                    updatedAt: new Date()
+                }, { merge: true });
+            }
+        }
+    }
 });

@@ -76,42 +76,24 @@ export async function listPetInMarketplace(petId: string, listingData: any, disc
 
     try {
         const db = getAdminFirestore();
+        const userDoc = await db.collection("users").doc(session.user.id).get();
+        const userData = userDoc.data();
 
-        // Check for existing Discord ID or Username
-        // In a real app with linked accounts, we'd check session.user.discordId
-        // For now, we check if the user provided a username OR if we have one saved in their profile
+        // Priority 1: Discord ID from OAuth (best UX)
+        let discordId = userData?.discordId || null;
+        let finalDiscordUsername = discordUsername || userData?.discordUsername || null;
 
-        let finalDiscordContact = discordUsername;
-
-        // If no username provided, check if we already have one saved (optional optimization, 
-        // but for now we'll rely on the client sending it if needed, or just saving it now)
-
+        // If user provided a username this time, save it for future use
         if (discordUsername) {
-            // Save/Update the user's preferred Discord username for future use
             await db.collection("users").doc(session.user.id).set({
                 discordUsername: discordUsername,
                 updatedAt: new Date()
             }, { merge: true });
-        } else {
-            // Try to fetch from profile if not provided
-            const userDoc = await db.collection("users").doc(session.user.id).get();
-            if (userDoc.exists && userDoc.data()?.discordUsername) {
-                finalDiscordContact = userDoc.data()?.discordUsername;
-            }
         }
 
-        // If we still don't have a contact, check if the session has a Discord ID (from OAuth)
-        // Note: NextAuth session might not expose the raw provider ID easily without callbacks,
-        // but let's assume if they logged in with Discord, we might have it.
-        // For this strict requirement, we fail if we have NOTHING.
-
-        // Actually, if they logged in with Discord, the email might be a hint, but user explicitly said NO EMAIL.
-        // So we strictly require a Discord Username or ID.
-
-        if (!finalDiscordContact) {
-            // If they logged in via Discord, maybe we can use their name? 
-            // But "Discord Username" input is safer for Google users.
-            throw new Error("A Discord Username is required to list pets in the Kiosk.");
+        // Require at least Discord ID OR username
+        if (!discordId && !finalDiscordUsername) {
+            throw new Error("A Discord contact method is required to list pets in the Kiosk.");
         }
 
         // 1. Apply Jewel Bonus if present
@@ -126,8 +108,8 @@ export async function listPetInMarketplace(petId: string, listingData: any, disc
             userId: session.user.id,
             ownerDisplayName: session.user.name || "Unknown Wizard",
             ownerContact: {
-                discord: finalDiscordContact, // ONLY Discord
-                // NO EMAIL FALLBACK
+                discordId: discordId, // Discord User ID from OAuth (enables direct DM link)
+                discordUsername: finalDiscordUsername, // Fallback username for display/manual contact
             },
             ...listingData,
             calculatedDamage: `${potentials.damage.dealer}%`,
