@@ -95,6 +95,12 @@ export function Calculator() {
         }
     };
 
+    const handleBlur = (stat: keyof Stats) => {
+        if (currentStats[stat] === '') {
+            setCurrentStats(prev => ({ ...prev, [stat]: 0 }));
+        }
+    };
+
     // Helper to get safe numbers for calculations
     const getSafeStats = (): Stats => {
         return {
@@ -194,6 +200,7 @@ export function Calculator() {
                                     type="number"
                                     value={currentStats[stat]}
                                     onChange={(e) => handleStatChange(stat, e.target.value)}
+                                    onBlur={() => handleBlur(stat)}
                                     className={clsx(
                                         "w-full bg-[#F5E6C4] border-b-2 border-[#8B4513]/50",
                                         "px-2 py-1 text-xl font-mono text-[#2C1A0B]",
