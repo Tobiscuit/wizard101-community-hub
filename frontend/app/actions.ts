@@ -296,7 +296,7 @@ export async function updateLastSeen() {
     }
 }
 
-export async function getUserProfile() {
+export async function getUserProfile(): Promise<{ success: boolean; profile?: any; error?: string }> {
     const session = await auth();
     if (!session?.user?.id) return { success: false, error: "Unauthorized" };
 
