@@ -76,3 +76,21 @@ export function calculateAllPotentials(stats: Stats) {
         }
     };
 }
+
+export const JEWEL_BONUSES: Record<string, { stat: keyof Stats, amount: number }> = {
+    'mighty': { stat: 'strength', amount: 65 },
+    'thinking_cap': { stat: 'will', amount: 65 },
+    'cautious': { stat: 'agility', amount: 65 },
+    'brilliant': { stat: 'intellect', amount: 65 },
+    'powerful': { stat: 'power', amount: 65 }
+};
+
+export function applyJewelBonus(stats: Stats, jewelId?: string): Stats {
+    if (!jewelId || !JEWEL_BONUSES[jewelId]) return stats;
+
+    const bonus = JEWEL_BONUSES[jewelId];
+    return {
+        ...stats,
+        [bonus.stat]: (stats[bonus.stat] || 0) + bonus.amount
+    };
+}

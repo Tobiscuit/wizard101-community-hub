@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import { Search, Filter, MessageCircle } from 'lucide-react';
 import { clsx } from 'clsx';
 import { getMarketplaceListings } from '@/app/actions';
+import { calculateTalentValue, applyJewelBonus } from '@/lib/talent-formulas';
 
 export default function MarketplacePage() {
     const { data: session } = useSession();
@@ -86,56 +87,62 @@ export default function MarketplacePage() {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {listings.map((listing) => (
-                            <div key={listing.id} className="bg-black/40 backdrop-blur-sm p-4 rounded-lg border border-accent-gold/30 hover:border-accent-gold hover:shadow-[0_0_15px_rgba(255,215,0,0.2)] transition-all relative group">
-                                <div className="absolute top-2 right-2 flex flex-col gap-1 items-end">
+                            <div key={listing.id} className="bg-black/40 backdrop-blur-sm p-4 rounded-lg border border-accent-gold/30 hover:border-accent-gold hover:shadow-[0_0_15px_rgba(255,215,0,0.2)] transition-all relative group flex flex-col">
+
+                                {/* Status Bar (Badges) */}
+                                <div className="flex flex-wrap gap-2 mb-3 justify-end">
                                     {listing.price?.type === 'Free' ? (
-                                        <div className="px-2 py-1 bg-blue-500 text-white rounded text-xs font-bold shadow-sm border border-blue-300">
+                                        <div className="px-2 py-0.5 bg-blue-500 text-white rounded text-[10px] font-bold shadow-sm border border-blue-300 uppercase tracking-wider">
                                             Lending
                                         </div>
                                     ) : (
-                                        <div className="px-2 py-1 bg-accent-gold text-black rounded text-xs font-bold shadow-sm">
+                                        <div className="px-2 py-0.5 bg-accent-gold text-black rounded text-[10px] font-bold shadow-sm uppercase tracking-wider">
                                             {listing.price?.amount} {listing.price?.type}
                                         </div>
                                     )}
                                     {isMaxStats(listing.maxPossibleStats) && (
-                                        <div className="px-2 py-1 bg-purple-500 text-white rounded text-xs font-bold shadow-sm border border-purple-300 animate-pulse">
+                                        <div className="px-2 py-0.5 bg-purple-500 text-white rounded text-[10px] font-bold shadow-sm border border-purple-300 animate-pulse uppercase tracking-wider">
                                             2.0 Stats
                                         </div>
                                     )}
                                     {SET_BONUS_PETS.includes(listing.petType) && (
-                                        <div className="px-2 py-1 bg-green-600 text-white rounded text-xs font-bold shadow-sm border border-green-400">
+                                        <div className="px-2 py-0.5 bg-green-600 text-white rounded text-[10px] font-bold shadow-sm border border-green-400 uppercase tracking-wider">
                                             Set Bonus
                                         </div>
                                     )}
                                 </div>
 
-                                <h3 className="font-serif font-bold text-xl text-accent-gold mb-1 tracking-wide">{listing.petType}</h3>
-                                <div className="flex gap-2 text-sm text-white/70 mb-4">
-                                    <span className="px-2 py-0.5 bg-white/10 rounded border border-white/10">{listing.petSchool}</span>
-                                    <span className="px-2 py-0.5 bg-white/10 rounded border border-white/10">{listing.petAge}</span>
-                                </div>
-
-                                <div className="space-y-2 mb-4 p-3 bg-white/5 rounded border border-white/5">
-                                    <div className="flex justify-between text-sm text-white/90">
-                                        <span className="text-white/60">Damage:</span>
-                                        <span className="font-mono font-bold text-red-300">{listing.calculatedDamage}</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm text-white/90">
-                                        <span className="text-white/60">Resist:</span>
-                                        <span className="font-mono font-bold text-blue-300">{listing.calculatedResist}</span>
+                                {/* Header */}
+                                <div className="mb-4">
+                                    <h3 className="font-serif font-bold text-xl text-accent-gold mb-1 tracking-wide leading-tight">
+                                        {listing.petType}
+                                    </h3>
+                                    <div className="flex gap-2 text-xs text-white/60">
+                                        <span className="px-1.5 py-0.5 bg-white/5 rounded border border-white/10">{listing.petSchool}</span>
+                                        <span className="px-1.5 py-0.5 bg-white/5 rounded border border-white/10">{listing.petAge}</span>
                                     </div>
                                 </div>
 
-                                <div className="flex flex-wrap gap-1.5 mb-4">
-                                    {listing.talents?.slice(0, 5).map((talent: string, i: number) => (
-                                        <span key={i} className="text-xs px-2 py-1 bg-blue-500/20 text-blue-200 border border-blue-500/30 rounded">
-                                            {talent}
-                                        </span>
-                                    ))}
+                                {/* Talents Grid */}
+                                <div className="flex-1 mb-4">
+                                    <div className="flex flex-wrap gap-1.5">
+                                        {listing.talents?.slice(0, 5).map((talent: string, i: number) => {
+                                            // Calculate effective stats with jewel
+                                            const effectiveStats = applyJewelBonus(listing.currentStats, listing.socketedJewel);
+                                            const val = calculateTalentValue(talent, effectiveStats);
+
+                                            return (
+                                                <span key={i} className="text-xs px-2 py-1 bg-blue-500/10 text-blue-200 border border-blue-500/20 rounded flex items-center gap-1.5">
+                                                    {talent}
+                                                    {val && <span className="text-accent-gold font-mono font-bold">({val})</span>}
+                                                </span>
+                                            );
+                                        })}
+                                    </div>
                                 </div>
 
                                 <button
-                                    className="w-full flex items-center justify-center gap-2 py-2 bg-accent-blue text-white rounded hover:bg-accent-blue/90 transition-colors shadow-lg"
+                                    className="w-full flex items-center justify-center gap-2 py-2 bg-accent-blue text-white rounded hover:bg-accent-blue/90 transition-colors shadow-lg text-sm font-bold"
                                     onClick={() => setSelectedListing(listing)}
                                 >
                                     <MessageCircle className="w-4 h-4" />
