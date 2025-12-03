@@ -174,41 +174,20 @@ export function Calculator() {
                     {(Object.keys(BASE_CAPS) as Array<keyof Stats>).map((stat) => (
                         <div key={stat} className="flex items-center gap-4">
                             <label className="w-24 capitalize font-serif text-lg">{stat}</label>
-                            <div className="flex-1 flex items-center gap-2">
-                                <div className="relative flex-1">
-                                    <input
-                                        type="number"
-                                        value={currentStats[stat]}
-                                        onChange={(e) => handleStatChange(stat, e.target.value)}
-                                        className={clsx(
-                                            "w-full bg-[#F5E6C4] border-2 border-[#8B4513]/50 rounded-lg",
-                                            "px-3 py-2 text-xl font-mono text-[#2C1A0B] text-center",
-                                            "focus:outline-none focus:border-accent-blue focus:bg-white/50",
-                                            "transition-colors duration-200",
-                                            "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                        )}
-                                    />
-                                    <div className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-500 pointer-events-none font-mono">
-                                        / {maxStats[stat]}
-                                    </div>
-                                </div>
-
-                                {/* Custom W101 Themed Controls */}
-                                <div className="flex flex-col gap-1">
-                                    <button
-                                        onClick={() => handleStatChange(stat, (currentStats[stat] + 1).toString())}
-                                        className="p-1 bg-accent-gold/20 hover:bg-accent-gold/40 text-accent-gold border border-accent-gold/50 rounded transition-colors"
-                                        aria-label={`Increase ${stat}`}
-                                    >
-                                        <ChevronUp className="w-4 h-4" />
-                                    </button>
-                                    <button
-                                        onClick={() => handleStatChange(stat, (currentStats[stat] - 1).toString())}
-                                        className="p-1 bg-accent-gold/20 hover:bg-accent-gold/40 text-accent-gold border border-accent-gold/50 rounded transition-colors"
-                                        aria-label={`Decrease ${stat}`}
-                                    >
-                                        <ChevronDown className="w-4 h-4" />
-                                    </button>
+                            <div className="flex-1 relative">
+                                <input
+                                    type="number"
+                                    value={currentStats[stat]}
+                                    onChange={(e) => handleStatChange(stat, e.target.value)}
+                                    className={clsx(
+                                        "w-full bg-[#F5E6C4] border-b-2 border-[#8B4513]/50",
+                                        "px-2 py-1 text-xl font-mono text-[#2C1A0B]",
+                                        "focus:outline-none focus:border-accent-blue focus:bg-white/50",
+                                        "transition-colors duration-200"
+                                    )}
+                                />
+                                <div className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-500 pointer-events-none">
+                                    / {maxStats[stat]}
                                 </div>
                             </div>
                         </div>
