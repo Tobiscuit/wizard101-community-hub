@@ -183,7 +183,8 @@ export function Calculator() {
                                         "w-full bg-[#F5E6C4] border-b-2 border-[#8B4513]/50",
                                         "px-2 py-1 text-xl font-mono text-[#2C1A0B]",
                                         "focus:outline-none focus:border-accent-blue focus:bg-white/50",
-                                        "transition-colors duration-200"
+                                        "transition-colors duration-200",
+                                        "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     )}
                                 />
                                 <div className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-500 pointer-events-none">
