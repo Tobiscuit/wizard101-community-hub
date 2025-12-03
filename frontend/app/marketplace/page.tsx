@@ -14,6 +14,8 @@ export default function MarketplacePage() {
     const [listings, setListings] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [schoolFilter, setSchoolFilter] = useState<string>('All');
+    const [search, setSearch] = useState('');
+    const [sortOrder, setSortOrder] = useState<'newest' | 'damage' | 'resist'>('newest');
 
     useEffect(() => {
         async function fetchListings() {
