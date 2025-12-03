@@ -22,6 +22,7 @@ const BASE_CAPS: Stats = {
 };
 
 import { PetScanner } from './PetScanner';
+import { MagicalButton } from './MagicalButton';
 
 import { useSession, signIn } from 'next-auth/react';
 import { Save, Loader2 } from 'lucide-react';
@@ -323,19 +324,15 @@ export function Calculator() {
             <div className="flex flex-col gap-4 items-center pt-8">
 
 
-                <button
+                <MagicalButton
                     onClick={handleSavePet}
                     disabled={isSaving}
-                    className={clsx(
-                        "flex items-center gap-2 px-6 py-2 rounded-lg font-serif text-lg",
-                        "bg-green-600 text-white shadow-md",
-                        "hover:bg-green-500 transition-all",
-                        "disabled:opacity-50"
-                    )}
+                    size="lg"
+                    className="min-w-[200px]"
                 >
                     {isSaving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
                     {session ? "Save to My Pets" : "Login to Save"}
-                </button>
+                </MagicalButton>
             </div>
         </div >
     );
