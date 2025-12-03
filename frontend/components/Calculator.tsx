@@ -32,7 +32,7 @@ export function Calculator() {
     const { data: session } = useSession();
     const [isSaving, setIsSaving] = useState(false);
     // State
-    const [currentStats, setCurrentStats] = useState<Stats>({ ...BASE_CAPS });
+    const [currentStats, setCurrentStats] = useState<Record<keyof Stats, number | string>>({ ...BASE_CAPS });
     const [maxStats, setMaxStats] = useState<Stats>({ ...BASE_CAPS });
     const [talents, setTalents] = useState<string[]>([]);
     const [advice, setAdvice] = useState<string>("");
@@ -50,8 +50,6 @@ export function Calculator() {
                 if (data.talents) setTalents(data.talents);
                 if (data.advice) setAdvice(data.advice);
                 if (data.petInfo) setPetInfo(data.petInfo);
-                // Optional: Clear draft after loading? 
-                // Better to keep it until successfully saved to DB to prevent loss.
             } catch (e) {
                 console.error("Failed to load draft", e);
             }
@@ -87,8 +85,25 @@ export function Calculator() {
 
     // Handlers
     const handleStatChange = (stat: keyof Stats, value: string) => {
-        const num = parseInt(value) || 0;
-        setCurrentStats(prev => ({ ...prev, [stat]: num }));
+        if (value === '') {
+            setCurrentStats(prev => ({ ...prev, [stat]: '' }));
+            return;
+        }
+        const num = parseInt(value);
+        if (!isNaN(num)) {
+            setCurrentStats(prev => ({ ...prev, [stat]: num }));
+        }
+    };
+
+    // Helper to get safe numbers for calculations
+    const getSafeStats = (): Stats => {
+        return {
+            strength: Number(currentStats.strength) || 0,
+            intellect: Number(currentStats.intellect) || 0,
+            agility: Number(currentStats.agility) || 0,
+            will: Number(currentStats.will) || 0,
+            power: Number(currentStats.power) || 0,
+        };
     };
 
     const handleSavePet = async () => {
@@ -105,7 +120,7 @@ export function Calculator() {
                 petType: petInfo.type,
                 petSchool: petInfo.school,
                 petAge: petInfo.age,
-                currentStats,
+                currentStats: getSafeStats(),
                 maxPossibleStats: maxStats,
                 talents,
                 advice
@@ -125,7 +140,7 @@ export function Calculator() {
         }
     };
 
-    const potentials = calculateAllPotentials(currentStats);
+    const potentials = calculateAllPotentials(getSafeStats());
 
     return (
         <div className="space-y-8">
