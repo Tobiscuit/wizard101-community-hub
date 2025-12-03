@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react';
 import { Camera, Upload, Loader2, AlertCircle } from 'lucide-react';
 import { clsx } from 'clsx';
 import { MagicalLoader } from './MagicalLoader';
+import { MagicalButton } from './MagicalButton';
 
 interface ScannedData {
     petNickname?: string;
@@ -106,30 +107,26 @@ export function PetScanner({ onScanComplete }: PetScannerProps) {
             />
 
             <div className="flex gap-4">
-                <button
+                <MagicalButton
                     onClick={() => fileInputRef.current?.click()}
                     disabled={isScanning}
-                    className={clsx(
-                        "flex items-center gap-2 px-6 py-3 rounded-lg font-serif text-lg",
-                        "bg-accent-blue text-white shadow-lg",
-                        "hover:bg-accent-blue/90 hover:scale-105 transition-all",
-                        "disabled:opacity-50 disabled:cursor-not-allowed"
-                    )}
+                    size="lg"
+                    className="min-w-[200px]"
                 >
                     <Camera className="w-5 h-5" />
                     Scan Pet
-                </button>
+                </MagicalButton>
             </div>
 
             {error && (
-                <div className="flex items-center gap-2 text-red-600 bg-red-100 px-4 py-2 rounded-md">
+                <div className="flex items-center gap-2 text-red-400 bg-red-900/20 border border-red-500/30 px-4 py-2 rounded-md">
                     <AlertCircle className="w-4 h-4" />
                     <span className="text-sm">{error}</span>
                 </div>
             )}
 
-            <p className="text-sm text-foreground/60 italic">
-                Take a screenshot of your pet's stats page
+            <p className="text-lg text-accent-gold/80 font-serif italic flex items-center gap-2">
+                "Oh, what do we have here?" <span className="text-2xl not-italic">🧙‍♂️</span>
             </p>
         </div>
     );
