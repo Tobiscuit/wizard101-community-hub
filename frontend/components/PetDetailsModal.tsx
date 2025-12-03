@@ -3,7 +3,7 @@
 import React from 'react';
 import { X, Shield, Sword, Sparkles, Share2, Trash2 } from 'lucide-react';
 import { clsx } from 'clsx';
-import { calculateTalentValue } from '@/lib/talent-formulas';
+import { calculateTalentValue, calculateAllPotentials } from '@/lib/talent-formulas';
 
 type PetDetailsModalProps = {
     pet: any;
@@ -15,22 +15,11 @@ type PetDetailsModalProps = {
 export function PetDetailsModal({ pet, onClose, onListInMarketplace, onUnlistFromMarketplace }: PetDetailsModalProps) {
     if (!pet) return null;
 
-    // Calculate stats for display (reusing logic from Calculator roughly)
-    const calculateStats = (stats: any) => {
-        if (!stats) return { damage: 0, resist: 0 };
-        const baseDmg = (2 * stats.strength + 2 * stats.will + stats.power);
-        const baseRes = (2 * stats.strength + 2 * stats.agility + stats.power);
-        return {
-            damage: Math.round(baseDmg * (3 / 400)), // Dealer equivalent
-            resist: Math.round(baseRes / 125) // Proof equivalent
-        };
-    };
-
-    const potential = calculateStats(pet.currentStats);
+    const potentials = pet.currentStats ? calculateAllPotentials(pet.currentStats) : null;
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-            <div className="bg-[#1a1a2e] border-2 border-accent-gold rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative animate-in fade-in zoom-in duration-300">
+            <div className="bg-[#1a1a2e] border-2 border-accent-gold rounded-xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto relative animate-in fade-in zoom-in duration-300">
 
                 {/* Close Button */}
                 <button
@@ -70,23 +59,48 @@ export function PetDetailsModal({ pet, onClose, onListInMarketplace, onUnlistFro
 
                         {/* Potential */}
                         <div className="space-y-3">
-                            <h3 className="text-lg font-serif font-bold text-white/90 border-b border-white/10 pb-1">Potential</h3>
-                            <div className="space-y-2">
-                                <div className="flex items-center justify-between p-3 bg-red-900/20 border border-red-500/20 rounded-lg">
-                                    <div className="flex items-center gap-2 text-red-300">
-                                        <Sword className="w-4 h-4" />
-                                        <span>Dealer Damage</span>
+                            <h3 className="text-lg font-serif font-bold text-white/90 border-b border-white/10 pb-1">Max Potential</h3>
+                            {potentials && (
+                                <div className="space-y-2 text-sm">
+                                    {/* Damage Row */}
+                                    <div className="flex items-center justify-between p-2 bg-red-900/20 border border-red-500/20 rounded">
+                                        <div className="flex items-center gap-2 text-red-300">
+                                            <Sword className="w-4 h-4" />
+                                            <span>Damage</span>
+                                        </div>
+                                        <div className="flex gap-3 text-red-100 font-mono">
+                                            <span title="Dealer">Dlr:{potentials.damage.dealer}%</span>
+                                            <span title="Giver">Gvr:{potentials.damage.giver}%</span>
+                                            <span title="Boon">Bn:{potentials.damage.boon}%</span>
+                                        </div>
                                     </div>
-                                    <span className="text-xl font-bold text-red-100">{potential.damage}%</span>
-                                </div>
-                                <div className="flex items-center justify-between p-3 bg-blue-900/20 border border-blue-500/20 rounded-lg">
-                                    <div className="flex items-center gap-2 text-blue-300">
-                                        <Shield className="w-4 h-4" />
-                                        <span>Spell Proof</span>
+
+                                    {/* Resist Row */}
+                                    <div className="flex items-center justify-between p-2 bg-blue-900/20 border border-blue-500/20 rounded">
+                                        <div className="flex items-center gap-2 text-blue-300">
+                                            <Shield className="w-4 h-4" />
+                                            <span>Resist</span>
+                                        </div>
+                                        <div className="flex gap-3 text-blue-100 font-mono">
+                                            <span title="Spell-Proof">Prf:{potentials.resist.proof}%</span>
+                                            <span title="Spell-Defying">Dfy:{potentials.resist.defy}%</span>
+                                            <span title="School Ward">Wrd:{potentials.resist.ward}%</span>
+                                        </div>
                                     </div>
-                                    <span className="text-xl font-bold text-blue-100">{potential.resist}%</span>
+
+                                    {/* Pierce Row */}
+                                    <div className="flex items-center justify-between p-2 bg-yellow-900/20 border border-yellow-500/20 rounded">
+                                        <div className="flex items-center gap-2 text-yellow-300">
+                                            <Sword className="w-4 h-4 rotate-45" />
+                                            <span>Pierce</span>
+                                        </div>
+                                        <div className="flex gap-3 text-yellow-100 font-mono">
+                                            <span title="Armor Breaker">Brk:{potentials.pierce.breaker}%</span>
+                                            <span title="Armor Piercer">Prc:{potentials.pierce.piercer}%</span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
                     </div>
 

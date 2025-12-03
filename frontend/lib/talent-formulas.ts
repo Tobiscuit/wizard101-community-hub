@@ -46,10 +46,33 @@ export function calculateTalentValue(talentName: string, stats: Stats): string |
     }
 
     if (value > 0) {
-        // Round to nearest integer for display, or 1 decimal if small?
-        // W101 usually rounds normally.
         return `${Math.round(value)}%`;
     }
 
     return null;
+}
+
+export function calculateAllPotentials(stats: Stats) {
+    const { strength, will, power, agility } = stats;
+
+    // Base Variables
+    const damageBase = (2 * strength + 2 * will + power);
+    const resistBase = (2 * strength + 2 * agility + power);
+
+    return {
+        damage: {
+            dealer: Math.round((damageBase * 3) / 400), // ~10-11%
+            giver: Math.round((damageBase * 1) / 200),  // ~6-7%
+            boon: Math.round((damageBase * 1) / 400),   // ~3-4%
+        },
+        resist: {
+            proof: Math.round(resistBase / 125),        // ~10-11%
+            defy: Math.round(resistBase / 250),         // ~5-6%
+            ward: Math.round(resistBase / 80),          // ~15-16% (School specific)
+        },
+        pierce: {
+            breaker: Math.round(resistBase / 400),      // ~3-4%
+            piercer: Math.round(resistBase / 600),      // ~2-3%
+        }
+    };
 }
