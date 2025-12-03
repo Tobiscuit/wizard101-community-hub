@@ -306,3 +306,20 @@ export async function updateLastSeen() {
         return { success: false };
     }
 }
+
+export async function getUserProfile() {
+    const session = await auth();
+    if (!session?.user?.id) return { success: false, error: "Unauthorized" };
+
+    try {
+        const db = getAdminFirestore();
+        const doc = await db.collection("users").doc(session.user.id).get();
+        if (doc.exists) {
+            return { success: true, profile: doc.data() };
+        }
+        return { success: false, error: "Profile not found" };
+    } catch (error: any) {
+        console.error("Error fetching user profile:", error);
+        return { success: false, error: error.message };
+    }
+}

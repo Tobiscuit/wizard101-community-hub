@@ -6,8 +6,9 @@ import { ArrowLeft, Share2 } from 'lucide-react';
 import { PetDetailsModal } from '@/components/PetDetailsModal'; // We'll reuse the modal content or similar layout
 
 // We can reuse the card layout or just a simple detail view
-export default async function ListingPage({ params }: { params: { id: string } }) {
-    const { success, listing } = await getListing(params.id);
+export default async function ListingPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
+    const { success, listing } = await getListing(id);
     const pet = listing as any;
 
     if (!success || !pet) {

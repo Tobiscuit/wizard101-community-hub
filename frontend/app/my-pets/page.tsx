@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { Spellbook } from '@/components/Spellbook';
 import { Plus, Loader2, Store, Check } from 'lucide-react';
 import Link from 'next/link';
-import { getPets, listPetInMarketplace, unlistPetFromMarketplace, deletePet } from '@/app/actions';
+import { getPets, listPetInMarketplace, unlistPetFromMarketplace, deletePet, getUserProfile } from '@/app/actions';
 import { PetDetailsModal } from '@/components/PetDetailsModal';
 
 import { ListingConfigurationModal, ListingConfig } from '@/components/ListingConfigurationModal';
@@ -15,18 +15,26 @@ export default function MyPetsPage() {
     const [pets, setPets] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedPet, setSelectedPet] = useState<any>(null);
-    const [listingConfigPet, setListingConfigPet] = useState<any>(null);
+    const [discordUsername, setDiscordUsername] = useState<string>('');
 
     useEffect(() => {
-        async function fetchPets() {
+        async function fetchData() {
             if (session?.user?.id) {
                 try {
-                    const result = await getPets();
-                    if (result.success && result.pets) {
-                        setPets(result.pets);
+                    const [petsResult, profileResult] = await Promise.all([
+                        getPets(),
+                        getUserProfile()
+                    ]);
+
+                    if (petsResult.success && petsResult.pets) {
+                        setPets(petsResult.pets);
+                    }
+
+                    if (profileResult.success && profileResult.profile?.discordUsername) {
+                        setDiscordUsername(profileResult.profile.discordUsername);
                     }
                 } catch (error) {
-                    console.error("Error fetching pets:", error);
+                    console.error("Error fetching data:", error);
                 } finally {
                     setLoading(false);
                 }
@@ -35,7 +43,7 @@ export default function MyPetsPage() {
             }
         }
 
-        fetchPets();
+        fetchData();
     }, [session, status]);
 
     const handleOpenListingConfig = (pet: any) => {
@@ -61,6 +69,9 @@ export default function MyPetsPage() {
             }, config.discordUsername);
 
             if (result.success) {
+                if (config.discordUsername) {
+                    setDiscordUsername(config.discordUsername);
+                }
                 setPets(prev => prev.map(p => p.id === listingConfigPet.id ? { ...p, listedInMarketplace: true } : p));
                 alert("Pet listed successfully!");
                 if (selectedPet?.id === listingConfigPet.id) {
@@ -201,6 +212,7 @@ export default function MyPetsPage() {
                 onClose={() => setListingConfigPet(null)}
                 onConfirm={handleConfirmListing}
                 pet={listingConfigPet}
+                savedDiscordUsername={discordUsername}
             />
         </main>
     );

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Gem, DollarSign, MessageCircle } from 'lucide-react';
 import { clsx } from 'clsx';
 import { calculateAllPotentials } from '@/lib/talent-formulas';
+import { MagicalButton } from './MagicalButton';
 
 type ListingConfigurationModalProps = {
     pet: any;
@@ -48,6 +49,12 @@ export function ListingConfigurationModal({ pet, isOpen, onClose, onConfirm, sav
             setPreviewStats(calculateAllPotentials(stats));
         }
     }, [pet, selectedJewel]);
+
+    useEffect(() => {
+        if (savedDiscordUsername) {
+            setDiscordUsername(savedDiscordUsername);
+        }
+    }, [savedDiscordUsername]);
 
     if (!isOpen) return null;
 
@@ -149,12 +156,13 @@ export function ListingConfigurationModal({ pet, isOpen, onClose, onConfirm, sav
                         <p className="text-xs text-white/50">Required for buyers to contact you.</p>
                     </div>
 
-                    <button
+                    <MagicalButton
                         type="submit"
-                        className="w-full py-3 bg-accent-gold text-black font-bold rounded-lg hover:bg-yellow-400 transition-colors shadow-lg"
+                        className="w-full"
+                        size="lg"
                     >
                         Confirm Listing
-                    </button>
+                    </MagicalButton>
                 </form>
             </div>
         </div>
