@@ -268,29 +268,41 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">{session?.user?.name || "Guest Wizard"}</span>
-                      <span className="truncate text-xs">{session?.user?.email || ""}</span>
+                      <span className="truncate text-xs">{session?.user?.email || "Not signed in"}</span>
                     </div>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <Sparkles className="mr-2" />
-                    Upgrade to Premium
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <Settings2 className="mr-2" />
-                    Account
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => signOut()}>
-                  <LogOut className="mr-2" />
-                  Log out
-                </DropdownMenuItem>
+                
+                {session ? (
+                    <>
+                        <DropdownMenuGroup>
+                          <DropdownMenuItem>
+                            <Sparkles className="mr-2" />
+                            Upgrade to Premium
+                          </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuGroup>
+                          <DropdownMenuItem>
+                            <Settings2 className="mr-2" />
+                            Account
+                          </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={() => signOut()}>
+                          <LogOut className="mr-2" />
+                          Log out
+                        </DropdownMenuItem>
+                    </>
+                ) : (
+                    <DropdownMenuItem asChild>
+                        <Link href="/login" className="flex items-center cursor-pointer">
+                            <Send className="mr-2 w-4 h-4" />
+                            Sign In
+                        </Link>
+                    </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>

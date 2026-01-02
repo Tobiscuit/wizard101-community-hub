@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 
 import { SessionProvider } from "next-auth/react";
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
-import { Navbar } from "@/components/Navbar";
+
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider"
 import { AppShell } from "@/components/layout/AppShell"; // Added import for AppShell
@@ -57,7 +57,7 @@ export default function RootLayout({
             disableTransitionOnChange
             >
             <PresenceTracker />
-            <Navbar /> {/* Note: Navbar is deprecated but kept for now until full removal */}
+
             <AppShell>
                 {children}
             </AppShell>

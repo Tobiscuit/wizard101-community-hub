@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import { Camera, Upload, Loader2, AlertCircle } from 'lucide-react';
 import { clsx } from 'clsx';
 import { MagicalLoader } from './MagicalLoader';
-import { MagicalButton } from './MagicalButton';
+import { Button } from "@/components/ui/button";
 
 interface ScannedData {
     petNickname?: string;
@@ -131,15 +131,15 @@ export function PetScanner({ onScanComplete }: PetScannerProps) {
             />
 
             <div className="flex gap-4">
-                <MagicalButton
+            <Button
                     onClick={handleStartScan}
                     disabled={isScanning || isSelecting}
                     size="lg"
-                    className="min-w-[200px]"
+                    className="min-w-[200px] shadow-lg shadow-primary/20"
                 >
-                    <Camera className="w-5 h-5" />
+                    <Camera className="w-5 h-5 mr-2" />
                     Scan Pet
-                </MagicalButton>
+                </Button>
             </div>
 
             {error && (
