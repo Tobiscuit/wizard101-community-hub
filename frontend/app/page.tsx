@@ -1,138 +1,159 @@
-"use client"
+import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { Link2, ScanFace, Search, Shield, ShoppingBag, Terminal } from "lucide-react";
+import Link from "next/link";
 
-import { Calculator } from "@/components/Calculator"
-import { GridPattern } from "@/components/magicui/grid-pattern"
-import { MagicCard } from "@/components/magicui/magic-card"
-import { ShinyButton } from "@/components/magicui/shiny-button"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { 
-  BarChart, 
-  BookOpen, 
-  Calculator as CalculatorIcon, 
-  ScanLine, 
-  Scroll, 
-  Shield, 
-  Sparkles, 
-  Sword, 
-  Users 
-} from "lucide-react"
-import Link from "next/link"
+import { BentoCard, BentoGrid } from "@/components/magicui/bento-grid";
+import Marquee from "@/components/magicui/marquee";
+import { ShinyButton } from "@/components/magicui/shiny-button";
+import { Button } from "@/components/ui/button";
+
+const features = [
+  {
+    Icon: Shield,
+    name: "Guild Spotlight",
+    description: "Ravenwood Ronins are recruiting! Join a top-tier raiding family today.",
+    href: "/guilds",
+    cta: "Join Guild",
+    background: <div className="absolute -right-20 -top-20 opacity-60" />,
+    className: "lg:col-span-2 lg:row-span-1",
+  },
+  {
+    Icon: ShoppingBag,
+    name: "Market Watch",
+    description: "Live: Piggle w/ Quint Damage sold for 50 Empowers.",
+    href: "/marketplace",
+    cta: "Trade Now",
+    background: <div className="absolute -right-20 -top-20 opacity-60" />,
+    className: "lg:col-span-1 lg:row-span-2",
+  },
+  {
+    Icon: ScanFace,
+    name: "Wizard Scanner",
+    description: "Who is that? Scan any wizard's gear and stats instantly.",
+    href: "/scanner",
+    cta: "Launch Scanner",
+    background: <div className="absolute -right-20 -top-20 opacity-60" />,
+    className: "lg:col-span-1 lg:row-span-1",
+  },
+  {
+    Icon: Search,
+    name: "The Library",
+    description: "Browse guides, cheetsheets, and lore.",
+    href: "/scribe", // Placeholder route
+    cta: "Read More",
+    background: <div className="absolute -right-20 -top-20 opacity-60" />,
+    className: "lg:col-span-1 lg:row-span-1",
+  },
+];
+
+const reviews = [
+  {
+    name: "Valdus Hexbreaker",
+    username: "@valdus",
+    body: "Found my dream guild here. Finally cleared Darkmoor!",
+    img: "https://avatar.vercel.sh/valdus",
+  },
+  {
+    name: "Sierra Mist",
+    username: "@sierra",
+    body: "Sold my empowers in 5 minutes. Way better than the Commons.",
+    img: "https://avatar.vercel.sh/sierra",
+  },
+  {
+    name: "Wolf Storm",
+    username: "@wolf",
+    body: "The scanner is legit magic. How does it know??",
+    img: "https://avatar.vercel.sh/wolf",
+  },
+  {
+    name: "Esmee Fire",
+    username: "@esmee",
+    body: "Finally a place that remembers my pets.",
+    img: "https://avatar.vercel.sh/esmee",
+  },
+];
+
+const ReviewCard = ({
+  img,
+  name,
+  username,
+  body,
+}: {
+  img: string;
+  name: string;
+  username: string;
+  body: string;
+}) => {
+  return (
+    <figure
+      className="relative w-64 cursor-pointer overflow-hidden rounded-xl border p-4
+      border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]
+      dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]"
+    >
+      <div className="flex flex-row items-center gap-2">
+        <img className="rounded-full" width="32" height="32" alt="" src={img} />
+        <div className="flex flex-col">
+          <figcaption className="text-sm font-medium dark:text-white">
+            {name}
+          </figcaption>
+          <p className="text-xs font-medium dark:text-white/40">{username}</p>
+        </div>
+      </div>
+      <blockquote className="mt-2 text-sm">{body}</blockquote>
+    </figure>
+  );
+};
 
 export default function Home() {
   return (
-    <div className="relative min-h-[calc(100vh-4rem)] w-full">
-      {/* Background Pattern */}
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        className="stroke-gray-400/20 [mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)]"
-        strokeDasharray="4 2"
-      />
-
-      <div className="container mx-auto max-w-7xl pt-8 pb-16 space-y-12">
-        {/* Hero / Welcome */}
-        <div className="flex flex-col items-center text-center space-y-4 px-4">
-          <div className="inline-flex items-center rounded-full border border-accent-gold/30 bg-accent-gold/10 px-3 py-1 text-sm font-medium text-accent-gold backdrop-blur-sm">
-            <Sparkles className="mr-2 h-4 w-4" />
-            <span className="animate-pulse">New: Wizard Scanner (Alpha)</span>
+    <div className="flex flex-col min-h-screen">
+      {/* Hero Section */}
+      <section className="relative flex flex-col items-center justify-center space-y-10 py-24 text-center md:py-32">
+        <div className="space-y-4">
+          <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
+            Alpha v0.2.0 - The Commons Update
           </div>
-          <h1 className="text-4xl md:text-6xl font-serif font-bold tracking-tight text-foreground drop-shadow-md">
-            The <span className="text-accent-gold">Pet Tome</span>
+          <h1 className="text-4xl font-bold tracking-tighter sm:text-6xl md:text-7xl lg:text-8xl">
+            The Pulse of <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-600">
+              The Spiral
+            </span>
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl font-light">
-            The ultimate community hub for Wizard101. Calculate stats, trade pets, and chronicle your journey.
+          <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+            The centralized home for Wizard101. Find your guild, trade your treasures, and immortalize your journey. 
+            Stop scrolling Discord. Start building legacy.
           </p>
-          <div className="flex items-center gap-4 pt-4">
-              <Link href="/scanner">
-                <ShinyButton>Launch Scanner</ShinyButton>
-              </Link>
-              <Link href="https://github.com" target="_blank">
-                <Button variant="outline" className="gap-2">
-                    <Users className="w-4 h-4"/> Join Guild
-                </Button>
-              </Link>
-          </div>
         </div>
-
-        {/* Feature Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
-          <Link href="#calculator" className="group">
-            <MagicCard className="h-full cursor-pointer border-accent-gold/20 hover:border-accent-gold/50 transition-all duration-500 flex flex-col gap-6 py-6 hover:-translate-y-1 hover:shadow-lg" gradientColor="#FFD700" gradientOpacity={0.1}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-accent-gold">
-                  <CalculatorIcon className="w-5 h-5" />
-                  Stat Calculator
-                </CardTitle>
-                <CardDescription className="leading-relaxed">Optimize your pet's potential.</CardDescription>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground leading-relaxed">
-                Enter your pet's strength, will, and power to calculate precise talent values.
-              </CardContent>
-            </MagicCard>
+        <div className="flex gap-4">
+          <Link href="/guilds">
+            <ShinyButton text="Join a Guild" className="bg-primary/10" />
           </Link>
-
-          <Link href="/scanner" className="group">
-            <MagicCard className="h-full cursor-pointer border-accent-blue/20 hover:border-accent-blue/50 transition-all duration-500 flex flex-col gap-6 py-6 hover:-translate-y-1 hover:shadow-lg" gradientColor="#00A8FF" gradientOpacity={0.1}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-accent-blue">
-                  <ScanLine className="w-5 h-5" />
-                  Wizard Scanner
-                </CardTitle>
-                <CardDescription className="leading-relaxed">AI-powered gear analysis.</CardDescription>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground leading-relaxed">
-                 Upload a screenshot of your wizard to extract stats, gear, and build your profile instantly.
-              </CardContent>
-            </MagicCard>
-          </Link>
-
-          <Link href="/guilds" className="group">
-            <MagicCard className="h-full cursor-pointer border-purple-500/20 hover:border-purple-500/50 transition-all duration-500 flex flex-col gap-6 py-6 hover:-translate-y-1 hover:shadow-lg" gradientColor="#A855F7" gradientOpacity={0.1}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-purple-400">
-                  <Shield className="w-5 h-5" />
-                  Guild Directory
-                </CardTitle>
-                <CardDescription className="leading-relaxed">Find your magical family.</CardDescription>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground leading-relaxed">
-                Browse active guilds, filter by activity (Social, Raiding, PvP), and apply directly.
-              </CardContent>
-            </MagicCard>
+          <Link href="/marketplace">
+            <Button variant="outline" size="lg">Explore Market</Button>
           </Link>
         </div>
-
-        {/* Main Calculator Section */}
-        <div id="calculator" className="scroll-mt-20">
-            <div className="flex items-center justify-between mb-6 px-4">
-                <h2 className="text-2xl font-serif font-bold flex items-center gap-2">
-                    <Scroll className="w-6 h-6 text-accent-gold" />
-                    Interactive Calculator
-                </h2>
-                <TooltipProvider>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                                <BookOpen className="w-5 h-5" />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <p>View Guide</p>
-                        </TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
-            </div>
-            
-            {/* Embedded Calculator */}
-            <div className="max-w-4xl mx-auto">
-                <Calculator />
-            </div>
+        
+        {/* Marquee Pulse */}
+        <div className="relative flex w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-background pt-8">
+            <Marquee pauseOnHover className="[--duration:20s]">
+                {reviews.map((review) => (
+                <ReviewCard key={review.username} {...review} />
+                ))}
+            </Marquee>
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-background"></div>
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
         </div>
-      </div>
+      </section>
+
+      {/* Bento Grid Hub */}
+      <section className="container mx-auto px-4 pb-24">
+        <h2 className="mb-8 text-3xl font-bold tracking-tight">The Commons</h2>
+        <BentoGrid className="lg:grid-rows-2">
+          {features.map((feature) => (
+            <BentoCard key={feature.name} {...feature} />
+          ))}
+        </BentoGrid>
+      </section>
     </div>
-  )
+  );
 }

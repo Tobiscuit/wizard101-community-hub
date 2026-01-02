@@ -93,7 +93,7 @@ const data = {
       items: [
         {
           title: "Pet Calculator",
-          url: "/",
+          url: "/calculator",
         },
         {
           title: "Wizard Scanner",
