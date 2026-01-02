@@ -106,7 +106,7 @@ const ReviewCard = ({
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen w-full overflow-hidden">
       {/* Hero Section */}
       <section className="relative flex flex-col items-center justify-center space-y-10 py-24 text-center md:py-32">
         <div className="space-y-4">
