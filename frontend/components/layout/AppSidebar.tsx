@@ -157,7 +157,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname()
 
   return (
-    <Sidebar variant="inset" collapsible="icon" {...props} className="border-r border-border bg-sidebar">
+    <Sidebar variant="sidebar" collapsible="icon" {...props} className="border-r border-border bg-sidebar">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
