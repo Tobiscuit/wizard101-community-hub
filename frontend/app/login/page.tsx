@@ -24,7 +24,7 @@ export default function LoginPage() {
             />
             
             <MagicCard 
-                className="w-full max-w-sm p-8 border-accent-gold/20 shadow-2xl relative overflow-visible z-10"
+                className="w-full max-w-sm h-fit p-8 border-accent-gold/20 shadow-2xl relative overflow-visible z-10"
                 gradientColor="#FFD700" 
                 gradientOpacity={0.1}
             >
