@@ -61,45 +61,45 @@ export default function Home() {
         {/* Feature Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
           <Link href="#calculator" className="group">
-            <MagicCard className="h-full cursor-pointer border-accent-gold/20 hover:border-accent-gold/50 transition-all duration-500" gradientColor="#FFD700" gradientOpacity={0.1}>
+            <MagicCard className="h-full cursor-pointer border-accent-gold/20 hover:border-accent-gold/50 transition-all duration-500 flex flex-col gap-6 py-6" gradientColor="#FFD700" gradientOpacity={0.1}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-accent-gold">
                   <CalculatorIcon className="w-5 h-5" />
                   Stat Calculator
                 </CardTitle>
-                <CardDescription>Optimize your pet's potential.</CardDescription>
+                <CardDescription className="leading-relaxed">Optimize your pet's potential.</CardDescription>
               </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">
+              <CardContent className="text-sm text-muted-foreground leading-relaxed">
                 Enter your pet's strength, will, and power to calculate precise talent values.
               </CardContent>
             </MagicCard>
           </Link>
 
           <Link href="/scanner" className="group">
-            <MagicCard className="h-full cursor-pointer border-accent-blue/20 hover:border-accent-blue/50 transition-all duration-500" gradientColor="#00A8FF" gradientOpacity={0.1}>
+            <MagicCard className="h-full cursor-pointer border-accent-blue/20 hover:border-accent-blue/50 transition-all duration-500 flex flex-col gap-6 py-6" gradientColor="#00A8FF" gradientOpacity={0.1}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-accent-blue">
                   <ScanLine className="w-5 h-5" />
                   Wizard Scanner
                 </CardTitle>
-                <CardDescription>AI-powered gear analysis.</CardDescription>
+                <CardDescription className="leading-relaxed">AI-powered gear analysis.</CardDescription>
               </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">
+              <CardContent className="text-sm text-muted-foreground leading-relaxed">
                  Upload a screenshot of your wizard to extract stats, gear, and build your profile instantly.
               </CardContent>
             </MagicCard>
           </Link>
 
           <Link href="/guilds" className="group">
-            <MagicCard className="h-full cursor-pointer border-purple-500/20 hover:border-purple-500/50 transition-all duration-500" gradientColor="#A855F7" gradientOpacity={0.1}>
+            <MagicCard className="h-full cursor-pointer border-purple-500/20 hover:border-purple-500/50 transition-all duration-500 flex flex-col gap-6 py-6" gradientColor="#A855F7" gradientOpacity={0.1}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-purple-400">
                   <Shield className="w-5 h-5" />
                   Guild Directory
                 </CardTitle>
-                <CardDescription>Find your magical family.</CardDescription>
+                <CardDescription className="leading-relaxed">Find your magical family.</CardDescription>
               </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">
+              <CardContent className="text-sm text-muted-foreground leading-relaxed">
                 Browse active guilds, filter by activity (Social, Raiding, PvP), and apply directly.
               </CardContent>
             </MagicCard>
