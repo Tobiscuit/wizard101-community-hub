@@ -20,19 +20,19 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Pet Tome | Wizard101 Stats Calculator & Marketplace",
+  title: "The Commons | Wizard101 Community Hub",
   description: "The ultimate tool for Wizard101 players. Calculate pet talent stats, simulate jewel sockets, and trade pets with the dedicated community. Optimize your build today.",
   openGraph: {
-    title: "Pet Tome | Wizard101 Stats Calculator & Marketplace",
+    title: "The Commons | Wizard101 Community Hub",
     description: "Calculate pet talent stats, simulate jewel sockets, and trade pets with the dedicated Wizard101 community.",
-    url: "https://pet-tome.vercel.app", // Placeholder, user can update
-    siteName: "Pet Tome",
+    url: "https://commons.jrcodex.dev", // Updated placeholder
+    siteName: "The Commons",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pet Tome | Wizard101 Stats Calculator",
+    title: "The Commons | Wizard101 Community Hub",
     description: "Calculate pet talent stats, simulate jewel sockets, and trade pets with the dedicated Wizard101 community.",
   },
 };
