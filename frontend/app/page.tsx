@@ -29,7 +29,7 @@ export default function Home() {
         height={30}
         x={-1}
         y={-1}
-        className="stroke-gray-400/20"
+        className="stroke-gray-400/20 [mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)]"
         strokeDasharray="4 2"
       />
 
