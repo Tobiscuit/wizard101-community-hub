@@ -155,10 +155,11 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session } = useSession()
   const { setTheme, theme } = useTheme()
+  const { state } = useSidebar()
   const pathname = usePathname()
 
   return (
-    <Sidebar variant="sidebar" collapsible="icon" {...props} className="border-r border-border bg-sidebar">
+    <Sidebar variant="sidebar" collapsible="icon" {...props} className="thinking-rail border-r border-border bg-sidebar">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -233,18 +234,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className={state === "collapsed" ? "fixed bottom-4 left-4 z-50 rounded-2xl border border-white/20 bg-sidebar/60 backdrop-blur-xl shadow-xl transition-all duration-500 ease-out hover:scale-105" : "transition-all duration-300"}>
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton size="sm">
+                <SidebarMenuButton size="sm" tooltip="Toggle Theme">
                   <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                   <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                   <span>Toggle Theme</span>
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <DropdownMenuContent side="top" className="min-w-56 rounded-lg" align="start">
+              <DropdownMenuContent 
+                side={state === "collapsed" ? "right" : "top"} 
+                align="start" 
+                className="min-w-56 rounded-lg"
+              >
                 <DropdownMenuLabel className="text-xs text-muted-foreground px-2 pb-2">
                   Select Theme
                 </DropdownMenuLabel>
@@ -294,6 +299,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenuButton
                   size="lg"
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                  tooltip="User Profile"
                 >
                   <Avatar className="h-8 w-8 rounded-lg">
                     <AvatarImage src={session?.user?.image || ""} alt={session?.user?.name || ""} />
@@ -310,7 +316,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-                side="top"
+                side={state === "collapsed" ? "right" : "top"}
                 align="end"
                 sideOffset={4}
               >

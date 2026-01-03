@@ -73,71 +73,129 @@
 
   /* Theme: Dark (Deep Void / Midnight) */
   .dark {
-    --background: 196 30% 10%; /* Deep Void */
-    --foreground: 200 10% 90%;
-    --card: 196 30% 12%;
-    --card-foreground: 200 10% 90%;
-    --popover: 196 30% 12%;
-    --popover-foreground: 200 10% 90%;
-    --primary: 44 80% 60%;
-    --primary-foreground: 196 30% 10%;
-    --secondary: 196 25% 18%;
-    --secondary-foreground: 200 10% 90%;
-    --muted: 196 25% 18%;
-    --muted-foreground: 200 10% 60%;
-    --accent: 196 25% 18%;
-    --accent-foreground: 200 10% 90%;
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 200 10% 90%;
-    --border: 196 25% 20%;
-    --input: 196 25% 20%;
-    --ring: 44 80% 60%;
-    --chart-1: 44 80% 60%;
-    --chart-2: 17 80% 64%;
-    --chart-3: 1 70% 50%;
-    --chart-4: 250 50% 55%;
-    --chart-5: 170 50% 45%;
-    --sidebar: 196 30% 7%;
-    --sidebar-background: 196 30% 7%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 44 80% 60%;
-    --sidebar-primary-foreground: 196 30% 10%;
-    --sidebar-accent: 196 25% 18%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 196 25% 20%;
-    --sidebar-ring: 44 80% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --sidebar: 222.2 84% 4.9%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 210 40% 98%;
+    --sidebar-primary-foreground: 222.2 47.4% 11.2%;
+    --sidebar-accent: 217.2 32.6% 17.5%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217.2 32.6% 17.5%;
+    --sidebar-ring: 212.7 26.8% 83.9%;
   }
 
   /* Theme: Abyss (Solarized Dark - Teal/Navy) */
   .abyss {
-    --background: 192 100% 11%; /* #002b36 - Solarized Base03 */
-    --foreground: 192 25% 60%; /* #839496 - Base0 */
-    --card: 192 100% 12%; /* #073642 - Base02 */
-    --card-foreground: 192 25% 60%;
-    --popover: 192 100% 12%;
-    --popover-foreground: 192 25% 60%;
-    --primary: 192 100% 16%; /* Stronger teal for active */
-    --primary-foreground: 192 25% 90%; /* #eee8d5 - Base2 */
-    --secondary: 192 80% 14%;
-    --secondary-foreground: 192 25% 60%;
-    --muted: 192 80% 14%;
-    --muted-foreground: 192 20% 40%;
-    --accent: 192 80% 14%;
-    --accent-foreground: 192 25% 60%;
-    --destructive: 1 71% 52%; /* #dc322f - Red */
-    --destructive-foreground: 0 0% 98%;
-    --border: 192 80% 14%;
-    --input: 192 80% 14%;
-    --ring: 192 25% 60%;
-    --sidebar: 192 100% 12%; /* #073642 - Base02 for sidebar */
-    --sidebar-background: 192 100% 12%;
-    --sidebar-foreground: 192 25% 60%; /* #839496 */
-    --sidebar-primary: 44 80% 40%; /* #b58900 - Yellow */
-    --sidebar-primary-foreground: 192 100% 11%;
-    --sidebar-accent: 192 100% 14%; 
-    --sidebar-accent-foreground: 192 25% 90%;
-    --sidebar-border: 192 80% 14%;
-    --sidebar-ring: 192 25% 60%;
+    --background: 196 100% 10%; /* Solarized Base03 #002b36 */
+    --foreground: 45 20% 60%; /* Solarized Base0 #839496 */
+    --card: 196 100% 12%;
+    --card-foreground: 45 20% 60%;
+    --popover: 196 100% 12%;
+    --popover-foreground: 45 20% 60%;
+    --primary: 44 87% 65%; /* Yellow */
+    --primary-foreground: 196 100% 10%;
+    --secondary: 195 90% 15%;
+    --secondary-foreground: 45 20% 60%;
+    --muted: 195 90% 15%;
+    --muted-foreground: 195 15% 45%; /* Base01 */
+    --accent: 195 90% 15%;
+    --accent-foreground: 44 87% 65%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 195 20% 20%;
+    --input: 195 20% 20%;
+    --ring: 44 87% 65%;
+    --sidebar: 196 90% 12%; /* #073642 Base02 */
+    --sidebar-background: 196 90% 12%;
+    --sidebar-foreground: 45 20% 60%;
+    --sidebar-primary: 44 87% 65%;
+    --sidebar-primary-foreground: 196 100% 10%;
+    --sidebar-accent: 195 90% 15%;
+    --sidebar-accent-foreground: 44 87% 65%;
+    --sidebar-border: 195 20% 20%;
+    --sidebar-ring: 44 87% 65%;
+  }
+}
+
+/* --- Bleeding Edge: Thinking Rail Animation --- */
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0turn;
+}
+
+@keyframes border-rotate {
+  from {
+    --border-angle: 0turn;
+  }
+  to {
+    --border-angle: 1turn;
+  }
+}
+
+.thinking-rail {
+  position: relative;
+}
+
+.thinking-rail::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 2px;
+  background: conic-gradient(
+    from var(--border-angle),
+    transparent 10%,
+    hsl(var(--primary)) 50%,
+    transparent 90%
+  );
+  animation: border-rotate 4s linear infinite;
+  z-index: 50;
+  opacity: 0.8;
+  filter: blur(1px);
+}
+
+/* Intensity Boost for Candlelight */
+.candlelight .thinking-rail::after {
+    background: conic-gradient(
+    from var(--border-angle),
+    transparent 10%,
+    #fbbf24 50%, /* Amber-400 */
+    transparent 90%
+  );
+  filter: blur(2px) drop-shadow(0 0 4px #f59e0b);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
