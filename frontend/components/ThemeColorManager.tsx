@@ -8,8 +8,17 @@ export function ThemeColorManager() {
 
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]')
-    const themeColor = resolvedTheme === "dark" ? "#11222a" : "#fdf6e3"
+    
+    // Theme Color Map
+    const themeColors: Record<string, string> = {
+      light: "#fdf8e6",      // Solarized Cream (Canonical)
+      candlelight: "#fcf5e5", // Warm Candlelight
+      dark: "#11222a",       // Deep Void
+      abyss: "#002b36",      // Solarized Abyss (Navy/Teal)
+    }
 
+    let themeColor = themeColors[resolvedTheme || "light"] || themeColors.light
+    
     if (metaThemeColor) {
       metaThemeColor.setAttribute("content", themeColor)
     } else {

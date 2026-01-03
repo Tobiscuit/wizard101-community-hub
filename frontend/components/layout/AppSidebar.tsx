@@ -243,18 +243,31 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <span>Toggle Theme</span>
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <DropdownMenuContent side="top" className="w-[--radix-popper-anchor-width]">
+              <DropdownMenuContent side="top" className="min-w-56 rounded-lg" align="start">
+                <DropdownMenuLabel className="text-xs text-muted-foreground px-2 pb-2">
+                  Select Theme
+                </DropdownMenuLabel>
                 <DropdownMenuItem onClick={() => setTheme("light")}>
-                  <Sun className="mr-2 h-4 w-4" />
-                  Light
+                  <Sun className="mr-2 h-4 w-4 text-orange-400" />
+                  Solarized Light
                 </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("candlelight")}>
+                  <Sparkles className="mr-2 h-4 w-4 text-amber-500" />
+                  Candlelight (Warm)
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => setTheme("dark")}>
-                  <Moon className="mr-2 h-4 w-4" />
-                  Dark
+                  <Moon className="mr-2 h-4 w-4 text-slate-400" />
+                  Deep Void
                 </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("abyss")}>
+                  <Bot className="mr-2 h-4 w-4 text-teal-400" />
+                  Abyss (Navy)
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => setTheme("system")}>
                   <Monitor className="mr-2 h-4 w-4" />
-                  System
+                  System Default
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
