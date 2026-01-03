@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fdf6e3" },
+    { media: "(prefers-color-scheme: light)", color: "#fdf8e8" }, // Main background cream
     { media: "(prefers-color-scheme: dark)", color: "#11222a" },
   ],
 };
@@ -60,7 +60,7 @@ export default function RootLayout({
         <SessionProvider>
             <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
             disableTransitionOnChange
             >
