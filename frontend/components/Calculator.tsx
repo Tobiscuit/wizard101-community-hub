@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { clsx } from 'clsx';
-import { Shield, Sword, Sparkles, ChevronUp, ChevronDown, Save, Loader2, Crosshair, CircleDashed } from 'lucide-react';
+import { Shield, Sword, Sparkles, ChevronUp, ChevronDown, Save, Loader2, Crosshair, CircleDashed, BicepsFlexed, Brain, Wind, Scroll, Zap } from 'lucide-react';
 
 // Types
 type Stats = {
@@ -199,27 +199,34 @@ export function Calculator() {
                         Pet Stats
                     </h2>
                     
-                    <div className="bg-card/50 backdrop-blur-sm p-6 rounded-xl border shadow-sm space-y-4">
-                        {(Object.keys(BASE_CAPS) as Array<keyof Stats>).map((stat) => (
-                            <div key={stat} className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor={stat} className="col-span-1 capitalize font-serif text-base text-foreground/80">
-                                    {stat}
-                                </Label>
-                                <div className="col-span-3 relative">
+                    <div className="bg-card/50 backdrop-blur-sm p-6 rounded-xl border shadow-sm space-y-6">
+                         <div className="grid grid-cols-1 gap-4">
+                            {[
+                                { stat: 'strength', icon: BicepsFlexed, color: 'text-red-500', max: 255 },
+                                { stat: 'intellect', icon: Brain, color: 'text-blue-500', max: 250 },
+                                { stat: 'agility', icon: Wind, color: 'text-green-500', max: 260 },
+                                { stat: 'will', icon: Scroll, color: 'text-purple-500', max: 260 },
+                                { stat: 'power', icon: Zap, color: 'text-yellow-500', max: 250 },
+                            ].map(({ stat, icon: Icon, color, max }) => (
+                                <div key={stat} className="relative group">
+                                    <div className="absolute left-3 top-1/2 -translate-y-1/2">
+                                        <Icon className={clsx("w-5 h-5 transition-colors", color, "opacity-70 group-focus-within:opacity-100")} />
+                                    </div>
                                     <Input
                                         id={stat}
                                         type="number"
-                                        value={currentStats[stat]}
-                                        onChange={(e) => handleStatChange(stat, e.target.value)}
-                                        onBlur={() => handleBlur(stat)}
-                                        className="font-mono text-lg bg-background/50 focus-visible:ring-accent-gold"
+                                        placeholder={stat.charAt(0).toUpperCase() + stat.slice(1)} // Placeholder acts as label hint
+                                        value={currentStats[stat as keyof Stats]}
+                                        onChange={(e) => handleStatChange(stat as keyof Stats, e.target.value)}
+                                        onBlur={() => handleBlur(stat as keyof Stats)}
+                                        className="pl-10 h-11 font-mono text-lg bg-background/50 focus-visible:ring-accent-gold transition-all"
                                     />
-                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground pointer-events-none">
-                                        / {maxStats[stat]}
+                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground pointer-events-none font-mono opacity-50">
+                                        / {max}
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </div>
 
