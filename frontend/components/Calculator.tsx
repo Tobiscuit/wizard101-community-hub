@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { clsx } from 'clsx';
-import { Shield, Sword, Sparkles, ChevronUp, ChevronDown, Save, Loader2 } from 'lucide-react';
+import { Shield, Sword, Sparkles, ChevronUp, ChevronDown, Save, Loader2, Crosshair, CircleDashed } from 'lucide-react';
 
 // Types
 type Stats = {
@@ -300,6 +300,50 @@ export function Calculator() {
                                 <div className="flex justify-between items-center bg-background/40 p-2 rounded">
                                     <span className="text-sm font-medium">Armor Piercer</span>
                                     <span className="font-bold text-lg font-mono">{potentials.pierce.piercer}%</span>
+                                </div>
+                            </div>
+                        </MagicCard>
+
+                        {/* Accuracy Card */}
+                        <MagicCard 
+                            className="p-6 border-accent-gold/20"
+                            gradientColor="var(--school-storm)" // Purple/Storm logic for accuracy? Or Balance? Storm = Accuracy issues.
+                            gradientOpacity={0.15}
+                        >
+                            <div className="flex items-center gap-2 mb-4 text-purple-500">
+                                <Crosshair className="w-6 h-6" />
+                                <h3 className="text-xl font-bold">Accuracy</h3>
+                            </div>
+                            <div className="space-y-3">
+                                <div className="flex justify-between items-center bg-background/40 p-2 rounded">
+                                    <span className="text-sm font-medium">Sniper</span>
+                                    <span className="font-bold text-lg font-mono">{potentials.accuracy.sniper}%</span>
+                                </div>
+                                <div className="flex justify-between items-center bg-background/40 p-2 rounded">
+                                    <span className="text-sm font-medium">Sharp-Shot</span>
+                                    <span className="font-bold text-lg font-mono">{potentials.accuracy.sharp}%</span>
+                                </div>
+                                <div className="flex justify-between items-center bg-background/40 p-2 rounded">
+                                    <span className="text-sm font-medium">Shot</span>
+                                    <span className="font-bold text-lg font-mono">{potentials.accuracy.shot}%</span>
+                                </div>
+                            </div>
+                        </MagicCard>
+
+                        {/* Pips Card */}
+                        <MagicCard 
+                            className="p-6 border-accent-gold/20"
+                            gradientColor="var(--school-balance)" // Balance = Pips
+                            gradientOpacity={0.15}
+                        >
+                            <div className="flex items-center gap-2 mb-4 text-amber-600">
+                                <CircleDashed className="w-6 h-6" />
+                                <h3 className="text-xl font-bold">Pip Chance</h3>
+                            </div>
+                            <div className="space-y-3">
+                                <div className="flex justify-between items-center bg-background/40 p-2 rounded">
+                                    <span className="text-sm font-medium">Pip O&apos;Plenty</span>
+                                    <span className="font-bold text-lg font-mono">{potentials.pips.plenty}%</span>
                                 </div>
                             </div>
                         </MagicCard>

@@ -157,7 +157,7 @@
 }
 
 .thinking-rail {
-  position: relative;
+  /* position: relative; Removed to prevent conflict with fixed sidebar */
 }
 
 .thinking-rail::after {
