@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fef8e0" }, // Main background cream
+    { media: "(prefers-color-scheme: light)", color: "#f7f0e6" }, // Matches Sidebar (Warm Beige)
     { media: "(prefers-color-scheme: dark)", color: "#11222a" },
   ],
 };

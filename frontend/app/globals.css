@@ -2,60 +2,56 @@
 
 @layer base {
   :root {
-    /* "Night Shade" Solarized - Baked-in Candlelight Warmth */
-    /* Mimicking the effect of a Blue Light Filter natively */
+    /* "Night Shade" Refined - Lighter Sidebar, Warmer Tone */
     
-    /* Main Page: Deep Warm Parchment (Not pale cream) */
-    /* Hue 40 (Amber), Sat 70% (Intense), Light 94% (Readable but warm) */
-    --background: 40 70% 94%; /* #fef8e0 - Richer, golden warmth */
-    --foreground: 200 20% 30%; /* #4f636a - Solarized Ink */
+    /* Main Page: Warm Cream (Hue 38 - slightly more Orange/Warm than 40) */
+    --background: 38 60% 95%; /* #fcf5e5 - Smooth, warm cream */
+    --foreground: 200 20% 30%;
 
-    --card: 40 70% 94%;
+    --card: 38 60% 95%;
     --card-foreground: 200 20% 30%;
 
-    --popover: 40 70% 94%;
+    --popover: 38 60% 95%;
     --popover-foreground: 200 20% 30%;
 
     --primary: 196 100% 14%; 
-    --primary-foreground: 40 70% 94%;
+    --primary-foreground: 38 60% 95%;
 
-    /* Sidebar: The "Old Spellbook" Binding */
-    /* Hue 35 (Orange/Gold), Sat 50% (Rich), Light 88% (Distinct) */
-    /* This creates that "cozy corner" feeling */
-    --secondary: 35 50% 88%; 
+    --secondary: 35 45% 93%; 
     --secondary-foreground: 196 100% 14%;
 
-    --muted: 35 50% 88%;
+    --muted: 35 45% 93%;
     --muted-foreground: 200 10% 40%;
 
-    --accent: 35 50% 88%;
+    --accent: 35 45% 93%;
     --accent-foreground: 196 100% 14%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 35 30% 80%;
-    --input: 35 30% 80%;
+    --border: 35 30% 85%;
+    --input: 35 30% 85%;
     --ring: 196 100% 14%;
 
     --radius: 0.5rem;
     
-    /* Solarized Accents - Kept Vivid */
-    --chart-1: 34 100% 75%; /* Darker Yellow */
-    --chart-2: 17 80% 60%; /* Orange */
-    --chart-3: 1 70% 50%; /* Red */
-    --chart-4: 330 70% 50%; /* Magenta */
-    --chart-5: 250 50% 55%; /* Violet */
+    /* Solarized Accents */
+    --chart-1: 34 100% 75%;
+    --chart-2: 17 80% 60%;
+    --chart-3: 1 70% 50%;
+    --chart-4: 330 70% 50%;
+    --chart-5: 250 50% 55%;
 
-    /* Sidebar Variables */
-    --sidebar: 35 50% 88%; /* #f2e6d6 - Warm, aged paper */
-    --sidebar-background: 35 50% 88%;
+    /* Sidebar: "Lighter" Spellbook Binding */
+    /* Lightened from 88% to 93% to fix "too dark" feel, kept warm hue 35 */
+    --sidebar: 35 45% 93%; /* #f7f0e6 - Subtle warm contrast */
+    --sidebar-background: 35 45% 93%;
     --sidebar-foreground: 200 20% 30%;
     --sidebar-primary: 200 100% 20%;
-    --sidebar-primary-foreground: 40 70% 94%;
-    --sidebar-accent: 35 55% 84%; /* Even richer on interaction */
+    --sidebar-primary-foreground: 38 60% 95%;
+    --sidebar-accent: 35 50% 88%; 
     --sidebar-accent-foreground: 196 100% 14%;
-    --sidebar-border: 35 30% 80%;
+    --sidebar-border: 35 30% 85%;
     --sidebar-ring: 196 100% 14%;
   }
 

@@ -55,12 +55,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           {children}
         </div>
         <footer className="py-6 text-center text-sm text-foreground/30 border-t border-border mt-auto">
-          <div className="flex justify-center gap-4">
-            <a href="/privacy" className="hover:text-foreground/50 transition-colors">Privacy Policy</a>
-            <span>•</span>
-            <a href="/terms" className="hover:text-foreground/50 transition-colors">Terms of Service</a>
-            <span>•</span>
-            <span>Wizard101 is a trademark of KingsIsle Entertainment. Not affiliated.</span>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 px-4 text-xs md:text-sm">
+            <div className="flex gap-4">
+              <a href="/privacy" className="hover:text-foreground/50 transition-colors">Privacy Policy</a>
+              <span>•</span>
+              <a href="/terms" className="hover:text-foreground/50 transition-colors">Terms of Service</a>
+            </div>
+            <span className="hidden md:inline">•</span>
+            <span className="block md:inline">Wizard101 is a trademark of KingsIsle Entertainment. Not affiliated.</span>
           </div>
         </footer>
       </SidebarInset>
