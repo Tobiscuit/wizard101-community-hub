@@ -2,14 +2,23 @@ import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
-const firebaseConfig = process.env.NEXT_PUBLIC_FIREBASE_CONFIG
-  ? JSON.parse(process.env.NEXT_PUBLIC_FIREBASE_CONFIG)
-  : null;
+let firebaseConfig;
+
+try {
+  firebaseConfig = process.env.NEXT_PUBLIC_FIREBASE_CONFIG
+    ? JSON.parse(process.env.NEXT_PUBLIC_FIREBASE_CONFIG)
+    : null;
+} catch (error) {
+  console.error("Failed to parse NEXT_PUBLIC_FIREBASE_CONFIG:", error);
+  firebaseConfig = null;
+}
 
 export function getFirebaseApp() {
   if (getApps().length === 0) {
     if (!firebaseConfig || Object.keys(firebaseConfig).length === 0) {
-        console.warn("NEXT_PUBLIC_FIREBASE_CONFIG not found or empty. Using mock for build/dev.");
+        if (process.env.NODE_ENV !== 'production') {
+             console.warn("NEXT_PUBLIC_FIREBASE_CONFIG not found or invalid. Using mock for build/dev.");
+        }
         return initializeApp({
             apiKey: "mock-api-key",
             authDomain: "mock-project.firebaseapp.com",
