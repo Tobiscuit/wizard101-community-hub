@@ -76,6 +76,12 @@ export function ScribeWidget() {
         >
             <div className="absolute inset-0 rounded-full border border-accent-gold/20 animate-ping opacity-20 group-hover:opacity-40" />
             <Bot className="h-6 w-6 text-accent-gold" />
+            {isHibernate && (
+                <span className="absolute -top-1 -right-1 flex h-4 w-4">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-4 w-4 bg-blue-500 text-[8px] items-center justify-center text-white"><Moon className="w-2 h-2"/></span>
+                </span>
+            )}
         </Button>
       </SheetTrigger>
       <SheetContent side="right" className="w-full sm:w-[540px] flex flex-col p-0 gap-0 border-l-accent-gold/20 h-[100dvh]">
@@ -88,10 +94,10 @@ export function ScribeWidget() {
                 <div className="text-left">
                     <SheetTitle className="text-accent-gold flex items-center gap-2">
                         The Scribe
-                        <span className="text-[10px] bg-accent-gold/10 text-accent-gold px-2 py-0.5 rounded-full border border-accent-gold/20">3.0 Preview</span>
+                        {isHibernate && <span className="text-[10px] bg-blue-500/10 text-blue-500 px-2 py-0.5 rounded-full border border-blue-500/20">Hibernate Mode</span>}
                     </SheetTitle>
                     <SheetDescription className="text-xs">
-                        Powered by Gamma (Gemini 3.0 Flash)
+                        {isHibernate ? "Model: Gemini 3.0 Flash (Backup Link)" : "Model: Llama 3 (Archaic Archive)"}
                     </SheetDescription>
                 </div>
             </div>
@@ -116,7 +122,7 @@ export function ScribeWidget() {
                     msg.role === "user"
                       ? "bg-accent-gold text-primary-foreground rounded-tr-none"
                       : "bg-muted text-muted-foreground rounded-tl-none border border-border/50"
-                  }`}
+                  } ${isHibernate && msg.role === 'assistant' ? 'opacity-90' : ''}`}
                 >
                   {msg.content}
                 </div>
@@ -139,7 +145,7 @@ export function ScribeWidget() {
         <div className="p-4 pb-safe border-t bg-background/50 backdrop-blur sticky bottom-0">
           <div className="flex gap-2 relative">
              <Input
-                placeholder="Ask about reagents, drops, or cheats..."
+                placeholder={isHibernate ? "Ask Gamma (Backup Link)..." : "Ask about reagents, drops, or cheats..."}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}

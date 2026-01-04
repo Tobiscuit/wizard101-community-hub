@@ -23,72 +23,88 @@ Persona:
 `;
 
 export async function chatWithGamma(history: ChatMessage[]) {
+  const isHibernate = process.env.HIBERNATE_MODE === "true";
+  const llamaUrl = process.env.LLAMA_API_URL; // e.g. "https://api.commons.jrcodex.dev/v1/chat/completions"
+
+  // 1. Try Llama (Primary) if server is active and URL is set
+  if (!isHibernate && llamaUrl) {
+    try {
+        const response = await fetch(llamaUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                model: "llama-3-8b-instruct", // Or whatever model you host
+                messages: [{ role: "system", content: SYSTEM_INSTRUCTION }, ...history],
+                temperature: 0.7
+            }),
+            signal: AbortSignal.timeout(5000) // 5s Timeout for fast fallback
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            return {
+                role: "assistant",
+                content: data.choices[0].message.content
+            };
+        }
+        console.warn("Llama fetch failed:", response.status);
+    } catch (err) {
+        console.warn("Llama unreachable (Fallback to Gemini):", err);
+    }
+  }
+
+  // 2. Fallback to Gemini 3.0 (Cloud Backup)
+  // This runs if:
+  // - Hibernate is TRUE
+  // - Llama is undefined
+  // - Llama failed/timed out
+  
   if (!apiKey) {
-    // If no API key (e.g. during build or missing env), return mock
     return { 
       role: "assistant", 
-      content: "My connection to the Arcanum is hazy (Missing API Key). Please check your configuration." 
+      content: "My connection to the Spiral is broken. (Missing GEMINI_API_KEY)" 
     };
   }
-  
-  // Gamma is always online via the Spiral (Google Cloud)
-  // No Hibernate check needed since we use Serverless Inference.
 
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
     
-    // Using the 2026 Bleeding Edge Model
+    // Inject "Resting" context only if we are in this block because of Hibernate/Fallback
+    const fallbackContext = isHibernate 
+        ? "\n(Note: The Arcanum is closed for the night. You are currently meditating. Kindly inform the Wizard you are in 'Low Power Mode' but can still help.)" 
+        : "";
+
     const model = genAI.getGenerativeModel({ 
       model: "gemini-3.0-flash-preview", 
-      systemInstruction: SYSTEM_INSTRUCTION,
-      tools: [
-        {
-          googleSearch: {}, // Enable Grounding
-        },
-      ],
+      systemInstruction: SYSTEM_INSTRUCTION + fallbackContext,
+      tools: [{ googleSearch: {} }],
     });
 
-    // Convert history to Gemini format
-    // Gemini roles: 'user' | 'model'
     const chatHistory: Content[] = history.map((msg) => ({
       role: msg.role === "assistant" ? "model" : "user",
       parts: [{ text: msg.content }],
     }));
 
-    // Isolate the *new* message (last one) from the history for 'sendMessage'
-    // actually chatSession takes history up to N-1, and we send N.
-    // The history array passed from frontend includes the latest user message at the end?
-    // Let's assume the frontend sends the *full* history including the new user message.
-    
     const lastMessage = chatHistory.pop();
-    if (!lastMessage) throw new Error("Accidentally popping empty history");
+    if (!lastMessage) throw new Error("Empty history");
 
     const chatSession = model.startChat({
       history: chatHistory,
-      generationConfig: {
-        maxOutputTokens: 500,
-        temperature: 0.7,
-      },
+      generationConfig: { maxOutputTokens: 500, temperature: 0.7 },
     });
 
     const result = await chatSession.sendMessage(lastMessage.parts);
     const response = await result.response;
-    const text = response.text();
-    
-    // Check for grounding metadata
-    // const groundingMetadata = response.candidates?.[0]?.groundingMetadata; // if needed later
-
     return {
       role: "assistant",
-      content: text,
-      // grounding: groundingMetadata
+      content: response.text(),
     };
 
   } catch (error) {
-    console.error("Gamma Error:", error);
+    console.error("Gemini Error:", error);
     return { 
       role: "assistant", 
-      content: "Hoot! The magical currents are turbulent right now. I could not complete your request. (Error accessing Gemini)" 
+      content: "Hoot! All magical channels are down. I cannot reach the Arcanum." 
     };
   }
 }
