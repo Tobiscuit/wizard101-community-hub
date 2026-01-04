@@ -1,0 +1,16 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+
+packages:
+  - curl
+  - wget
+
+runcmd:
+  # Install Coolify (Includes Docker, Traefik, etc.)
+  - curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash
+
+  # (Optional) Pre-pull Llama 3 if we want it ready, but Coolify might manage its own Docker network
+  # We will configure Ollama *inside* Coolify UI for better visibility.
+  
+final_message: "Coolify is Ready. Dashboard at http://$INSTANCE_IP:8000"
