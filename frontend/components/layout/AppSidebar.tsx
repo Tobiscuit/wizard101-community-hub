@@ -123,6 +123,7 @@ const data = {
       title: "Community",
       url: "#",
       icon: Users,
+      isActive: true,
       items: [
         {
           title: "Marketplace",
