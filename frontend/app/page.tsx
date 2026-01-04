@@ -91,9 +91,9 @@ export default function Home() {
           </Link>
 
           <Link href="/guilds" className="group">
-            <MagicCard className="h-full cursor-pointer border-purple-500/20 hover:border-purple-500/50 transition-all duration-500 flex flex-col gap-6 py-6 hover:-translate-y-1 hover:shadow-lg" gradientColor="#A855F7" gradientOpacity={0.1}>
+            <MagicCard className="h-full cursor-pointer border-accent-gold/20 hover:border-accent-gold/50 transition-all duration-500 flex flex-col gap-6 py-6 hover:-translate-y-1 hover:shadow-lg" gradientColor="#FFD700" gradientOpacity={0.1}>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-purple-400">
+                <CardTitle className="flex items-center gap-2 text-accent-gold">
                   <Shield className="w-5 h-5" />
                   Guild Directory
                 </CardTitle>

@@ -43,6 +43,7 @@ import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider"
 import { AppShell } from "@/components/layout/AppShell";
+import { ScribeWidget } from "@/components/scribe-widget";
 import OrderDashboard from "@/components/marketplace/OrderDashboard"; // Added import for AppShell
 
 import { PresenceTracker } from "@/components/PresenceTracker";
@@ -73,6 +74,7 @@ export default function RootLayout({
                 {children}
             </AppShell>
             <OrderDashboard />
+            <ScribeWidget />
             <Toaster />
           </ThemeProvider>
         </SessionProvider>
