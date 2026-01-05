@@ -109,7 +109,7 @@ export function ScribeWidget() {
             </div>
         </SheetHeader>
         
-        <div className="flex-1 overflow-y-auto p-6 relative scrollbar-thin scrollbar-thumb-accent-gold/20 scrollbar-track-transparent">
+        <div className="flex-1 overflow-y-auto p-6 relative scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
              <div className="flex flex-col gap-4 pb-4">
             {messages.map((msg) => (
               <div
