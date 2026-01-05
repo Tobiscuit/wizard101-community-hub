@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Send, Bot, User, Sparkles, Moon } from "lucide-react"
 import ReactMarkdown from "react-markdown"
+import remarkGfm from "remark-gfm"
 import { chatWithGamma, ChatMessage } from "@/app/actions/scribe"
 
 type Message = {
@@ -131,7 +132,19 @@ export function ScribeWidget() {
                       : "bg-muted text-foreground"
                   }`}
                 >
-                  <ReactMarkdown>
+                  <ReactMarkdown 
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                        table: ({node, ...props}) => (
+                            <div className="overflow-x-auto my-4 rounded-lg border border-border/50">
+                                <table className="w-full text-left text-sm" {...props} />
+                            </div>
+                        ),
+                        thead: ({node, ...props}) => <thead className="bg-muted/50 text-muted-foreground font-medium" {...props} />,
+                        th: ({node, ...props}) => <th className="px-3 py-2 border-b border-border/50" {...props} />,
+                        td: ({node, ...props}) => <td className="px-3 py-2 border-b border-border/10 last:border-0" {...props} />,
+                    }}
+                  >
                     {msg.content}
                   </ReactMarkdown>
                 </div>
