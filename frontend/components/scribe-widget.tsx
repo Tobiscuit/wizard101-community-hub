@@ -103,7 +103,7 @@ export function ScribeWidget() {
                         {isHibernate && <span className="text-[10px] bg-blue-500/10 text-blue-500 px-2 py-0.5 rounded-full border border-blue-500/20">Hibernate Mode</span>}
                     </SheetTitle>
                     <SheetDescription className="text-xs">
-                        {isHibernate ? "Model: Gemini 3.0 Flash (Backup Link)" : "Model: Llama 3 (Archaic Archive)"}
+                        {isHibernate ? "Model: Gemini 3.0 Flash (Backup Link)" : "Model: Gemini 3.0 Flash (Wizard's Knowledge)"}
                     </SheetDescription>
                 </div>
             </div>

@@ -103,17 +103,27 @@ export async function chatWithGamma(history: ChatMessage[]) {
     // 4. Init Model
     const model = genAI.getGenerativeModel({ 
       model: "gemini-3-flash-preview", 
-      systemInstruction: finalSystemPrompt,
+      systemInstruction: finalSystemPrompt + `
+      
+      IMPORTANT: You must output a JSON object in this format:
+      {
+        "original_query": "The user's question",
+        "reasoning": "Your internal Chain of Thought",
+        "content": "The final response to the user (Keep this CONCISE)",
+        "source_used": "Tool or Document used"
+      }
+      Do NOT output Markdown fencing around the JSON. Just the raw JSON object.
+      `,
       // @ts-expect-error - googleSearch is available in v1beta/experimental but types might lag
       tools: [{ googleSearch: {} }], 
+      generationConfig: {
+        responseMimeType: "application/json"
+      }
     });
 
     // 5. Convert History
     // Gemini Rule: History must start with 'user'.
-    // If the first message is 'assistant' (e.g. Greeting), we must skip it or dummy a user user message.
     let validHistory = history.slice(0, -1);
-    
-    // Drop leading assistant messages until we hit a user message
     while (validHistory.length > 0 && validHistory[0].role === "assistant") {
         validHistory.shift();
     }
@@ -123,18 +133,30 @@ export async function chatWithGamma(history: ChatMessage[]) {
         parts: [{ text: msg.content }],
     }));
 
-    const chatSession = model.startChat({
-      history: chatHistory,
-      generationConfig: { maxOutputTokens: 600, temperature: 0.6 },
+    const chat = model.startChat({
+        history: chatHistory,
     });
 
-    const result = await chatSession.sendMessage(userQuery);
-    const response = await result.response;
+    const result = await chat.sendMessage(userQuery);
+    const responseText = result.response.text();
     
-    return {
-      role: "assistant",
-      content: response.text(),
-    };
+    // Parse JSON
+    try {
+        const jsonResponse = JSON.parse(responseText);
+        console.log("[Gamma Reasoning]", jsonResponse.reasoning); // Server-side trace
+        
+        return {
+            role: "assistant",
+            content: jsonResponse.content // Send ONLY the clean content to client
+        };
+    } catch (e) {
+        // Fallback if model fails JSON (rare with MIME type set)
+        console.error("JSON Parse Error:", e, responseText);
+        return {
+            role: "assistant",
+            content: responseText
+        };
+    }
 
   } catch (error) {
     console.error("Gamma Error:", error);
