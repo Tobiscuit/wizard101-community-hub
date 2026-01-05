@@ -102,9 +102,10 @@ export async function chatWithGamma(history: ChatMessage[]) {
 
     // 4. Init Model
     const model = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash", // Upgrade to 1.5 Flash for speed/cost
+      model: "gemini-3.0-flash-preview", 
       systemInstruction: finalSystemPrompt,
-      tools: [{ googleSearch: {} }], // Enabled for Grounding Fallback
+      // @ts-expect-error - googleSearch is available in v1beta/experimental but types might lag
+      tools: [{ googleSearch: {} }], 
     });
 
     // 5. Convert History
