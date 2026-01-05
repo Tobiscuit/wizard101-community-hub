@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Send, Bot, User, Sparkles, Moon } from "lucide-react"
+import ReactMarkdown from "react-markdown"
 import { chatWithGamma, ChatMessage } from "@/app/actions/scribe"
 
 type Message = {
@@ -112,22 +113,32 @@ export function ScribeWidget() {
                 key={msg.id}
                 className={`flex gap-3 ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}
               >
-                <Avatar className="h-8 w-8 mt-1 border border-border">
-                  {msg.role === "assistant" ? (
-                    <AvatarFallback className="bg-primary/10"><Bot className="h-4 w-4 text-primary" /></AvatarFallback>
-                  ) : (
-                    <AvatarFallback className="bg-secondary"><User className="h-4 w-4" /></AvatarFallback>
-                  )}
-                </Avatar>
+                {/* Assistant Avatar (Left) */}
+                {msg.role === "assistant" && (
+                    <Avatar className="h-8 w-8 mt-1 border border-border">
+                        <AvatarFallback className="bg-primary/10"><Bot className="h-4 w-4 text-primary" /></AvatarFallback>
+                    </Avatar>
+                )}
+
+                {/* Message Bubble */}
                 <div
-                  className={`rounded-2xl px-4 py-2 max-w-[85%] text-sm shadow-sm ${
+                  className={`rounded-lg p-3 text-sm max-w-[85%] ${
                     msg.role === "user"
-                      ? "bg-accent-gold text-primary-foreground rounded-tr-none"
-                      : "bg-muted text-muted-foreground rounded-tl-none border border-border/50"
-                  } ${isHibernate && msg.role === 'assistant' ? 'opacity-90' : ''}`}
+                      ? "bg-amber-200 text-zinc-900" // High Contrast User Bubble
+                      : "bg-muted text-foreground"
+                  }`}
                 >
-                  {msg.content}
+                  <ReactMarkdown className="prose prose-sm dark:prose-invert">
+                    {msg.content}
+                  </ReactMarkdown>
                 </div>
+
+                {/* User Avatar (Right) */}
+                {msg.role === "user" && (
+                  <Avatar className="h-8 w-8 mt-1 border border-border">
+                    <AvatarFallback className="bg-muted"><User className="h-4 w-4" /></AvatarFallback>
+                  </Avatar>
+                )}
               </div>
             ))}
             {isLoading && (
