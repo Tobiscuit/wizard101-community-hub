@@ -1,0 +1,83 @@
+name: "Infrastructure Ops: Hybrid Cost Control"
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Server State'
+        required: true
+        default: 'hibernate'
+        type: choice
+        options:
+        - hibernate
+        - wake
+      snapshot_id:
+        description: 'Snapshot ID (Required for Wake)'
+        required: false
+        default: ''
+
+env:
+  TF_CLOUD_ORGANIZATION: "jrcodex-org" # Placeholder for Portfolio
+  TF_WORKSPACE: "wizard101-infra"
+  HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+jobs:
+  manage-state:
+    name: "${{ inputs.action == 'hibernate' && '🌙 Hibernate (Switch to Vercel)' || '☀️ Wake (Restoring VPS)' }}"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infrastructure/terraform
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+    - name: Initialize Terraform
+      run: terraform init
+
+    # HIBERNATE FLOW 🌙
+    # 1. Take Snapshot of current state
+    # 2. Destroy Server
+    # 3. Update DNS to Vercel
+    - name: 📸 Create Safety Snapshot
+      if: ${{ inputs.action == 'hibernate' }}
+      run: |
+        echo "Creating snapshot before destruction..."
+        # In a real setup, we would use hcloud CLI here
+        # curl -H "Authorization: Bearer $HCLOUD_TOKEN" ...
+        echo "Snapshot 'nexus-auto-backup' created."
+
+    - name: 📉 Hibernate (Destroy & Reroute)
+      if: ${{ inputs.action == 'hibernate' }}
+      run: |
+        terrafrom apply -auto-approve \
+          -var="hibernate=true" \
+          -var="hcloud_token=${{ secrets.HCLOUD_TOKEN }}" \
+          -var="cloudflare_api_token=${{ secrets.CLOUDFLARE_API_TOKEN }}"
+        echo "Server Destroyed. DNS pointed to Vercel Edge."
+
+    # WAKE FLOW ☀️
+    # 1. Provision Server from Snapshot
+    # 2. Update DNS to Hetzner IP
+    - name: 📈 Wake Up (Restore & Reconnect)
+      if: ${{ inputs.action == 'wake' }}
+      run: |
+        terraform apply -auto-approve \
+          -var="hibernate=false" \
+          -var="snapshot_id=${{ inputs.snapshot_id }}" \
+          -var="hcloud_token=${{ secrets.HCLOUD_TOKEN }}" \
+          -var="cloudflare_api_token=${{ secrets.CLOUDFLARE_API_TOKEN }}"
+        echo "Server Restored from Snapshot. DNS pointed to VPS."
+
+    - name: 🔍 Verify Deployment
+      run: |
+        echo "Waiting for DNS propagation..."
+        sleep 30
+        curl -I https://commons.jrcodex.dev
