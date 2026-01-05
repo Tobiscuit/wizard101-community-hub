@@ -109,7 +109,16 @@ export async function chatWithGamma(history: ChatMessage[]) {
     });
 
     // 5. Convert History
-    const chatHistory: Content[] = history.slice(0, -1).map((msg) => ({
+    // Gemini Rule: History must start with 'user'.
+    // If the first message is 'assistant' (e.g. Greeting), we must skip it or dummy a user user message.
+    let validHistory = history.slice(0, -1);
+    
+    // Drop leading assistant messages until we hit a user message
+    while (validHistory.length > 0 && validHistory[0].role === "assistant") {
+        validHistory.shift();
+    }
+
+    const chatHistory: Content[] = validHistory.map((msg) => ({
         role: msg.role === "assistant" ? "model" : "user",
         parts: [{ text: msg.content }],
     }));
