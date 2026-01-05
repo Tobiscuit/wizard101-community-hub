@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Send, Bot, User, Sparkles } from "lucide-react"
+import { Send, Bot, User, Sparkles, Moon } from "lucide-react"
 import { chatWithGamma, ChatMessage } from "@/app/actions/scribe"
 
 type Message = {
@@ -16,6 +16,9 @@ type Message = {
 }
 
 export function ScribeWidget() {
+  // TODO: connect to NEXT_PUBLIC_HIBERNATE_MODE if needed
+  const isHibernate = false; 
+
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
