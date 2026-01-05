@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
 
 @layer base {
   /* Shared Base (Defaults to Light/Solarized) */
