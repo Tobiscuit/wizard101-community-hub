@@ -47,7 +47,7 @@ async function retrieveContext(query: string) {
         // Note: 'match_documents' arg names must match the SQL definition EXACTLY.
         const { data: chunks, error } = await sb.rpc("match_documents", {
             query_embedding: queryVector,
-            match_threshold: 0.5, // Strictness
+            match_threshold: 0.4, // Strictness Tuned (0.5 was too high)
             match_count: 5        // Top 5 chunks
         });
 
