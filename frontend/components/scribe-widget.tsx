@@ -124,7 +124,7 @@ export function ScribeWidget() {
                 <div
                   className={`rounded-lg p-3 text-sm max-w-[85%] ${
                     msg.role === "user"
-                      ? "bg-amber-200 text-zinc-900" // High Contrast User Bubble
+                      ? "bg-primary text-primary-foreground" // Theme-aware High Contrast
                       : "bg-muted text-foreground"
                   }`}
                 >
