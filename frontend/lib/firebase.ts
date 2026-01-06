@@ -4,14 +4,20 @@ import { getAuth } from 'firebase/auth';
 
 import { safeJsonParse } from "@/lib/safe-json";
 
-const firebaseConfig = safeJsonParse(process.env.NEXT_PUBLIC_FIREBASE_CONFIG);
+const rawConfig = process.env.NEXT_PUBLIC_FIREBASE_CONFIG;
+console.log("Firebase Init - Raw Config Type:", typeof rawConfig);
+console.log("Firebase Init - Raw Config Length:", rawConfig?.length);
+// console.log("Firebase Init - Raw Config Value:", rawConfig); // Uncomment if safe, but risky for logs
+
+const firebaseConfig = safeJsonParse(rawConfig);
+console.log("Firebase Init - Parsed Config Keys:", Object.keys(firebaseConfig || {}));
 
 export function getFirebaseApp() {
   if (getApps().length === 0) {
     if (!firebaseConfig || Object.keys(firebaseConfig).length === 0) {
+        console.error("FIREBASE CONFIG MISSING OR INVALID. Falling back to Mock.");
         if (process.env.NODE_ENV !== 'production') {
              console.warn("NEXT_PUBLIC_FIREBASE_CONFIG not found or invalid. Using mock for build/dev.");
-             console.log("Raw Config:", process.env.NEXT_PUBLIC_FIREBASE_CONFIG);
         }
         return initializeApp({
             apiKey: "mock-api-key",
