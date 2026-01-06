@@ -48,7 +48,7 @@ export default function Home() {
           </p>
           <div className="flex items-center gap-4 pt-4">
               <Link href="/scanner">
-                <ShinyButton>Launch Scanner</ShinyButton>
+                <ShinyButton className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold shadow-lg shadow-accent-gold/20">Launch Scanner</ShinyButton>
               </Link>
               <Link href="https://github.com" target="_blank">
                 <Button variant="outline" className="gap-2">
