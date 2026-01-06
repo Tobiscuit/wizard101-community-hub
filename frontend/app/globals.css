@@ -44,33 +44,33 @@
   /* Theme: Candlelight (Intense Warmth / Night Light) */
   .candlelight {
     --background: 38 95% 93%; /* #fef6db - Very intense warm cream */
-    --foreground: 200 20% 30%;
+    --foreground: 25 10% 20%; /* Warm Dark Brown/Grey */
     --card: 38 95% 93%;
-    --card-foreground: 200 20% 30%;
+    --card-foreground: 25 10% 20%;
     --popover: 38 95% 93%;
-    --popover-foreground: 200 20% 30%;
-    --primary: 196 100% 14%;
+    --popover-foreground: 25 10% 20%;
+    --primary: 25 90% 25%; /* Deep Bronze/Rust - Matches the warmth */
     --primary-foreground: 38 95% 93%;
-    --secondary: 35 60% 90%; /* Visibly warmer sidebar/secondary */
-    --secondary-foreground: 196 100% 14%;
+    --secondary: 35 60% 90%; 
+    --secondary-foreground: 25 90% 25%;
     --muted: 35 60% 90%;
-    --muted-foreground: 200 10% 40%;
+    --muted-foreground: 25 20% 40%;
     --accent: 35 60% 90%;
-    --accent-foreground: 196 100% 14%;
+    --accent-foreground: 25 90% 25%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 35 40% 82%; /* Stronger borders */
-    --input: 35 40% 82%;
-    --ring: 196 100% 14%;
-    --sidebar: 35 60% 90%; /* #f7e6ce - Rich aged paper */
+    --border: 25 30% 80%; /* Warm Border */
+    --input: 25 30% 80%;
+    --ring: 25 90% 25%;
+    --sidebar: 35 60% 90%;
     --sidebar-background: 35 60% 90%;
-    --sidebar-foreground: 200 20% 30%;
-    --sidebar-primary: 200 100% 20%;
+    --sidebar-foreground: 25 10% 20%;
+    --sidebar-primary: 25 90% 25%;
     --sidebar-primary-foreground: 38 95% 93%;
     --sidebar-accent: 35 65% 85%;
-    --sidebar-accent-foreground: 196 100% 14%;
-    --sidebar-border: 35 40% 82%;
-    --sidebar-ring: 196 100% 14%;
+    --sidebar-accent-foreground: 25 90% 25%;
+    --sidebar-border: 25 30% 80%;
+    --sidebar-ring: 25 90% 25%;
   }
 
   /* Theme: Dark (Deep Void / Midnight) */
@@ -287,6 +287,17 @@
     --tw-prose-td-borders: hsl(var(--border));
     /* Invert for Dark/Abyss is handled by simply swapping the underlying variables! */
     /* So we barely need prose-invert if we do this right, but prose-invert helps with specificity in some cases */
+  }
+
+  .prose strong,
+  .prose th,
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose thead {
+    color: inherit !important;
+    font-weight: 700;
   }
 
   .prose-invert {

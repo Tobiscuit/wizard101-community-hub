@@ -17,7 +17,12 @@ type Message = {
   content: string
 }
 
+import { useTheme } from "next-themes"
+
 export function ScribeWidget() {
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === "dark" || resolvedTheme === "abyss"
+
   // TODO: connect to NEXT_PUBLIC_HIBERNATE_MODE if needed
   const isHibernate = false; 
 
@@ -126,17 +131,17 @@ export function ScribeWidget() {
 
                 {/* Message Bubble */}
                 <div
-                  className={`rounded-lg p-3 text-sm max-w-[85%] prose prose-sm dark:prose-invert leading-relaxed break-words ${
+                  className={`rounded-lg p-3 text-sm max-w-[85%] prose prose-sm leading-relaxed break-words ${
                     msg.role === "user"
                       ? "bg-primary text-primary-foreground prose-headings:text-primary-foreground prose-p:text-primary-foreground prose-strong:text-primary-foreground" 
                       : "bg-muted text-foreground"
-                  }`}
+                  } ${isDark ? "prose-invert" : ""}`}
                 >
                   <ReactMarkdown 
                     remarkPlugins={[remarkGfm]}
                     components={{
                         table: ({node, ...props}) => (
-                            <div className="overflow-x-auto my-4 rounded-lg border border-border/50">
+                            <div className="overflow-x-auto my-4 rounded-lg border border-border/50 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
                                 <table className="w-full text-left text-sm" {...props} />
                             </div>
                         ),
