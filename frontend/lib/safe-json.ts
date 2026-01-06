@@ -24,8 +24,19 @@ export function safeJsonParse<T>(value: string | undefined | null, fallback: T |
         }
         return JSON.parse(cleaned);
     } catch (error) {
+        // Retry strategy for Coolify/Docker Env Vars that get double-escaped
+        // e.g. {\"apiKey\":\"...\"} -> {"apiKey":"..."}
+        if (value && typeof value === 'string') {
+             try {
+                const unescaped = value.replace(/\\"/g, '"');
+                return JSON.parse(unescaped);
+             } catch (retryError) {
+                 // formatting this is fine
+             }
+        }
+        
         console.warn("safeJsonParse failed:", error);
-        console.warn("Failed content:", value); // Inspect the malformed string
+        console.warn("Failed content:", value); 
         return fallback;
     }
 }
