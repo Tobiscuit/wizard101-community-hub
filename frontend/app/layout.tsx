@@ -17,6 +17,7 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: light)", color: "#f3f0e3" }, // Solarized Beige Sidebar
     { media: "(prefers-color-scheme: dark)", color: "#11222a" },
   ],
+  interactiveWidget: "resizes-content",
 };
 
 export const metadata: Metadata = {
