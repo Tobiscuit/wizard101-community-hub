@@ -202,9 +202,9 @@ export function ScribeWidget() {
                 onClick={handleSend} 
                 size="icon" 
                 disabled={isLoading}
-                className="absolute right-2 bottom-3 h-8 w-8 bg-accent-gold text-white hover:bg-accent-gold/90 mb-0.5"
+                className="absolute right-3 bottom-2.5 h-9 w-9 bg-accent-gold text-white hover:bg-accent-gold/90 shadow-sm"
              >
-                <Send className="h-4 w-4" />
+                <Send className="h-5 w-5" />
              </Button>
           </div>
           <div className="text-[10px] text-center text-muted-foreground mt-2 flex items-center justify-center gap-1">
