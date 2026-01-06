@@ -37,9 +37,9 @@ export const metadata: Metadata = {
     description: "Calculate pet talent stats, simulate jewel sockets, and trade pets with the dedicated Wizard101 community.",
   },
   icons: {
-    icon: "/images/gamma-icon.png",
-    shortcut: "/images/gamma-icon.png",
-    apple: "/images/gamma-icon.png",
+    icon: "/icons/icon-192x192.png",
+    shortcut: "/icons/icon-192x192.png",
+    apple: "/icons/icon-192x192.png",
   },
 };
 
