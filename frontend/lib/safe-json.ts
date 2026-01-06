@@ -12,9 +12,20 @@ export function safeJsonParse<T>(value: string | undefined | null, fallback: T |
                 return JSON.parse(cleaned.slice(1, -1)); // Simple strip
              }
         }
+        // Also handle single quotes (common in .env files)
+        if (cleaned.startsWith("'") && cleaned.endsWith("'")) {
+             try {
+                // Try treating inner content as JSON
+                return JSON.parse(cleaned.slice(1, -1));
+             } catch {
+                // If it fails, maybe it was just a string? But for JSON config, this is likely what we want.
+                return null;
+             }
+        }
         return JSON.parse(cleaned);
     } catch (error) {
         console.warn("safeJsonParse failed:", error);
+        console.warn("Failed content:", value); // Inspect the malformed string
         return fallback;
     }
 }
