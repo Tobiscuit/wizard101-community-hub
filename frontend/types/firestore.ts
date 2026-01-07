@@ -192,6 +192,7 @@ export type ForumThread = {
     authorId: string;
     authorName: string; // Snapshot
     authorWizardId?: string; // Optional context: "Posting as Wolf StormBlade"
+    authorWizardName?: string; // Snapshot name of the wizard
     
     category: ForumCategory;
     title: string;
@@ -225,6 +226,7 @@ export type ForumPost = {
     authorId: string;
     authorName: string;
     authorWizardId?: string; // "Replying as..."
+    authorWizardName?: string;
     
     content: string; // Markdown
     

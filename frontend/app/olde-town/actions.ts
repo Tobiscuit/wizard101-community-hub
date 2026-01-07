@@ -80,3 +80,55 @@ export async function createThread(input: CreateThreadInput) {
         return { success: false, error: "Failed to post thread. Please try again." };
     }
 }
+
+export type CreateReplyInput = {
+    threadId: string;
+    content: string;
+    authorWizardId?: string; 
+    authorWizardName?: string;
+};
+
+export async function createReply(input: CreateReplyInput) {
+    const session = await auth();
+    if (!session?.user?.id) return { success: false, error: "Unauthorized" };
+
+    const { threadId, content, authorWizardId, authorWizardName } = input;
+    if (!content || !threadId) return { success: false, error: "Missing fields" };
+
+    const db = getAdminFirestore();
+
+    try {
+        await db.runTransaction(async (t) => {
+            const threadRef = db.collection('threads').doc(threadId);
+            const postsRef = threadRef.collection('posts').doc();
+
+            // 1. Create Post
+            t.set(postsRef, {
+                id: postsRef.id,
+                threadId,
+                authorId: session.user.id,
+                authorName: session.user.name || "Wizard",
+                authorWizardId: authorWizardId || null,
+                authorWizardName: authorWizardName || null,
+                content,
+                createdAt: FieldValue.serverTimestamp(),
+                updatedAt: FieldValue.serverTimestamp(),
+                reactions: {}
+            });
+
+            // 2. Update Thread Meta
+            t.update(threadRef, {
+                replyCount: FieldValue.increment(1),
+                lastReplyAt: FieldValue.serverTimestamp(),
+                lastReplyAuthorName: authorWizardName || session.user.name || "Wizard"
+            });
+        });
+
+        revalidatePath(`/olde-town/thread/${threadId}`);
+        return { success: true };
+
+    } catch (error) {
+        console.error("Error creating reply:", error);
+        return { success: false, error: "Failed to reply." };
+    }
+}
