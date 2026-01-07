@@ -14,6 +14,7 @@ import {
     Users
 } from "lucide-react";
 import Link from "next/link";
+import { CreateThreadDialog } from "@/components/forum/CreateThreadDialog";
 
 // --- Configuration ---
 const CATEGORIES = [
@@ -68,10 +69,7 @@ export default function OldeTownPage() {
                         The central hub for all wizardly discourse.
                     </p>
                 </div>
-                <Button size="lg" className="bg-accent-gold text-primary-foreground hover:bg-accent-gold/90">
-                    <PlusCircle className="mr-2 w-5 h-5" />
-                    New Thread
-                </Button>
+                <CreateThreadDialog />
             </div>
 
             <Separator />
