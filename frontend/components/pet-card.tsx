@@ -67,9 +67,20 @@ export function PetCard({ pet, className }: Props) {
                 
                 {/* 1. Header: Identity */}
                 <div>
-                    <h3 className="text-2xl font-bold font-serif text-[#2c241b] tracking-tight group-hover:text-accent-gold transition-colors">
-                        {pet.nickname.toUpperCase()}
-                    </h3>
+                    <div className="flex justify-between items-start">
+                        <h3 className="text-2xl font-bold font-serif text-[#2c241b] tracking-tight group-hover:text-accent-gold transition-colors">
+                            {pet.nickname.toUpperCase()}
+                        </h3>
+                        <div className="flex flex-col items-end">
+                            <span className="text-[10px] text-stone-400 font-serif font-bold uppercase tracking-widest">
+                                Pedigree
+                            </span>
+                            <span className="text-sm font-serif font-bold text-stone-600">
+                                (35) 75
+                            </span>
+                        </div>
+                    </div>
+                    
                     <div className="flex items-center gap-2 mt-1">
                          <Badge variant="secondary" className="rounded-sm px-1.5 py-0 text-[10px] uppercase font-bold text-stone-500 bg-stone-100 border-stone-200">
                             {pet.school || "Balance"}
@@ -80,6 +91,11 @@ export function PetCard({ pet, className }: Props) {
                         <span className="text-xs font-serif italic text-stone-400">
                             {pet.body}
                         </span>
+                    </div>
+
+                    {/* XP Bar (Micro) */}
+                    <div className="mt-3 w-full h-1 bg-stone-200 rounded-full overflow-hidden">
+                        <div className="h-full bg-accent-gold/40 w-[75%]" />
                     </div>
                 </div>
 
