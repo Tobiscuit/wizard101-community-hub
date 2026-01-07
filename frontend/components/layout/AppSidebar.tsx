@@ -134,8 +134,8 @@ const data = {
           url: "/guilds",
         },
         {
-          title: "Scribe's Corner",
-          url: "/blog",
+          title: "Olde Town",
+          url: "/olde-town",
         },
       ],
     },
@@ -346,7 +346,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">{session?.user?.name || "Guest Wizard"}</span>
-                    <span className="truncate text-xs">{session?.user?.email || "Sign in to save progress"}</span>
+                    {/* Privacy: Hide Email */}
+                    <span className="truncate text-xs opacity-70">{session ? "Authorized Wizard" : "Sign in to save progress"}</span>
                   </div>
                   <MoreHorizontal className="ml-auto size-4" />
                 </SidebarMenuButton>
@@ -367,7 +368,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">{session?.user?.name || "Guest Wizard"}</span>
-                      <span className="truncate text-xs">{session?.user?.email || "Not signed in"}</span>
+                      {/* Privacy: Hide Email */}
+                      <span className="truncate text-xs opacity-70">{session ? "Authorized Wizard" : "Not signed in"}</span>
                     </div>
                   </div>
                 </DropdownMenuLabel>

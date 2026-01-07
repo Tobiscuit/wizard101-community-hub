@@ -182,3 +182,57 @@ export type MarketOrder = {
     
     createdAt: Timestamp;
 };
+
+// --- Phase 4: Olde Town (Forums) ---
+
+export type ForumCategory = 'General' | 'PVP' | 'PVE' | 'Pet Pavilion' | 'Feedback';
+
+export type ForumThread = {
+    id: string;
+    authorId: string;
+    authorName: string; // Snapshot
+    authorWizardId?: string; // Optional context: "Posting as Wolf StormBlade"
+    
+    category: ForumCategory;
+    title: string;
+    content: string; // Markdown
+    
+    // Attachments (Asset-First)
+    attachedAsset?: {
+        type: 'wizard' | 'pet' | 'item';
+        id: string;
+        snapshot: any; // visual data (e.g. Pet talents, Wizard stats) for permanent context
+    };
+
+    tags: string[]; // ["Darkmoor", "Strategy"]
+    
+    // Metrics
+    viewCount: number;
+    replyCount: number;
+    lastReplyAt: Timestamp;
+    lastReplyAuthorName?: string;
+    
+    isPinned: boolean;
+    isLocked: boolean;
+    
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+};
+
+export type ForumPost = {
+    id: string;
+    threadId: string;
+    authorId: string;
+    authorName: string;
+    authorWizardId?: string; // "Replying as..."
+    
+    content: string; // Markdown
+    
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+    
+    // Likes/Reactions
+    reactions?: {
+        [emoji: string]: number; // "🔥": 5
+    };
+};
