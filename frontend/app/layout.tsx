@@ -45,6 +45,7 @@ export const metadata: Metadata = {
 
 import { SessionProvider } from "next-auth/react";
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
+import { FirebaseAuthProvider } from "@/components/providers/FirebaseAuthProvider";
 
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider"
@@ -66,23 +67,25 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SessionProvider>
-            <ThemeProvider
-            attribute="class"
-            defaultTheme="candlelight"
-            themes={["light", "dark", "candlelight", "abyss"]}
-            enableSystem
-            disableTransitionOnChange
-            >
-            <PresenceTracker />
-            <ThemeColorManager />
-
-            <AppShell>
-                {children}
-            </AppShell>
-            <OrderDashboard />
-            <ScribeWidget />
-            <Toaster />
-          </ThemeProvider>
+            <FirebaseAuthProvider>
+                <ThemeProvider
+                attribute="class"
+                defaultTheme="candlelight"
+                themes={["light", "dark", "candlelight", "abyss"]}
+                enableSystem
+                disableTransitionOnChange
+                >
+                <PresenceTracker />
+                <ThemeColorManager />
+    
+                <AppShell>
+                    {children}
+                </AppShell>
+                <OrderDashboard />
+                <ScribeWidget />
+                <Toaster />
+              </ThemeProvider>
+            </FirebaseAuthProvider>
         </SessionProvider>
       </body>
     </html>

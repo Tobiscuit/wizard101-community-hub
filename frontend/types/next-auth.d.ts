@@ -5,6 +5,7 @@ declare module "next-auth" {
         user: {
             id: string;
             discordId?: string;
+            firebaseToken?: string;
         } & DefaultSession["user"];
     }
 
@@ -17,5 +18,6 @@ declare module "next-auth/jwt" {
     interface JWT {
         id: string;
         discordId?: string;
+        firebaseToken?: string;
     }
 }

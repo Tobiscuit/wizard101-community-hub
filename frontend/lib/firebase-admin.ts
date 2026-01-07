@@ -40,3 +40,8 @@ export function getFirebaseAdminApp() {
 export function getAdminFirestore() {
     return getFirestore(getFirebaseAdminApp());
 }
+
+import { getAuth } from 'firebase-admin/auth';
+export function getAdminAuth() {
+    return getAuth(getFirebaseAdminApp());
+}
