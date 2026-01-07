@@ -34,13 +34,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     events: {
         async signIn({ user, account, profile }) {
-            // When user signs in with Discord, store their Discord ID
+            // When user signs in with Discord, store their Discord ID and Username
             if (account?.provider === 'discord' && account?.providerAccountId && user?.id) {
                 const db = getAdminFirestore();
-                await db.collection("users").doc(user.id).set({
+                const updateData: any = {
                     discordId: account.providerAccountId,
                     updatedAt: new Date()
-                }, { merge: true });
+                };
+                
+                // profile.username is available here too
+                if (profile && 'username' in profile) {
+                    updateData.discordUsername = profile.username;
+                }
+
+                await db.collection("users").doc(user.id).set(updateData, { merge: true });
             }
         }
     }

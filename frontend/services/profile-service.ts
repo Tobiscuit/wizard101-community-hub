@@ -32,15 +32,25 @@ export async function getUserProfile(uid: string): Promise<UserProfile | null> {
     return null;
 }
 
-export async function ensureUserProfile(uid: string, email: string, displayName: string): Promise<UserProfile> {
+export async function ensureUserProfile(uid: string, email: string, displayName?: string): Promise<UserProfile> {
     const existing = await getUserProfile(uid);
     if (existing) return existing;
+
+    // Privacy-First Identity:
+    // If no displayName is provided (Google Login), generate a random anonymous handle.
+    // If displayName IS provided (Discord Login), use it.
+    let finalDisplayName = displayName;
+    
+    if (!finalDisplayName) {
+        const randomSuffix = Math.floor(Math.random() * 9000) + 1000;
+        finalDisplayName = `MysteriousWizard-${randomSuffix}`;
+    }
 
     // Create Default Profile
     const newProfile: UserProfile = {
         uid,
         email,
-        displayName: displayName || 'Unknown Wizard',
+        displayName: finalDisplayName,
         hatchReputation: 0,
         marketReputation: 0,
         vouchCount: 0,

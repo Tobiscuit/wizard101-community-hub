@@ -30,11 +30,15 @@ export function useProfile() {
             const uid = session.user.id;
             
             // 1. Ensure Profile Exists (Create default if new)
-            // We pass session email/name as defaults
+            // We pass session email, but strictly CONTROL the Display Name
+            // If Discord Username exists, use it. Otherwise pass undefined to auto-generate random Wizard Name.
+            // WE NEVER PASS session.user.name to avoid Real Name leaks (Google).
+            const cleanDisplayName = session.user.discordUsername || undefined;
+
             const userProfile = await ensureUserProfile(
                 uid, 
                 session.user.email || '', 
-                session.user.name || 'Unknown Wizard'
+                cleanDisplayName
             );
             
             setProfile(userProfile);

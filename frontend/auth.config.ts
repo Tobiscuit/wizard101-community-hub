@@ -14,13 +14,17 @@ export const authConfig = {
         }),
     ],
     callbacks: {
-        async jwt({ token, user, account }) {
+        async jwt({ token, user, account, profile }) {
             if (user) {
                 token.id = user.id;
             }
-            // Capture Discord provider ID
+            // Capture Discord provider ID & Username
             if (account?.provider === 'discord' && account?.providerAccountId) {
                 token.discordId = account.providerAccountId;
+                // profile.username is the unique handle (e.g. 'tobiscuit' or 'tobiscuit#1234' for legacy)
+                if (profile && 'username' in profile) {
+                    token.discordUsername = profile.username as string;
+                }
             }
             return token;
         },
@@ -28,9 +32,12 @@ export const authConfig = {
             if (session.user && token?.id) {
                 session.user.id = token.id as string;
             }
-            // Pass Discord ID to session
+            // Pass Discord ID and Username to session
             if (token?.discordId) {
                 session.user.discordId = token.discordId as string;
+            }
+            if (token?.discordUsername) {
+                session.user.discordUsername = token.discordUsername as string;
             }
             return session;
         },
