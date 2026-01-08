@@ -6,12 +6,12 @@ export const auth = betterAuth({
     database: firestoreAdapter(getAdminFirestore()),
     socialProviders: {
         google: { 
-            clientId: process.env.AUTH_GOOGLE_ID as string, 
-            clientSecret: process.env.AUTH_GOOGLE_SECRET as string, 
+            clientId: (process.env.GOOGLE_CLIENT_ID || process.env.AUTH_GOOGLE_ID) as string, 
+            clientSecret: (process.env.GOOGLE_CLIENT_SECRET || process.env.AUTH_GOOGLE_SECRET) as string, 
         },
         discord: { 
-            clientId: process.env.AUTH_DISCORD_ID as string, 
-            clientSecret: process.env.AUTH_DISCORD_SECRET as string, 
+            clientId: (process.env.DISCORD_CLIENT_ID || process.env.AUTH_DISCORD_ID) as string, 
+            clientSecret: (process.env.DISCORD_CLIENT_SECRET || process.env.AUTH_DISCORD_SECRET) as string, 
         }, 
     },
     // Trust Host for Coolify Proxy
