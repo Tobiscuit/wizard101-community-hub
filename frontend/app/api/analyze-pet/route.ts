@@ -1,51 +1,49 @@
-import { GoogleGenerativeAI, SchemaType, Schema } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 import { NextResponse } from "next/server";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
-const schema: Schema = {
-    type: SchemaType.OBJECT,
+const responseSchema = {
+    type: "object",
     properties: {
-        petNickname: { type: SchemaType.STRING, nullable: true },
-        petType: { type: SchemaType.STRING },
+        petNickname: { type: "string", nullable: true },
+        petType: { type: "string" },
         petSchool: {
-            type: SchemaType.STRING,
-            format: "enum",
+            type: "string",
             enum: ["Fire", "Ice", "Storm", "Life", "Myth", "Death", "Balance"]
         },
         petAge: {
-            type: SchemaType.STRING,
-            format: "enum",
+            type: "string",
             enum: ["Baby", "Teen", "Adult", "Ancient", "Epic", "Mega", "Ultra"]
         },
         currentStats: {
-            type: SchemaType.OBJECT,
+            type: "object",
             properties: {
-                strength: { type: SchemaType.NUMBER },
-                intellect: { type: SchemaType.NUMBER },
-                agility: { type: SchemaType.NUMBER },
-                will: { type: SchemaType.NUMBER },
-                power: { type: SchemaType.NUMBER }
+                strength: { type: "number" },
+                intellect: { type: "number" },
+                agility: { type: "number" },
+                will: { type: "number" },
+                power: { type: "number" }
             },
             required: ["strength", "intellect", "agility", "will", "power"]
         },
         maxPossibleStats: {
-            type: SchemaType.OBJECT,
+            type: "object",
             properties: {
-                strength: { type: SchemaType.NUMBER },
-                intellect: { type: SchemaType.NUMBER },
-                agility: { type: SchemaType.NUMBER },
-                will: { type: SchemaType.NUMBER },
-                power: { type: SchemaType.NUMBER }
+                strength: { type: "number" },
+                intellect: { type: "number" },
+                agility: { type: "number" },
+                will: { type: "number" },
+                power: { type: "number" }
             },
             required: ["strength", "intellect", "agility", "will", "power"]
         },
         talents: {
-            type: SchemaType.ARRAY,
-            items: { type: SchemaType.STRING }
+            type: "array",
+            items: { type: "string" }
         },
-        advice: { type: SchemaType.STRING, nullable: true },
-        confidence: { type: SchemaType.NUMBER }
+        advice: { type: "string", nullable: true },
+        confidence: { type: "number" }
     },
     required: ["petType", "petSchool", "petAge", "currentStats", "maxPossibleStats", "confidence"]
 };
@@ -58,9 +56,7 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "No image provided" }, { status: 400 });
         }
 
-        const model = genAI.getGenerativeModel({
-            model: "gemini-2.0-flash", 
-            systemInstruction: `
+        const systemInstruction = `
 You are Gamma's Archivist, a wise and expert scholar of the Spiral in Wizard101.
 Your knowledge comes from decades of study in the Arcanum's library, observing the Pet Pavilion, and consulting the Scrolls of Potential.
 You are NOT a game developer, code analyzer, or dataminer.
@@ -79,12 +75,7 @@ SEARCH PROTOCOL:
 - Verify obscure talent effects if needed.
 
 Today's Date: ${new Date().toLocaleDateString()}.
-            `,
-            generationConfig: {
-                responseMimeType: "application/json",
-                responseSchema: schema
-            }
-        });
+`;
 
         const prompt = `Analyze this Wizard101 pet stats screenshot:
 
@@ -125,13 +116,29 @@ Return JSON matching schema. Confidence 0-100 based on clarity.`;
         // Remove data:image/jpeg;base64, prefix if present
         const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
 
-        const result = await model.generateContent([
-            prompt,
-            { inlineData: { mimeType: "image/jpeg", data: base64Data } }
-        ]);
+        const contents = [
+            { text: systemInstruction },
+            { text: prompt },
+            {
+                inlineData: {
+                    mimeType: "image/jpeg",
+                    data: base64Data
+                }
+            }
+        ];
 
-        const responseText = result.response.text();
-        const data = JSON.parse(responseText);
+        const response = await ai.models.generateContent({
+            model: "gemini-2.0-flash",
+            contents: contents,
+            config: {
+                tools: [{ googleSearch: {} }],
+                responseMimeType: "application/json",
+                responseSchema: responseSchema
+            }
+        });
+
+        const responseText = response.text;
+        const data = JSON.parse(responseText || "{}");
 
         return NextResponse.json(data);
     } catch (error) {
