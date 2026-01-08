@@ -1,19 +1,21 @@
+import { useState, useEffect } from 'react';
 import { Pet } from '@/types/firestore';
 import { calculateTalentValue, calculateAllPotentials } from '@/lib/talent-formulas';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Trash2, Share2, EyeOff, Sparkles, Sword, Shield, Crosshair } from 'lucide-react';
+import { Trash2, Share2, EyeOff, Sparkles, Sword, Shield, Crosshair, Save, RotateCcw } from 'lucide-react';
 import { clsx } from 'clsx';
-import { ReactNode } from 'react';
+import { StatInputCell } from './pet/StatInputCell';
+import { motion, AnimatePresence } from 'motion/react';
 
-// Intersection type to handle both Firestore Pet and Client-Side Scan Result
+// Intersection type
 type DisplayPet = Pet & {
-    petSchool?: string; // Legacy/Client alias for school
-    petType?: string;   // Legacy/Client alias for body
+    petSchool?: string; 
+    petType?: string;   
     petAge?: string;
-    currentStats?: Pet['stats']; // Alias for stats
+    currentStats?: Pet['stats']; 
     advice?: string;
     listedInMarketplace?: boolean;
 };
@@ -25,18 +27,65 @@ type Props = {
     onListInMarketplace?: (pet: Pet) => void;
     onUnlistFromMarketplace?: (pet: Pet) => void;
     onDelete?: (pet: Pet) => void;
+    onUpdate?: (petId: string, stats: Pet['stats']) => Promise<void>;
 };
 
-export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnlistFromMarketplace, onDelete }: Props) {
-    if (!pet) return null;
-    const potentials = pet.stats ? calculateAllPotentials(pet.stats) : null;
+export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnlistFromMarketplace, onDelete, onUpdate }: Props) {
+    const [localStats, setLocalStats] = useState<Pet['stats'] | null>(null);
+    const [isSaving, setIsSaving] = useState(false);
+
+    // Sync state when pet changes or dialog opens
+    useEffect(() => {
+        if (pet) {
+            setLocalStats(pet.stats || pet.currentStats || { strength: 0, intellect: 0, agility: 0, will: 0, power: 0 });
+        }
+    }, [pet, open]);
+
+    if (!pet || !localStats) return null;
+
+    const potentials = calculateAllPotentials(localStats);
+    const originalStats = pet.stats || pet.currentStats || { strength: 0, intellect: 0, agility: 0, will: 0, power: 0 };
+    
+    const isDirty = JSON.stringify(localStats) !== JSON.stringify(originalStats);
+
+    const handleStatChange = (key: keyof Pet['stats'], val: number) => {
+        setLocalStats(prev => prev ? { ...prev, [key]: val } : null);
+    };
+
+    const handleSave = async () => {
+        if (!onUpdate || !pet.id) return;
+        try {
+            setIsSaving(true);
+            await onUpdate(pet.id, localStats);
+            // Optionally close or just show success state? 
+            // Bleeding edge interaction: Bar transforms to "Saved" then disappears.
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleReset = () => {
+        setLocalStats(originalStats);
+    };
 
     // Helper to format percentage
     const fmt = (val?: number) => val ? `${val}%` : '-';
 
     return (
-        <Dialog open={open} onOpenChange={(val) => !val && onClose()}>
-            <DialogContent className="max-w-2xl bg-background text-foreground border-border p-0 overflow-hidden font-serif">
+        <Dialog open={open} onOpenChange={(val) => {
+            if (!val) {
+                if (isDirty) {
+                    // Bleeding edge: Just close? Or confirm? 
+                    // 2026 UX prefers "Soft Close" -> We reset changes on close usually, or auto-save.
+                    // We'll reset for safety unless auto-save is desired.
+                    handleReset();
+                }
+                onClose();
+            }
+        }}>
+            <DialogContent className="max-w-2xl bg-background/95 backdrop-blur-xl text-foreground border-border p-0 overflow-hidden font-serif shadow-2xl">
                 
                 {/* Header */}
                 <DialogHeader className="p-6 pb-4 bg-muted/20 border-b">
@@ -60,59 +109,92 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                     </div>
                 </DialogHeader>
 
-                <div className="p-6 space-y-8 max-h-[75vh] overflow-y-auto">
+                <div className="relative p-6 space-y-8 max-h-[75vh] overflow-y-auto custom-scrollbar">
                     
                     {/* Stats Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         
-                        {/* Col 1: Base Stats */}
+                        {/* Col 1: Base Stats (Editable) */}
                         <div className="space-y-4">
-                            <h4 className="text-lg font-bold text-foreground border-b border-border pb-2">Base Stats</h4>
-                            {pet.stats || pet.currentStats ? (
-                                <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                                    <StatRow label="Strength" val={pet.stats?.strength || pet.currentStats?.strength || 0} max={255} />
-                                    <StatRow label="Intellect" val={pet.stats?.intellect || pet.currentStats?.intellect || 0} max={250} />
-                                    <StatRow label="Agility" val={pet.stats?.agility || pet.currentStats?.agility || 0} max={260} />
-                                    <StatRow label="Will" val={pet.stats?.will || pet.currentStats?.will || 0} max={260} />
-                                    <StatRow label="Power" val={pet.stats?.power || pet.currentStats?.power || 0} max={250} />
-                                </div>
-                            ) : (
-                                <span className="text-muted-foreground text-sm">No stats recorded.</span>
-                            )}
+                            <div className="flex justify-between items-center border-b border-border pb-2">
+                                <h4 className="text-lg font-bold text-foreground">Base Stats</h4>
+                                {isDirty && (
+                                    <span className="text-[10px] text-accent-gold animate-pulse">Modified</span>
+                                )}
+                            </div>
+                            
+                            <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+                                <StatInputCell 
+                                    label="Strength" 
+                                    value={localStats.strength} 
+                                    max={255} 
+                                    onChange={(v) => handleStatChange('strength', v)}
+                                />
+                                <StatInputCell 
+                                    label="Intellect" 
+                                    value={localStats.intellect} 
+                                    max={250} 
+                                    onChange={(v) => handleStatChange('intellect', v)}
+                                />
+                                <StatInputCell 
+                                    label="Agility" 
+                                    value={localStats.agility} 
+                                    max={260} 
+                                    onChange={(v) => handleStatChange('agility', v)}
+                                />
+                                <StatInputCell 
+                                    label="Will" 
+                                    value={localStats.will} 
+                                    max={260} 
+                                    onChange={(v) => handleStatChange('will', v)}
+                                />
+                                <StatInputCell 
+                                    label="Power" 
+                                    value={localStats.power} 
+                                    max={250} 
+                                    onChange={(v) => handleStatChange('power', v)}
+                                />
+                            </div>
                         </div>
 
-                        {/* Col 2: Max Potential */}
+                        {/* Col 2: Max Potential (Reactive) */}
                         <div className="space-y-4">
                             <h4 className="text-lg font-bold text-foreground border-b border-border pb-2">Max Potential</h4>
                             {potentials ? (
-                                <div className="space-y-3 text-sm">
+                                <div className="space-y-3 text-sm opacity-90 hover:opacity-100 transition-opacity">
                                     {/* Damage */}
-                                    <div className="flex items-center gap-2">
-                                        <Sword className="w-4 h-4 text-red-500" />
+                                    <div className="flex items-center gap-2 group">
+                                        <div className="p-1.5 bg-red-500/10 rounded-md group-hover:bg-red-500/20 transition-colors">
+                                           <Sword className="w-4 h-4 text-red-500" />
+                                        </div>
                                         <span className="text-red-500 font-bold w-16">Damage</span>
                                         <div className="flex gap-3 text-muted-foreground text-xs">
-                                            <span>Dlr:<span className="text-foreground ml-0.5">{fmt(potentials.damage.dealer)}</span></span>
-                                            <span>Gvr:<span className="text-foreground ml-0.5">{fmt(potentials.damage.giver)}</span></span>
-                                            <span>Bn:<span className="text-foreground ml-0.5">{fmt(potentials.damage.boon)}</span></span>
+                                            <span>Dlr:<span className="text-foreground ml-0.5 font-mono">{fmt(potentials.damage.dealer)}</span></span>
+                                            <span>Gvr:<span className="text-foreground ml-0.5 font-mono">{fmt(potentials.damage.giver)}</span></span>
+                                            <span>Bn:<span className="text-foreground ml-0.5 font-mono">{fmt(potentials.damage.boon)}</span></span>
                                         </div>
                                     </div>
                                     {/* Resist */}
-                                    <div className="flex items-center gap-2">
-                                        <Shield className="w-4 h-4 text-cyan-500" />
+                                    <div className="flex items-center gap-2 group">
+                                        <div className="p-1.5 bg-cyan-500/10 rounded-md group-hover:bg-cyan-500/20 transition-colors">
+                                            <Shield className="w-4 h-4 text-cyan-500" />
+                                        </div>
                                         <span className="text-cyan-500 font-bold w-16">Resist</span>
                                         <div className="flex gap-3 text-muted-foreground text-xs">
-                                            <span>Prf:<span className="text-foreground ml-0.5">{fmt(potentials.resist.proof)}</span></span>
-                                            <span>Dfy:<span className="text-foreground ml-0.5">{fmt(potentials.resist.defy)}</span></span>
-                                            <span>Wrd:<span className="text-foreground ml-0.5">{fmt(potentials.resist.ward)}</span></span>
+                                            <span>Prf:<span className="text-foreground ml-0.5 font-mono">{fmt(potentials.resist.proof)}</span></span>
+                                            <span>Dfy:<span className="text-foreground ml-0.5 font-mono">{fmt(potentials.resist.defy)}</span></span>
+                                            <span>Wrd:<span className="text-foreground ml-0.5 font-mono">{fmt(potentials.resist.ward)}</span></span>
                                         </div>
                                     </div>
                                     {/* Pierce */}
-                                    <div className="flex items-center gap-2">
-                                        <Crosshair className="w-4 h-4 text-yellow-500" />
+                                    <div className="flex items-center gap-2 group">
+                                        <div className="p-1.5 bg-yellow-500/10 rounded-md group-hover:bg-yellow-500/20 transition-colors">
+                                            <Crosshair className="w-4 h-4 text-yellow-500" />
+                                        </div>
                                         <span className="text-yellow-500 font-bold w-16">Pierce</span>
                                         <div className="flex gap-3 text-muted-foreground text-xs">
-                                            <span>Brk:<span className="text-foreground ml-0.5">{fmt(potentials.pierce.breaker)}</span></span>
-                                            <span>Prc:<span className="text-foreground ml-0.5">{fmt(potentials.pierce.piercer)}</span></span>
+                                            <span>Brk:<span className="text-foreground ml-0.5 font-mono">{fmt(potentials.pierce.breaker)}</span></span>
+                                            <span>Prc:<span className="text-foreground ml-0.5 font-mono">{fmt(potentials.pierce.piercer)}</span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -128,8 +210,7 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                         {pet.talents && pet.talents.length > 0 ? (
                             <div className="flex flex-wrap gap-3">
                                 {pet.talents.map((t, i) => {
-                                    const stats = pet.stats || pet.currentStats;
-                                    const val = stats ? calculateTalentValue(t, stats) : null;
+                                    const val = localStats ? calculateTalentValue(t, localStats) : null;
                                     return (
                                         <Badge key={i} variant="outline" className="px-3 py-1.5 border-border text-foreground bg-muted/30 hover:bg-muted transition-colors rounded-full flex items-center gap-2">
                                             <span className="uppercase font-bold tracking-wide text-xs">{t}</span>
@@ -142,6 +223,42 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                             <span className="text-muted-foreground text-sm italic">No talents manifested yet.</span>
                          )}
                     </div>
+
+                    {/* Floating Save Bar (Bleeding Edge) */}
+                    {/* Positioned absolutely within the scroll container or fixed relative to Dialog */}
+                    <AnimatePresence>
+                        {isDirty && (
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: 20, scale: 0.95 }}
+                                transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                                className="sticky bottom-4 left-0 right-0 z-50 flex justify-center w-full pointer-events-none"
+                            >
+                                <div className="pointer-events-auto flex items-center gap-2 p-1.5 pr-3 bg-foreground text-background rounded-full shadow-2xl shadow-black/50 border border-white/10 ring-1 ring-white/10">
+                                    <Button 
+                                        size="icon" 
+                                        variant="ghost" 
+                                        className="h-8 w-8 rounded-full hover:bg-background/20 text-background hover:text-background"
+                                        onClick={handleReset}
+                                        disabled={isSaving}
+                                    >
+                                        <RotateCcw className="w-4 h-4" />
+                                    </Button>
+                                    <Separator orientation="vertical" className="h-4 bg-background/20" />
+                                    <span className="text-xs font-bold pl-1">Unsaved Changes</span>
+                                    <Button 
+                                        size="sm" 
+                                        className="h-8 rounded-full bg-accent-gold text-black hover:bg-accent-gold/90 border-0 ml-2"
+                                        onClick={handleSave}
+                                        disabled={isSaving}
+                                    >
+                                        {isSaving ? "Saving..." : "Save Changes"}
+                                    </Button>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
 
                     {/* Gamma's Wisdom */}
                     {pet.advice && (
@@ -171,7 +288,7 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                                 }}
                             >
                                 <Trash2 className="w-4 h-4" />
-                                Release Pet
+                                Release
                             </Button>
                         )}
                         
@@ -196,7 +313,7 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                                         onClick={() => onUnlistFromMarketplace(pet)}
                                     >
                                         <EyeOff className="w-4 h-4" />
-                                        Unlist from Kiosk
+                                        Unlist
                                     </Button>
                                 )
                             ) : (
@@ -207,7 +324,7 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                                         onClick={() => onListInMarketplace(pet)}
                                     >
                                         <Share2 className="w-4 h-4" />
-                                        List in Kiosk
+                                        Kiosk List
                                     </Button>
                                 )
                             )}
@@ -216,18 +333,5 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                 </div>
             </DialogContent>
         </Dialog>
-    );
-}
-
-// Sub-component for Stats
-function StatRow({ label, val, max }: { label: string, val: number, max: number }) {
-    return (
-        <div className="flex justify-between items-center bg-muted/40 px-3 py-2 rounded">
-            <span className="text-muted-foreground">{label}</span>
-            <div className="flex items-baseline gap-1">
-                <span className="font-mono font-bold text-foreground">{val}</span>
-                <span className="text-[10px] text-muted-foreground/50">/{max}</span>
-            </div>
-        </div>
     );
 }

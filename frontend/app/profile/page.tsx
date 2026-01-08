@@ -247,7 +247,7 @@ export default function ProfilePage() {
                         <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-accent-gold shadow-xl bg-background">
                              {/* Fallback image if photoURL is missing/broken */}
                             <img 
-                                src={profile?.photoURL || 'https://api.dicebear.com/9.x/avataaars/svg?seed=Wizard'} 
+                                src={profile?.photoURL || 'https://api.dicebear.com/9.x/notionists/svg?seed=Sorcerer'} 
                                 alt={profile?.displayName} 
                                 className="w-full h-full object-cover" 
                             />
@@ -259,7 +259,8 @@ export default function ProfilePage() {
                     <div>
                         <h1 className="text-4xl font-bold font-serif tracking-tight">{profile?.displayName}</h1>
                         <p className="text-muted-foreground flex items-center gap-2">
-                             {profile?.email}
+                             {/* Email hidden for privacy */}
+                             <span className="text-sm italic opacity-50">Authorized Wizard</span>
                         </p>
                     </div>
                 </div>

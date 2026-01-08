@@ -26,7 +26,7 @@ import {
   Monitor,
   Check
 } from "lucide-react"
-import { useSession, signOut } from "next-auth/react"
+import { useSession, signOut } from "@/lib/auth-client"
 import { useTheme } from "next-themes"
 import { usePathname } from "next/navigation"
 import Link from "next/link"

@@ -100,3 +100,14 @@ export async function getUserPets(uid: string): Promise<Pet[]> {
         ...doc.data()
     } as Pet));
 }
+
+export async function updateUserPet(uid: string, petId: string, updates: Partial<Pet>): Promise<void> {
+    if (!uid || !petId) return;
+
+    const petDocRef = doc(db, "users", uid, "pets", petId);
+    
+    await updateDoc(petDocRef, {
+        ...updates,
+        updatedAt: serverTimestamp()
+    });
+}

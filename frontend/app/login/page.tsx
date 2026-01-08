@@ -1,15 +1,18 @@
 'use client';
 
 import React from 'react';
-import { signIn } from 'next-auth/react';
+import { signIn } from '@/lib/auth-client';
 import { GridPattern } from "@/components/magicui/grid-pattern"
 import { MagicCard } from "@/components/magicui/magic-card"
 import { MessageCircle, Shield } from 'lucide-react';
 import { clsx } from 'clsx';
 
 export default function LoginPage() {
-    const handleLogin = (provider: 'discord' | 'google') => {
-        signIn(provider, { callbackUrl: '/my-pets' });
+    const handleLogin = async (provider: 'discord' | 'google') => {
+        await signIn.social({
+            provider,
+            callbackURL: '/profile'
+        });
     };
 
     return (

@@ -32,3 +32,19 @@ env/
 # OS
 .DS_Store
 Thumbs.db
+
+# WizWad Assets
+*.wad
+*.mp3
+*.ogg
+*.wav
+*.png
+!frontend/**/*.png
+!public/**/*.png
+!docs/**/*.png
+tools/wizwad/output*
+tools/wizwad/input
+*.log
+
+# Local Tools (Scanning/Vectorizing)
+tools/

@@ -1,0 +1,54 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // --- Helper Functions ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    // --- 1. User Profiles & Social Graph ---
+    match /users/{userId} {
+      // SECURITY FIX: Only Owner can read/write their own profile.
+      // Public profiles are generated server-side via Admin SDK, which bypasses this.
+      // This prevents 'db.collection("users").get()' leaks.
+      allow read, write: if isOwner(userId);
+
+      // -- Subcollections --
+      match /wizards/{wizardId} {
+        allow read: if true; // Public Profiles need this (via Client logic if ever used, keeping safe)
+        allow write: if isOwner(userId);
+      }
+      
+      match /pets/{petId} {
+        allow read: if true; // Public Tome needs this
+        allow write: if isOwner(userId);
+      }
+    }
+
+    // --- 2. Marketplace Listings ---
+    match /{path=**}/market_listings/{listing} {
+      allow read: if true; // Public Bazaar
+      allow create: if isSignedIn();
+      allow update, delete: if isSignedIn() && request.auth.uid == resource.data.sellerId;
+    }
+
+    // --- 3. Marketplace Orders (Private Transactions) ---
+    match /{path=**}/market_orders/{order} {
+      allow create: if isSignedIn();
+      allow read, update: if isSignedIn() && (
+        request.auth.uid == resource.data.buyerId || 
+        request.auth.uid == resource.data.sellerId
+      );
+    }
+
+    // Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

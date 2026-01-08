@@ -8,10 +8,14 @@ import {
     Sword, Shield, Crosshair, Sparkles, BicepsFlexed, ArrowRight, Dna,
     CircleDashed
 } from 'lucide-react';
+import { useSession } from '@/lib/auth-client';
+import { updateUserPet } from '@/services/profile-service';
+import { toast } from 'sonner';
 
 type Props = {
     pet: Pet;
     className?: string;
+    onUpdate?: () => void; // Optional refresh callback if needed
 };
 
 // --- Helpers ---
@@ -31,11 +35,25 @@ function getTalentMetadata(name: string) {
     return match || { icon: Dna, color: 'text-muted-foreground bg-muted/10 border-border/50' };
 }
 
-export function PetCard({ pet, className }: Props) {
+export function PetCard({ pet, className, onUpdate }: Props) {
     const [open, setOpen] = React.useState(false);
+    const { data: session } = useSession();
 
     // Keep the "List View" simple and clean
     const displayTalents = pet.talents.slice(0, 4); 
+    const isOwner = session?.user?.id === pet.userId;
+
+    const handlePetUpdate = async (petId: string, stats: Pet['stats']) => {
+        if (!isOwner) return;
+        try {
+            await updateUserPet(pet.userId, petId, { stats });
+            toast.success("Pet stats updated.");
+            if (onUpdate) onUpdate(); // Trigger parent refresh if provided
+        } catch (err) {
+            console.error(err);
+            toast.error("Failed to update pet.");
+        }
+    };
 
     return (
         <>
@@ -84,6 +102,7 @@ export function PetCard({ pet, className }: Props) {
                 pet={pet}
                 open={open}
                 onClose={() => setOpen(false)}
+                onUpdate={isOwner ? handlePetUpdate : undefined}
             />
         </>
     );

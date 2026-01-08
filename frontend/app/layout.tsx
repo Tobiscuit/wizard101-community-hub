@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   },
 };
 
-import { SessionProvider } from "next-auth/react";
+
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
 import { FirebaseAuthProvider } from "@/components/providers/FirebaseAuthProvider";
 
@@ -66,7 +66,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SessionProvider>
             <FirebaseAuthProvider>
                 <ThemeProvider
                 attribute="class"
@@ -86,7 +85,6 @@ export default function RootLayout({
                 <Toaster />
               </ThemeProvider>
             </FirebaseAuthProvider>
-        </SessionProvider>
       </body>
     </html>
   );
