@@ -110,12 +110,12 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "Marketplace",
-          url: "/marketplace",
-        },
-        {
           title: "Guilds",
           url: "/guilds",
+        },
+        {
+          title: "Marketplace",
+          url: "/marketplace",
         },
         {
           title: "Olde Town",
