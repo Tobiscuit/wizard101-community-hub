@@ -6,9 +6,10 @@ import { GridPattern } from "@/components/magicui/grid-pattern"
 import { MagicCard } from "@/components/magicui/magic-card"
 import { PetDetailDialog } from '@/components/pet-detail-dialog';
 import { Button } from "@/components/ui/button"
-import { Plus, Loader2 } from 'lucide-react';
+import { Plus, Loader2, Sword, Shield, Crosshair } from 'lucide-react';
 import Link from 'next/link';
 import { getPets, listPetInMarketplace, unlistPetFromMarketplace, deletePet, getUserProfile } from '@/app/actions';
+import { calculateTalentValue, calculateAllPotentials } from '@/lib/talent-formulas';
 
 
 import { ListingConfigurationModal, ListingConfig } from '@/components/ListingConfigurationModal';
@@ -237,20 +238,51 @@ export default function MyPetsPage() {
                                         </div>
                                     </div>
 
-                                    {/* Talents List (Scrollable if absolutely massive, but usually fits) */}
-                                    <div className="flex-1 p-5 pt-0 flex flex-col gap-2">
-                                        {pet.talents?.map((talent: string, i: number) => {
-                                            const val = calculateTalentValue(talent, stats);
+                                    {/* Max Potential Grid */}
+                                    <div className="flex-1 p-5 pt-0 flex flex-col justify-center space-y-3">
+                                        {(() => {
+                                            const potentials = calculateAllPotentials(stats);
+                                            const fmt = (v: number) => `${v}%`;
+                                            
                                             return (
-                                                <div key={i} className="flex justify-between items-center text-xs px-2.5 py-1.5 bg-primary/5 hover:bg-primary/10 border border-primary/10 rounded-md transition-colors">
-                                                    <span className="font-semibold uppercase truncate text-[10px] tracking-wide">{talent}</span>
-                                                    {val && <span className="font-mono text-accent-gold/90 text-[10px] whitespace-nowrap ml-1">{val}</span>}
-                                                </div>
+                                                <>
+                                                    {/* Damage Row */}
+                                                    <div className="flex items-center gap-2 text-xs">
+                                                        <div className="p-1 bg-red-500/10 rounded">
+                                                            <Sword className="w-3 h-3 text-red-500" />
+                                                        </div>
+                                                        <div className="flex gap-2 text-muted-foreground w-full justify-between">
+                                                            <span>Dlr:<b className="text-foreground ml-0.5">{fmt(potentials.damage.dealer)}</b></span>
+                                                            <span>Gvr:<b className="text-foreground ml-0.5">{fmt(potentials.damage.giver)}</b></span>
+                                                            <span>Bn:<b className="text-foreground ml-0.5">{fmt(potentials.damage.boon)}</b></span>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Resist Row */}
+                                                    <div className="flex items-center gap-2 text-xs">
+                                                        <div className="p-1 bg-cyan-500/10 rounded">
+                                                            <Shield className="w-3 h-3 text-cyan-500" />
+                                                        </div>
+                                                        <div className="flex gap-2 text-muted-foreground w-full justify-between">
+                                                            <span>Prf:<b className="text-foreground ml-0.5">{fmt(potentials.resist.proof)}</b></span>
+                                                            <span>Dfy:<b className="text-foreground ml-0.5">{fmt(potentials.resist.defy)}</b></span>
+                                                            <span>Wrd:<b className="text-foreground ml-0.5">{fmt(potentials.resist.ward)}</b></span>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Pierce Row */}
+                                                    <div className="flex items-center gap-2 text-xs">
+                                                        <div className="p-1 bg-yellow-500/10 rounded">
+                                                            <Crosshair className="w-3 h-3 text-yellow-500" />
+                                                        </div>
+                                                        <div className="flex gap-2 text-muted-foreground w-full justify-between">
+                                                            <span>Brk:<b className="text-foreground ml-0.5">{fmt(potentials.pierce.breaker)}</b></span>
+                                                            <span>Prc:<b className="text-foreground ml-0.5">{fmt(potentials.pierce.piercer)}</b></span>
+                                                        </div>
+                                                    </div>
+                                                </>
                                             );
-                                        })}
-                                        {(!pet.talents || pet.talents.length === 0) && (
-                                            <span className="text-xs text-muted-foreground italic p-2 text-center opacity-50">No talents known</span>
-                                        )}
+                                        })()}
                                     </div>
                                     
                                     {/* Bottom aesthetic strip */}
