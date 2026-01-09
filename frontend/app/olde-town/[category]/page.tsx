@@ -35,24 +35,33 @@ const CATEGORY_MAP: Record<string, string> = {
     'feedback': 'Feedback'
 };
 
+import { MOCK_THREADS } from '@/services/mock-data';
+
 // --- Data Fetching ---
 async function getCategoryThreads(categoryId: string): Promise<ForumThread[]> {
     const db = getAdminFirestore();
     
-    // Convert url-slug to Enum if needed, or store as lowercase "general"
-    // Assuming we store as lowercase in DB for simplicity or match exact string
-    // Let's assume we store exact string "general" matches the URL param
-    
-    const threadsSnap = await db.collection('threads')
-        .where('category', '==', categoryId)
-        .orderBy('lastReplyAt', 'desc')
-        .limit(20)
-        .get();
+    try {
+        const threadsSnap = await db.collection('threads')
+            .where('category', '==', categoryId)
+            .orderBy('lastReplyAt', 'desc')
+            .limit(20)
+            .get();
 
-    return threadsSnap.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    } as unknown as ForumThread));
+        const realThreads = threadsSnap.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        } as unknown as ForumThread));
+
+        // Filter Mocks for this category
+        const mockThreads = MOCK_THREADS.filter(t => t.category === categoryId);
+
+        return [...realThreads, ...mockThreads];
+    } catch (e) {
+        console.warn("Firestore Threads Error (Using Mocks):", e);
+         // Filter Mocks for this category
+        return MOCK_THREADS.filter(t => t.category === categoryId);
+    }
 }
 
 // --- Metadata ---

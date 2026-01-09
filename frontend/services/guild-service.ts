@@ -2,16 +2,33 @@ import { db } from "@/lib/firebase";
 import { collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, serverTimestamp, Timestamp } from "firebase/firestore";
 import { Guild } from "@/types/firestore";
 
+import { MOCK_GUILDS } from "./mock-data";
+
 export async function getGuilds(faction?: string): Promise<Guild[]> {
-    const guildsRef = collection(db, "guilds");
-    let q = query(guildsRef, orderBy("memberCount", "desc"));
+    try {
+        const guildsRef = collection(db, "guilds");
+        let q = query(guildsRef, orderBy("memberCount", "desc"));
 
-    if (faction && faction !== 'all') {
-        q = query(guildsRef, where("faction", "==", faction), orderBy("memberCount", "desc"));
+        if (faction && faction !== 'all') {
+            q = query(guildsRef, where("faction", "==", faction), orderBy("memberCount", "desc"));
+        }
+
+        const snapshot = await getDocs(q);
+        const realGuilds = snapshot.docs.map(doc => doc.data() as Guild);
+        
+        // Filter mocks by faction if needed
+        const filteredMocks = (faction && faction !== 'all') 
+            ? MOCK_GUILDS.filter(g => g.faction.toLowerCase() === faction.toLowerCase() || g.faction === faction)
+            : MOCK_GUILDS;
+
+        return [...realGuilds, ...filteredMocks];
+    } catch (e) {
+        console.warn("Firestore Guilds Error (Using Mocks):", e);
+        const filteredMocks = (faction && faction !== 'all') 
+            ? MOCK_GUILDS.filter(g => g.faction.toLowerCase() === faction.toLowerCase() || g.faction === faction)
+            : MOCK_GUILDS;
+        return filteredMocks;
     }
-
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => doc.data() as Guild);
 }
 
 export async function getGuildById(id: string): Promise<Guild | null> {
