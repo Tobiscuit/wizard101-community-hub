@@ -113,8 +113,6 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
 
                 <div className="relative p-6 space-y-8 max-h-[75vh] overflow-y-auto custom-scrollbar">
                     
-                <div className="relative p-6 space-y-8 max-h-[75vh] overflow-y-auto custom-scrollbar">
-                    
                     {/* Workbench Layout: Side-by-Side Tuning */}
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                         
@@ -250,7 +248,6 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                     </div>
 
                     {/* Floating Save Bar (Bleeding Edge) */}
-                    {/* Positioned absolutely within the scroll container or fixed relative to Dialog */}
                     <AnimatePresence>
                         {isDirty && (
                             <motion.div 

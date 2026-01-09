@@ -13,7 +13,7 @@ import { calculateTalentValue, calculateAllPotentials } from '@/lib/talent-formu
 
 
 import { ListingConfigurationModal, ListingConfig } from '@/components/ListingConfigurationModal';
-import { calculateTalentValue } from '@/lib/talent-formulas';
+
 
 export default function MyPetsPage() {
     const { data: session, isPending } = useSession();
