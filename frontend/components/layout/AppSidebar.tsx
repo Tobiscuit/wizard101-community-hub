@@ -31,12 +31,8 @@ import { useTheme } from "next-themes"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
 import { ModeToggle } from "@/components/mode-toggle"
+import { WizardAvatar } from "@/components/ui/wizard-avatar"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -338,12 +334,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                   tooltip="User Profile"
                 >
-                  <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarImage src={session?.user?.image || ""} alt={session?.user?.name || ""} />
-                    <AvatarFallback className="rounded-lg">
-                        {session?.user?.name ? session.user.name.charAt(0).toUpperCase() : <User className="w-4 h-4" />}
-                    </AvatarFallback>
-                  </Avatar>
+                  <WizardAvatar 
+                      name={session?.user?.name} 
+                      className="h-8 w-8 rounded-lg"
+                  />
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">{session?.user?.name || "Guest Wizard"}</span>
                     {/* Privacy: Hide Email */}
@@ -360,12 +354,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               >
                 <DropdownMenuLabel className="p-0 font-normal">
                   <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                    <Avatar className="h-8 w-8 rounded-lg">
-                      <AvatarImage src={session?.user?.image || ""} alt={session?.user?.name || ""} />
-                      <AvatarFallback className="rounded-lg">
-                        {session?.user?.name ? session.user.name.charAt(0).toUpperCase() : <User className="w-4 h-4" />}
-                      </AvatarFallback>
-                    </Avatar>
+                     <WizardAvatar 
+                          name={session?.user?.name} 
+                          className="h-8 w-8 rounded-lg"
+                      />
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">{session?.user?.name || "Guest Wizard"}</span>
                       {/* Privacy: Hide Email */}

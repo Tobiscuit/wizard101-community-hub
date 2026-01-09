@@ -1,6 +1,8 @@
 "use client";
 
+
 import React from 'react';
+import { WizardAvatar } from '@/components/ui/wizard-avatar';
 import { useProfile } from '@/hooks/use-profile';
 import { useSession, signIn } from '@/lib/auth-client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -245,11 +247,9 @@ export default function ProfilePage() {
                 <div className="flex items-center gap-6">
                     <div className="relative">
                         <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-accent-gold shadow-xl bg-background">
-                             {/* Fallback image if photoURL is missing/broken */}
-                            <img 
-                                src={profile?.photoURL || 'https://api.dicebear.com/9.x/notionists/svg?seed=Sorcerer'} 
-                                alt={profile?.displayName} 
-                                className="w-full h-full object-cover" 
+                            <WizardAvatar 
+                                name={profile?.displayName || 'Unknown Wizard'} 
+                                className="w-full h-full"
                             />
                         </div>
                         <div className="absolute -bottom-2 -right-2 bg-background rounded-full p-1.5 border shadow-sm">
