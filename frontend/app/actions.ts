@@ -116,7 +116,7 @@ export async function listPetInMarketplace(petId: string, listingData: any, disc
         const potentials = calculateAllPotentials(statsToCalculate);
 
         // 3. Create listing
-        await db.collection("marketplace_listings").add({
+        await db.collection("market_listings").add({
             petId: petId,
             userId: session.user.id,
             ownerDisplayName: session.user.name || "Unknown Wizard",
@@ -131,6 +131,7 @@ export async function listPetInMarketplace(petId: string, listingData: any, disc
                 type: "Empowers",
                 amount: 50
             },
+            status: 'active', // REQUIRED for client-side query
             listedAt: new Date()
         });
 
@@ -150,7 +151,7 @@ export async function listPetInMarketplace(petId: string, listingData: any, disc
 export async function getMarketplaceListings() {
     try {
         const db = getAdminFirestore();
-        const listingsRef = db.collection("marketplace_listings");
+        const listingsRef = db.collection("market_listings");
         const snapshot = await listingsRef.orderBy("listedAt", "desc").limit(50).get();
 
         // Get all unique user IDs to fetch presence
@@ -186,7 +187,7 @@ export async function getMarketplaceListings() {
 export async function getListing(listingId: string) {
     try {
         const db = getAdminFirestore();
-        const doc = await db.collection("marketplace_listings").doc(listingId).get();
+        const doc = await db.collection("market_listings").doc(listingId).get();
 
         if (!doc.exists) {
             return { success: false, error: "Listing not found" };
@@ -229,7 +230,7 @@ export async function unlistPetFromMarketplace(petId: string) {
         const db = getAdminFirestore();
 
         // 1. Find and delete listing
-        const listingsRef = db.collection("marketplace_listings");
+        const listingsRef = db.collection("market_listings");
         const snapshot = await listingsRef.where("petId", "==", petId).get();
 
         const batch = db.batch();
@@ -269,7 +270,7 @@ export async function deletePet(petId: string) {
         batch.delete(petRef);
 
         // 2. Delete any associated marketplace listings
-        const listingsRef = db.collection("marketplace_listings");
+        const listingsRef = db.collection("market_listings");
         const snapshot = await listingsRef.where("petId", "==", petId).get();
         snapshot.docs.forEach(doc => {
             batch.delete(doc.ref);

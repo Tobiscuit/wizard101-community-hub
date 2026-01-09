@@ -15,6 +15,15 @@ import { calculateTalentValue, calculateAllPotentials } from '@/lib/talent-formu
 import { ListingConfigurationModal, ListingConfig } from '@/components/ListingConfigurationModal';
 
 
+function formatPetName(name: string) {
+    if (!name) return "";
+    return name
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+}
+
 export default function MyPetsPage() {
     const { data: session, isPending } = useSession();
     const [pets, setPets] = useState<any[]>([]);
@@ -205,9 +214,14 @@ export default function MyPetsPage() {
 
                                     {/* Card Header area - TIGHTENED SPACING */}
                                     <div className="p-5 pb-2">
-                                        <h3 className="font-serif font-bold text-lg text-accent-gold mb-1 group-hover:text-foreground transition-colors tracking-wide leading-tight line-clamp-2">
-                                            {pet.petNickname || pet.petType}
+                                        <h3 className="font-serif font-bold text-lg text-accent-gold mb-0.5 group-hover:text-foreground transition-colors tracking-wide leading-tight line-clamp-2">
+                                            {formatPetName(pet.petNickname || pet.petType)}
                                         </h3>
+                                        {/* Pet Type Badge - Always Visible */}
+                                        <div className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase mb-1.5 opacity-80">
+                                            {pet.petType}
+                                        </div>
+
                                         <div className="flex gap-2 text-xs text-muted-foreground mt-1">
                                             <span className="px-2 py-0.5 bg-muted rounded border border-white/5">{pet.petSchool}</span>
                                             <span className="px-2 py-0.5 bg-muted rounded border border-white/5">{pet.petAge}</span>
