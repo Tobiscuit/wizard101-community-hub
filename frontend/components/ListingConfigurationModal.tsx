@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Gem, DollarSign, MessageCircle } from 'lucide-react';
 import { clsx } from 'clsx';
 import { calculateAllPotentials } from '@/lib/talent-formulas';
-import { MagicalButton } from './MagicalButton';
+import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -176,13 +176,13 @@ export function ListingConfigurationModal({ pet, isOpen, onClose, onConfirm, sav
                         </div>
                     )}
 
-                    <MagicalButton
+                    <Button
                         type="submit"
-                        className="w-full"
+                        className="w-full bg-accent-gold text-primary-foreground hover:bg-accent-gold/90"
                         size="lg"
                     >
                         Confirm Listing
-                    </MagicalButton>
+                    </Button>
                 </form>
             </DialogContent>
         </Dialog>
