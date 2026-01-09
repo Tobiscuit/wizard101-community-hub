@@ -31,11 +31,21 @@ export default function MarketplacePage() {
         loadListings();
     }, []);
 
+    const [error, setError] = useState<string | null>(null);
+
     async function loadListings() {
         setLoading(true);
+        setError(null);
         try {
             const data = await getListings();
             setListings(data);
+        } catch (err: any) {
+            console.error("Marketplace Load Error:", err);
+            if (err.message.includes("requires an index")) {
+               setError("System is building indexes. Please wait 2-5 minutes and refresh.");
+            } else {
+               setError(err.message || "Failed to load listings");
+            }
         } finally {
             setLoading(false);
         }
@@ -72,6 +82,12 @@ export default function MarketplacePage() {
 
     return (
         <div className="container py-10 animate-in fade-in duration-500">
+             {error && (
+                <div className="mb-6 p-4 border border-red-500/20 bg-red-500/10 rounded-xl text-red-500 flex items-center gap-2">
+                    <Info className="w-5 h-5" />
+                    <p>{error}</p>
+                </div>
+             )}
              <div className="flex justify-between items-center mb-10">
                 <div>
                      <h1 className="text-4xl font-serif font-bold flex items-center gap-3">
