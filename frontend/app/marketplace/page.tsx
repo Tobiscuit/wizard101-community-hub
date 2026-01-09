@@ -180,7 +180,9 @@ export default function MarketplacePage() {
                         <CardHeader className="pb-3">
                             <div className="flex justify-between items-start">
                                 <Badge variant="outline" className="capitalize">{item.type.replace('_', ' ')}</Badge>
-                                <span className="text-xs text-muted-foreground">{new Date((item.createdAt as any).seconds * 1000).toLocaleDateString()}</span>
+                                <span className="text-xs text-muted-foreground">
+                                    {item.createdAt ? new Date((item.createdAt as any).seconds * 1000).toLocaleDateString() : 'Just now'}
+                                </span>
                             </div>
                             <CardTitle className="text-lg mt-2 truncate">{item.title}</CardTitle>
                         </CardHeader>

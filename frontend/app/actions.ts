@@ -132,6 +132,7 @@ export async function listPetInMarketplace(petId: string, listingData: any, disc
                 amount: 50
             },
             status: 'active', // REQUIRED for client-side query
+            createdAt: new Date(),
             listedAt: new Date()
         });
 
