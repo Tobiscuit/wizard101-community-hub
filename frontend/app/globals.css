@@ -19,6 +19,7 @@
     --muted-foreground: 200 10% 40%;
     --accent: 44 40% 92%;
     --accent-foreground: 196 100% 14%;
+    --accent-gold: 45 93% 47%; /* Premium Gold */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 44 25% 85%;
@@ -242,6 +243,7 @@
   --color-sidebar-foreground: hsl(var(--sidebar-foreground));
   --color-sidebar-background: hsl(var(--sidebar-background));
   --color-sidebar: hsl(var(--sidebar));
+  --color-accent-gold: hsl(var(--accent-gold));
   
   --animate-marquee: marquee var(--duration) linear infinite;
   --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;

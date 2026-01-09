@@ -303,7 +303,7 @@ export default function ProfilePage() {
                 {/* Left Col: Pets (The Tome) */}
                 <div className="lg:col-span-2 space-y-6">
                     <div className="flex items-center justify-between">
-                        <h2 className="text-2xl font-bold font-serif">Pet Tome</h2>
+                        <h2 className="text-2xl font-bold font-serif">My Pets</h2>
                         <div className="flex gap-2">
                              <Badge variant="outline" className="cursor-pointer hover:bg-accent">All</Badge>
                              <Badge variant="outline" className="cursor-pointer hover:bg-accent">Lendable</Badge>
