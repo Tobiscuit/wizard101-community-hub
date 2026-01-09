@@ -100,7 +100,7 @@ Today's Date: ${new Date().toLocaleDateString()}.
    - "150/250" → current=150, max=250
 
 6. Talents: LIST ALL TALENTS visible on the LEFT side under the "TALENTS" header.
-   - Examples: "Pain-Giver", "Spell-Proof", "Mighty", "Storm-Dealer".
+   - Examples: "Pain-Giver", "Spell-Proof", "Mighty", "Storm-Dealer", "Medic", "Healer", "Critical Striker", "Defender".
    - Common Selfish Talents (Recognize these):
      - Mighty (STR+65), Thinking Cap (WILL+65), Relentless (AGI+65), Brilliant (INT+65), Powerful (POW+65)
      - Best of Show, Cautious, Unshakable, Vigorous, Early Bird, Resourceful
