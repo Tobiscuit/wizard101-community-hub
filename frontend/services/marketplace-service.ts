@@ -2,18 +2,28 @@ import { db } from "@/lib/firebase";
 import { collection, doc, getDocs, getDoc, setDoc, updateDoc, query, where, orderBy, serverTimestamp, Timestamp, addDoc } from "firebase/firestore";
 import { MarketplaceListing, MarketOrder } from "@/types/firestore";
 
+import { MOCK_LISTINGS } from "./mock-listings";
+
 // --- Listings ---
 
 export async function getListings(type?: string) {
-    const ref = collection(db, "market_listings");
-    let q = query(ref, where("status", "==", "active"), orderBy("createdAt", "desc"));
-    
-    if (type && type !== 'all') {
-        q = query(ref, where("status", "==", "active"), where("type", "==", type), orderBy("createdAt", "desc"));
+    try {
+        const ref = collection(db, "market_listings");
+        let q = query(ref, where("status", "==", "active"), orderBy("createdAt", "desc"));
+        
+        if (type && type !== 'all') {
+            q = query(ref, where("status", "==", "active"), where("type", "==", type), orderBy("createdAt", "desc"));
+        }
+        
+        const snap = await getDocs(q);
+        const realListings = snap.docs.map(d => d.data() as MarketplaceListing);
+        
+        // Merge with Mocks (Real first, then Mocks)
+        return [...realListings, ...MOCK_LISTINGS];
+    } catch (error) {
+        console.warn("Firestore Query Failed (Using Mocks Only):", error);
+        return MOCK_LISTINGS;
     }
-    
-    const snap = await getDocs(q);
-    return snap.docs.map(d => d.data() as MarketplaceListing);
 }
 
 export async function createListing(uid: string, username: string, data: Partial<MarketplaceListing>) {
