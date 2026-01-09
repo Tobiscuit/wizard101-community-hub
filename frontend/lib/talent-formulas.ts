@@ -75,9 +75,13 @@ export function calculateAllPotentials(stats: Stats) {
     // Base Variables
     const damageBase = (2 * strength + 2 * will + power);
     const resistBase = (2 * strength + 2 * agility + power);
-
     const accuracyBase = (2 * intellect + 2 * agility + power);
     const pipsBase = (2 * strength + 2 * intellect + power);
+    const critBase = (2 * agility + 2 * will + power);
+    // Healing usually tracks Damage (Str/Will/Pow)
+    const healBase = damageBase; 
+    // Stun Resist usually tracks Resist (Str/Agi/Pow)
+    const stunBase = resistBase;
 
     return {
         damage: {
@@ -88,19 +92,34 @@ export function calculateAllPotentials(stats: Stats) {
         resist: {
             proof: Math.round(resistBase / 125),        // ~10-11%
             defy: Math.round(resistBase / 250),         // ~5-6%
-            ward: Math.round(resistBase / 80),          // ~15-16%
+            ward: Math.round(resistBase / 80),          // ~15%
         },
         pierce: {
             breaker: Math.round(resistBase / 400),      // ~3-4%
             piercer: Math.round(resistBase / 600),      // ~2-3%
         },
         accuracy: {
-            sniper: Math.round((accuracyBase * 3) / 400), // ~9-10% (Hypothetical Max)
-            sharp: Math.round((accuracyBase * 1) / 200),  // ~6% (Sharp-Shot)
+            sniper: Math.round((accuracyBase * 3) / 400), // ~9-10%
+            sharp: Math.round((accuracyBase * 1) / 200),  // ~6%
             shot: Math.round((accuracyBase * 1) / 400),   // ~3%
         },
         pips: {
             plenty: Math.round(pipsBase / 250),           // ~5%
+        },
+        critical: {
+            striker: Math.round(critBase / 50),          // Rating
+            hitter: Math.round(critBase / 60),           // Rating
+        },
+        block: {
+            defender: Math.round(critBase / 40),         // Rating
+            blocker: Math.round(critBase / 50),          // Rating
+        },
+        healing: {
+            medic: Math.round((healBase * 1) / 150),     // ~8%
+            healer: Math.round((healBase * 1) / 200),    // ~6%
+        },
+        stun: {
+            recalcitrant: Math.round(stunBase / 125),    // ~10%
         }
     };
 }

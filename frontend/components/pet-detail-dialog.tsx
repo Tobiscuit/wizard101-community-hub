@@ -173,7 +173,7 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                                 </div>
 
                                 {potentials ? (
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                                         {/* Damage */}
                                         <div className="relative overflow-hidden group rounded-xl border border-red-500/10 bg-gradient-to-br from-red-500/5 to-transparent p-4 transition-all duration-300 hover:border-red-500/30">
                                             <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
@@ -247,6 +247,60 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                                                 <div className="flex justify-between items-baseline text-xs">
                                                     <span className="text-muted-foreground">Piercer</span>
                                                     <span className="font-mono text-yellow-200/60">{fmt(potentials.pierce.piercer)}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Critical & Block */}
+                                        <div className="relative overflow-hidden group rounded-xl border border-orange-500/10 bg-gradient-to-br from-orange-500/5 to-transparent p-4 transition-all duration-300 hover:border-orange-500/30">
+                                            <div className="flex justify-between items-start mb-2 relative z-10">
+                                                <span className="text-orange-400 font-bold uppercase tracking-widest text-[10px]">Crit & Block</span>
+                                                <Zap className="w-4 h-4 text-orange-400" />
+                                            </div>
+                                            <div className="space-y-2 relative z-10">
+                                                <div className="grid grid-cols-2 gap-2">
+                                                    <div>
+                                                        <span className="text-[9px] uppercase text-muted-foreground block mb-0.5">Striker</span>
+                                                        <span className="font-mono font-bold text-orange-100 text-sm">+{potentials.critical?.striker || '-'}</span>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-[9px] uppercase text-muted-foreground block mb-0.5">Defender</span>
+                                                        <span className="font-mono font-bold text-blue-100 text-sm">+{potentials.block?.defender || '-'}</span>
+                                                    </div>
+                                                </div>
+                                                <div className="w-full h-px bg-orange-500/10 my-1" />
+                                                <div className="grid grid-cols-2 gap-2 text-xs">
+                                                    <div className="flex justify-between">
+                                                        <span className="text-muted-foreground">Hitter</span>
+                                                        <span className="font-mono text-orange-200/60">+{potentials.critical?.hitter || '-'}</span>
+                                                    </div>
+                                                    <div className="flex justify-between">
+                                                        <span className="text-muted-foreground">Blocker</span>
+                                                        <span className="font-mono text-blue-200/60">+{potentials.block?.blocker || '-'}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Healing & Stun */}
+                                        <div className="relative overflow-hidden group rounded-xl border border-pink-500/10 bg-gradient-to-br from-pink-500/5 to-transparent p-4 transition-all duration-300 hover:border-pink-500/30">
+                                             <div className="flex justify-between items-start mb-2 relative z-10">
+                                                <span className="text-pink-400 font-bold uppercase tracking-widest text-[10px]">Support</span>
+                                                <Activity className="w-4 h-4 text-pink-400" />
+                                            </div>
+                                            <div className="space-y-1 relative z-10">
+                                                <div className="flex justify-between items-baseline">
+                                                    <span className="text-foreground/70 text-sm">Medic</span>
+                                                    <span className="text-xl font-mono font-bold text-pink-100">{fmt(potentials.healing?.medic)}</span>
+                                                </div>
+                                                <div className="w-full h-px bg-pink-500/10 my-1" />
+                                                <div className="flex justify-between items-baseline text-xs">
+                                                    <span className="text-muted-foreground">Healer</span>
+                                                    <span className="font-mono text-pink-200/60">{fmt(potentials.healing?.healer)}</span>
+                                                </div>
+                                                <div className="flex justify-between items-baseline text-xs mt-1">
+                                                    <span className="text-muted-foreground text-[10px]">Stun Resist</span>
+                                                    <span className="font-mono text-stone-200/60">{fmt(potentials.stun?.recalcitrant)}</span>
                                                 </div>
                                             </div>
                                         </div>
