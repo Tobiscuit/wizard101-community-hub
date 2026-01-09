@@ -156,7 +156,7 @@ export default function MyPetsPage() {
     if (!session) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center p-4 text-center">
-                <h1 className="text-2xl font-serif text-accent-gold mb-4">My Pet Tome</h1>
+                <h1 className="text-2xl font-serif text-accent-gold mb-4">My Pets</h1>
                 <p className="text-foreground/80 mb-6">Please login to view your saved pets.</p>
                 <Link href="/login">
                     <Button>Login</Button>
@@ -179,7 +179,7 @@ export default function MyPetsPage() {
             <div className="container mx-auto max-w-7xl pt-8 pb-16 px-4 space-y-8">
                 <div className="flex flex-col items-center text-center space-y-4">
                     <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-tight text-foreground drop-shadow-md">
-                        My <span className="text-accent-gold">Tome</span>
+                        My <span className="text-accent-gold">Pets</span>
                     </h1>
                     <p className="text-lg text-muted-foreground max-w-2xl font-light">
                         Manage your collection, list pets for hatching, and track your legacy.
