@@ -193,7 +193,7 @@ export default function MyPetsPage() {
                                 <MagicCard 
                                     key={pet.id}
                                     onClick={() => setSelectedPet(pet)}
-                                    className="cursor-pointer border-accent-gold/20 hover:border-accent-gold/50 transition-all duration-500 flex flex-col justify-between p-0 hover:-translate-y-1 hover:shadow-lg relative overflow-hidden h-full group" 
+                                    className="cursor-pointer border-accent-gold/20 hover:border-accent-gold/50 transition-all duration-500 flex flex-col p-0 hover:-translate-y-1 hover:shadow-lg relative overflow-hidden h-full group" 
                                     gradientColor="#FFD700" 
                                     gradientOpacity={0.1}
                                 >
@@ -203,12 +203,12 @@ export default function MyPetsPage() {
                                         </div>
                                     )}
 
-                                    {/* Card Header area */}
-                                    <div className="p-5 pb-3">
-                                        <h3 className="font-serif font-bold text-lg text-accent-gold mb-1 group-hover:text-foreground transition-colors tracking-wide leading-tight line-clamp-2 min-h-[3.5rem]">
+                                    {/* Card Header area - TIGHTENED SPACING */}
+                                    <div className="p-5 pb-2">
+                                        <h3 className="font-serif font-bold text-lg text-accent-gold mb-1 group-hover:text-foreground transition-colors tracking-wide leading-tight line-clamp-2">
                                             {pet.petNickname || pet.petType}
                                         </h3>
-                                        <div className="flex gap-2 text-xs text-muted-foreground mt-2">
+                                        <div className="flex gap-2 text-xs text-muted-foreground mt-1">
                                             <span className="px-2 py-0.5 bg-muted rounded border border-white/5">{pet.petSchool}</span>
                                             <span className="px-2 py-0.5 bg-muted rounded border border-white/5">{pet.petAge}</span>
                                         </div>
