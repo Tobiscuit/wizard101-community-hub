@@ -83,16 +83,17 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                 onClose();
             }
         }}>
+            {/* MASSIVE WIDTH INCREASE: max-w-7xl to eliminate scrolling by trading vertical for horizontal */}
             <DialogContent 
-                className="w-full max-w-5xl bg-background border-border p-0 flex flex-col max-h-[90vh] shadow-2xl overflow-hidden"
+                className="w-full max-w-7xl bg-background border-border p-0 flex flex-col shadow-2xl overflow-hidden max-h-[95vh]"
                 aria-describedby={undefined}
             >
                 
                 {/* 1. Identity Header: Fixed Top */}
-                <div className="shrink-0 relative h-40 overflow-hidden group border-b border-border bg-muted/10">
+                <div className="shrink-0 relative h-36 overflow-hidden group border-b border-border bg-muted/10">
                     <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background/40 to-background z-10" />
                     
-                    <div className="relative z-20 h-full flex flex-col justify-end p-8 pb-6">
+                    <div className="relative z-20 h-full flex flex-col justify-end p-8 pb-5">
                         <div className="flex items-end justify-between">
                             <div>
                                 <div className="flex items-center gap-3 mb-2">
@@ -103,7 +104,7 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                                         {pet.petAge || 'Adult'}
                                     </Badge>
                                 </div>
-                                <DialogTitle className="text-4xl md:text-5xl font-black tracking-tight text-foreground mb-1 drop-shadow-sm">
+                                <DialogTitle className="text-4xl md:text-5xl font-black tracking-tight text-foreground mb-1 drop-shadow-sm line-clamp-1">
                                     {pet.nickname || pet.petType || 'UNKNOWN'}
                                 </DialogTitle>
                                 <p className="text-muted-foreground font-medium tracking-wide text-sm flex items-center gap-2">
@@ -112,7 +113,7 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                             </div>
 
                             {/* Mini-Stats on Header */}
-                            <div className="hidden md:flex gap-8 text-right">
+                            <div className="hidden md:flex gap-8 text-right shrink-0">
                                 <div>
                                     <span className="block text-[10px] uppercase tracking-widest text-muted-foreground/60 mb-0.5">Total Stats</span>
                                     <span className="text-2xl font-light text-foreground font-mono tracking-tighter">
@@ -131,15 +132,15 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                     </div>
                 </div>
 
-                {/* Body: Scrollable */}
+                {/* Body: Scrollable if necessary, but layout optimized to avoid it */}
                 <div className="flex-1 overflow-y-auto custom-scrollbar bg-background">
-                    <div className="px-8 py-8 space-y-10">
+                    <div className="px-8 py-8 space-y-8">
                     
-                        {/* 2. Laboratory Grid */}
+                        {/* 2. Laboratory Layout: Grid Split with Optimized Columns */}
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
                             
-                            {/* Left: Base Stats */}
-                            <div className="lg:col-span-7 space-y-6">
+                            {/* Left: Base Stats (Takes up 4 cols now, allowing more room for right side) */}
+                            <div className="lg:col-span-5 space-y-6">
                                 <div className="flex items-center justify-between border-b border-border pb-3">
                                     <h4 className="text-xl font-light text-foreground flex items-center gap-3">
                                         <Activity className="w-5 h-5 text-primary/70" />
@@ -147,12 +148,12 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                                     </h4>
                                     {isDirty && (
                                         <Badge variant="outline" className="text-accent-gold border-accent-gold/40 bg-accent-gold/5 text-[10px] animate-pulse">
-                                            PREVIEWING CHANGES
+                                            PREVIEWING
                                         </Badge>
                                     )}
                                 </div>
                                 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 p-6 rounded-2xl bg-muted/30 border border-border shadow-sm">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4 p-5 rounded-2xl bg-muted/30 border border-border shadow-sm">
                                     <StatInputCell label="Strength" value={localStats.strength} max={255} onChange={(v) => handleStatChange('strength', v)} />
                                     <StatInputCell label="Intellect" value={localStats.intellect} max={250} onChange={(v) => handleStatChange('intellect', v)} />
                                     <StatInputCell label="Agility" value={localStats.agility} max={260} onChange={(v) => handleStatChange('agility', v)} />
@@ -161,8 +162,8 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                                 </div>
                             </div>
 
-                            {/* Right: Max Potential */}
-                            <div className="lg:col-span-5 space-y-6">
+                            {/* Right: Max Potential (Takes up 7 cols - GRID DISPLAY) */}
+                            <div className="lg:col-span-7 space-y-6">
                                 <div className="border-b border-border pb-3">
                                     <h4 className="text-xl font-light text-foreground flex items-center gap-3">
                                         <Sparkles className="w-5 h-5 text-accent-gold" />
@@ -171,28 +172,28 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                                 </div>
 
                                 {potentials ? (
-                                    <div className="space-y-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {/* Damage */}
                                         <div className="relative overflow-hidden group rounded-xl border border-red-500/10 bg-gradient-to-br from-red-500/5 to-transparent p-4 transition-all duration-300 hover:border-red-500/30">
                                             <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
-                                                <Sword className="w-16 h-16 text-red-500 rotate-12" />
+                                                <Sword className="w-12 h-12 text-red-500 rotate-12" />
                                             </div>
                                             <div className="relative z-10">
-                                                <div className="flex justify-between items-start mb-3">
-                                                    <span className="text-red-400 font-bold uppercase tracking-widest text-xs">Damage</span>
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <span className="text-red-400 font-bold uppercase tracking-widest text-[10px]">Damage</span>
                                                     <Sword className="w-4 h-4 text-red-500" />
                                                 </div>
-                                                <div className="space-y-2">
+                                                <div className="space-y-1">
                                                     <div className="flex justify-between items-baseline">
                                                         <span className="text-foreground/70 text-sm">Dealer</span>
                                                         <span className="text-xl font-mono font-bold text-red-100">{fmt(potentials.damage.dealer)}</span>
                                                     </div>
-                                                    <div className="w-full h-px bg-red-500/10" />
-                                                    <div className="flex justify-between items-baseline text-sm">
-                                                        <span className="text-muted-foreground">Giver / Pain</span>
+                                                    <div className="w-full h-px bg-red-500/10 my-1" />
+                                                    <div className="flex justify-between items-baseline text-xs">
+                                                        <span className="text-muted-foreground">Giver</span>
                                                         <span className="font-mono text-red-200/60">{fmt(potentials.damage.giver)}</span>
                                                     </div>
-                                                    <div className="flex justify-between items-baseline text-sm">
+                                                    <div className="flex justify-between items-baseline text-xs">
                                                         <span className="text-muted-foreground">Boon</span>
                                                         <span className="font-mono text-red-200/60">{fmt(potentials.damage.boon)}</span>
                                                     </div>
@@ -203,25 +204,25 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                                         {/* Resist */}
                                         <div className="relative overflow-hidden group rounded-xl border border-cyan-500/10 bg-gradient-to-br from-cyan-500/5 to-transparent p-4 transition-all duration-300 hover:border-cyan-500/30">
                                             <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
-                                                <Shield className="w-16 h-16 text-cyan-500 -rotate-12" />
+                                                <Shield className="w-12 h-12 text-cyan-500 -rotate-12" />
                                             </div>
                                             <div className="relative z-10">
-                                                <div className="flex justify-between items-start mb-3">
-                                                    <span className="text-cyan-400 font-bold uppercase tracking-widest text-xs">Resist</span>
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <span className="text-cyan-400 font-bold uppercase tracking-widest text-[10px]">Resist</span>
                                                     <Shield className="w-4 h-4 text-cyan-500" />
                                                 </div>
-                                                <div className="space-y-2">
+                                                <div className="space-y-1">
                                                     <div className="flex justify-between items-baseline">
                                                         <span className="text-foreground/70 text-sm">Proof</span>
                                                         <span className="text-xl font-mono font-bold text-cyan-100">{fmt(potentials.resist.proof)}</span>
                                                     </div>
-                                                    <div className="w-full h-px bg-cyan-500/10" />
-                                                    <div className="grid grid-cols-2 gap-4">
-                                                         <div className="flex justify-between items-baseline text-sm">
+                                                    <div className="w-full h-px bg-cyan-500/10 my-1" />
+                                                    <div className="grid grid-cols-2 gap-2">
+                                                         <div className="flex justify-between items-baseline text-xs">
                                                             <span className="text-muted-foreground">Defy</span>
                                                             <span className="font-mono text-cyan-200/60">{fmt(potentials.resist.defy)}</span>
                                                         </div>
-                                                        <div className="flex justify-between items-baseline text-sm">
+                                                        <div className="flex justify-between items-baseline text-xs">
                                                             <span className="text-muted-foreground">Ward</span>
                                                             <span className="font-mono text-cyan-200/60">{fmt(potentials.resist.ward)}</span>
                                                         </div>
@@ -232,17 +233,17 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
 
                                         {/* Pierce Extended */}
                                         <div className="relative overflow-hidden group rounded-xl border border-yellow-500/10 bg-gradient-to-br from-yellow-500/5 to-transparent p-4 transition-all duration-300 hover:border-yellow-500/30">
-                                            <div className="flex justify-between items-start mb-3 relative z-10">
-                                                <span className="text-yellow-500 font-bold uppercase tracking-widest text-xs">Pierce</span>
+                                            <div className="flex justify-between items-start mb-2 relative z-10">
+                                                <span className="text-yellow-500 font-bold uppercase tracking-widest text-[10px]">Pierce</span>
                                                 <Crosshair className="w-4 h-4 text-yellow-500" />
                                             </div>
-                                            <div className="space-y-2 relative z-10">
+                                            <div className="space-y-1 relative z-10">
                                                 <div className="flex justify-between items-baseline">
                                                     <span className="text-foreground/70 text-sm">Breaker</span>
                                                     <span className="text-xl font-mono font-bold text-yellow-100">{fmt(potentials.pierce.breaker)}</span>
                                                 </div>
-                                                <div className="w-full h-px bg-yellow-500/10" />
-                                                <div className="flex justify-between items-baseline text-sm">
+                                                <div className="w-full h-px bg-yellow-500/10 my-1" />
+                                                <div className="flex justify-between items-baseline text-xs">
                                                     <span className="text-muted-foreground">Piercer</span>
                                                     <span className="font-mono text-yellow-200/60">{fmt(potentials.pierce.piercer)}</span>
                                                 </div>
@@ -250,34 +251,34 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                                         </div>
 
                                         {/* Universal Utility (Accuracy + Pips) */}
-                                        <div className="grid grid-cols-2 gap-4">
+                                        <div className="grid grid-cols-2 gap-3">
                                             {/* Accuracy */}
-                                            <div className="relative overflow-hidden group rounded-xl border border-purple-500/10 bg-gradient-to-br from-purple-500/5 to-transparent p-4 transition-all duration-300 hover:border-purple-500/30">
-                                                <div className="flex justify-between items-start mb-2">
-                                                    <span className="text-purple-400 font-bold uppercase tracking-widest text-[10px]">Accuracy</span>
+                                            <div className="relative overflow-hidden group rounded-xl border border-purple-500/10 bg-gradient-to-br from-purple-500/5 to-transparent p-3 transition-all duration-300 hover:border-purple-500/30 flex flex-col justify-between">
+                                                <div className="flex justify-between items-start">
+                                                    <span className="text-purple-400 font-bold uppercase tracking-widest text-[9px]">Accuracy</span>
                                                     <Target className="w-3 h-3 text-purple-400" />
                                                 </div>
-                                                <div className="space-y-1">
-                                                     <div className="flex justify-between items-baseline text-sm">
-                                                        <span className="text-foreground/70 text-xs">Sharp</span>
-                                                        <span className="font-mono font-bold text-purple-100">{fmt(potentials.accuracy.sharp)}</span>
+                                                <div className="space-y-1 mt-2">
+                                                     <div className="flex justify-between items-baseline text-xs">
+                                                        <span className="text-foreground/70 text-[10px]">Sharp</span>
+                                                        <span className="font-mono font-bold text-purple-100 text-sm">{fmt(potentials.accuracy.sharp)}</span>
                                                     </div>
-                                                    <div className="flex justify-between items-baseline text-sm">
-                                                        <span className="text-muted-foreground text-xs">Sniper</span>
-                                                        <span className="font-mono text-purple-200/60 text-xs">{fmt(potentials.accuracy.sniper)}</span>
+                                                    <div className="flex justify-between items-baseline text-xs">
+                                                        <span className="text-muted-foreground text-[10px]">Sniper</span>
+                                                        <span className="font-mono text-purple-200/60 text-[10px]">{fmt(potentials.accuracy.sniper)}</span>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             {/* Pips */}
-                                            <div className="relative overflow-hidden group rounded-xl border border-green-500/10 bg-gradient-to-br from-green-500/5 to-transparent p-4 transition-all duration-300 hover:border-green-500/30">
-                                                <div className="flex justify-between items-start mb-2">
-                                                    <span className="text-green-400 font-bold uppercase tracking-widest text-[10px]">Pip Chance</span>
+                                            <div className="relative overflow-hidden group rounded-xl border border-green-500/10 bg-gradient-to-br from-green-500/5 to-transparent p-3 transition-all duration-300 hover:border-green-500/30 flex flex-col justify-between">
+                                                <div className="flex justify-between items-start">
+                                                    <span className="text-green-400 font-bold uppercase tracking-widest text-[9px]">Pip Chance</span>
                                                     <CircleDot className="w-3 h-3 text-green-400" />
                                                 </div>
                                                 <div className="flex justify-between items-end mt-2">
-                                                    <span className="text-foreground/70 text-xs">O'Plenty</span>
-                                                    <span className="font-mono font-bold text-green-100">{fmt(potentials.pips.plenty)}</span>
+                                                    <span className="text-foreground/70 text-[10px]">O'Plenty</span>
+                                                    <span className="font-mono font-bold text-green-100 text-sm">{fmt(potentials.pips.plenty)}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -291,17 +292,17 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                             </div>
                         </div>
 
-                        {/* 3. Gamma's Wisdom */}
+                        {/* 3. Gamma's Wisdom (Full Width) */}
                         {pet.advice && (
-                            <div className="group relative overflow-hidden rounded-xl border border-border bg-muted/20 p-6 transition-all hover:bg-muted/30">
+                            <div className="group relative overflow-hidden rounded-xl border border-border bg-muted/20 p-5 transition-all hover:bg-muted/30">
                                 <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-blue-400 to-purple-500 opacity-70" />
-                                <div className="flex gap-5">
-                                    <div className="mt-0.5 h-10 w-10 shrink-0 rounded-full bg-background border border-border flex items-center justify-center shadow-sm">
-                                        <Brain className="h-5 w-5 text-blue-500" />
+                                <div className="flex gap-4">
+                                    <div className="mt-0.5 h-8 w-8 shrink-0 rounded-full bg-background border border-border flex items-center justify-center shadow-sm">
+                                        <Brain className="h-4 w-4 text-blue-500" />
                                     </div>
                                     <div className="space-y-1">
                                         <h5 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Gamma's Wisdom</h5>
-                                        <p className="text-base text-foreground/90 leading-relaxed font-light">
+                                        <p className="text-sm text-foreground/90 leading-relaxed font-light">
                                             "{pet.advice}"
                                         </p>
                                     </div>
@@ -310,7 +311,7 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                         )}
 
                         {/* Footer Actions */}
-                        <div className="flex justify-between items-center pt-4 border-t border-border">
+                        <div className="flex justify-between items-center pt-2 border-t border-border">
                             <div className="flex items-center gap-2">
                                 {onDelete && (
                                     <Button 
