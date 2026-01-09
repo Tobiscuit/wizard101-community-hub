@@ -113,19 +113,29 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
 
                 <div className="relative p-6 space-y-8 max-h-[75vh] overflow-y-auto custom-scrollbar">
                     
-                    {/* Stats Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="relative p-6 space-y-8 max-h-[75vh] overflow-y-auto custom-scrollbar">
+                    
+                    {/* Workbench Layout: Side-by-Side Tuning */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                         
-                        {/* Col 1: Base Stats (Editable) */}
-                        <div className="space-y-4">
-                            <div className="flex justify-between items-center border-b border-border pb-2">
-                                <h4 className="text-lg font-bold text-foreground">Base Stats</h4>
+                        {/* Left: Attribute Tuning (Stats) - Spans 7 cols */}
+                        <div className="lg:col-span-7 space-y-6">
+                            <div className="flex justify-between items-center border-b border-border pb-3">
+                                <div>
+                                    <h4 className="text-xl font-bold text-foreground flex items-center gap-2">
+                                        <RotateCcw className="w-5 h-5 text-muted-foreground/50" />
+                                        Attribute Analysis
+                                    </h4>
+                                    <p className="text-xs text-muted-foreground mt-1">Adjust base stats to simulate potential power.</p>
+                                </div>
                                 {isDirty && (
-                                    <span className="text-[10px] text-accent-gold animate-pulse">Modified</span>
+                                    <Badge variant="outline" className="text-accent-gold border-accent-gold/50 animate-pulse bg-accent-gold/10">
+                                        SIMULATION ACTIVE
+                                    </Badge>
                                 )}
                             </div>
                             
-                            <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 bg-muted/10 p-4 rounded-xl border border-white/5">
                                 <StatInputCell 
                                     label="Strength" 
                                     value={localStats.strength} 
@@ -159,71 +169,84 @@ export function PetDetailDialog({ pet, open, onClose, onListInMarketplace, onUnl
                             </div>
                         </div>
 
-                        {/* Col 2: Max Potential (Reactive) */}
-                        <div className="space-y-4">
-                            <h4 className="text-lg font-bold text-foreground border-b border-border pb-2">Max Potential</h4>
+                        {/* Right: Projected Power (Output) - Spans 5 cols */}
+                        <div className="lg:col-span-5 space-y-6">
+                            <div className="border-b border-border pb-3">
+                                <h4 className="text-xl font-bold text-foreground flex items-center gap-2">
+                                    <Sparkles className="w-5 h-5 text-accent-gold" />
+                                    Projected Output
+                                </h4>
+                                <p className="text-xs text-muted-foreground mt-1">Theoretical maximums based on current attributes.</p>
+                            </div>
+
                             {potentials ? (
-                                <div className="space-y-3 text-sm opacity-90 hover:opacity-100 transition-opacity">
-                                    {/* Damage */}
-                                    <div className="flex items-center gap-2 group">
-                                        <div className="p-1.5 bg-red-500/10 rounded-md group-hover:bg-red-500/20 transition-colors">
-                                           <Sword className="w-4 h-4 text-red-500" />
+                                <div className="space-y-4">
+                                    {/* Damage Card */}
+                                    <div className="bg-gradient-to-br from-red-500/10 to-transparent border border-red-500/20 rounded-xl p-4 relative overflow-hidden group hover:border-red-500/40 transition-colors">
+                                        <div className="absolute top-0 right-0 p-2 opacity-20 group-hover:opacity-40 transition-opacity">
+                                            <Sword className="w-12 h-12 text-red-500" />
                                         </div>
-                                        <span className="text-red-500 font-bold w-16">Damage</span>
-                                        <div className="flex gap-3 text-muted-foreground text-xs">
-                                            <span>Dlr:<span className="text-foreground ml-0.5 font-mono">{fmt(potentials.damage.dealer)}</span></span>
-                                            <span>Gvr:<span className="text-foreground ml-0.5 font-mono">{fmt(potentials.damage.giver)}</span></span>
-                                            <span>Bn:<span className="text-foreground ml-0.5 font-mono">{fmt(potentials.damage.boon)}</span></span>
+                                        <div className="relative z-10">
+                                            <span className="text-xs font-bold text-red-400 uppercase tracking-widest block mb-2">Damage Potential</span>
+                                            <div className="space-y-1">
+                                                <div className="flex justify-between items-end border-b border-red-500/10 pb-1">
+                                                    <span className="text-sm text-foreground/80">Dealer</span>
+                                                    <span className="text-xl font-mono font-bold text-red-100">{fmt(potentials.damage.dealer)}</span>
+                                                </div>
+                                                <div className="flex justify-between items-end">
+                                                    <span className="text-xs text-muted-foreground">Giver / Pain</span>
+                                                    <span className="text-sm font-mono text-red-200/70">{fmt(potentials.damage.giver)}</span>
+                                                </div>
+                                                <div className="flex justify-between items-end">
+                                                    <span className="text-xs text-muted-foreground">Boon</span>
+                                                    <span className="text-sm font-mono text-red-200/70">{fmt(potentials.damage.boon)}</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    {/* Resist */}
-                                    <div className="flex items-center gap-2 group">
-                                        <div className="p-1.5 bg-cyan-500/10 rounded-md group-hover:bg-cyan-500/20 transition-colors">
-                                            <Shield className="w-4 h-4 text-cyan-500" />
+
+                                    {/* Resist Card */}
+                                    <div className="bg-gradient-to-br from-cyan-500/10 to-transparent border border-cyan-500/20 rounded-xl p-4 relative overflow-hidden group hover:border-cyan-500/40 transition-colors">
+                                        <div className="absolute top-0 right-0 p-2 opacity-20 group-hover:opacity-40 transition-opacity">
+                                            <Shield className="w-12 h-12 text-cyan-500" />
                                         </div>
-                                        <span className="text-cyan-500 font-bold w-16">Resist</span>
-                                        <div className="flex gap-3 text-muted-foreground text-xs">
-                                            <span>Prf:<span className="text-foreground ml-0.5 font-mono">{fmt(potentials.resist.proof)}</span></span>
-                                            <span>Dfy:<span className="text-foreground ml-0.5 font-mono">{fmt(potentials.resist.defy)}</span></span>
-                                            <span>Wrd:<span className="text-foreground ml-0.5 font-mono">{fmt(potentials.resist.ward)}</span></span>
+                                        <div className="relative z-10">
+                                            <span className="text-xs font-bold text-cyan-400 uppercase tracking-widest block mb-2">Resist Potential</span>
+                                            <div className="space-y-1">
+                                                <div className="flex justify-between items-end border-b border-cyan-500/10 pb-1">
+                                                    <span className="text-sm text-foreground/80">Proof</span>
+                                                    <span className="text-xl font-mono font-bold text-cyan-100">{fmt(potentials.resist.proof)}</span>
+                                                </div>
+                                                <div className="flex justify-between items-end">
+                                                    <span className="text-xs text-muted-foreground">Defy</span>
+                                                    <span className="text-sm font-mono text-cyan-200/70">{fmt(potentials.resist.defy)}</span>
+                                                </div>
+                                                <div className="flex justify-between items-end">
+                                                    <span className="text-xs text-muted-foreground">Ward</span>
+                                                    <span className="text-sm font-mono text-cyan-200/70">{fmt(potentials.resist.ward)}</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    {/* Pierce */}
-                                    <div className="flex items-center gap-2 group">
-                                        <div className="p-1.5 bg-yellow-500/10 rounded-md group-hover:bg-yellow-500/20 transition-colors">
-                                            <Crosshair className="w-4 h-4 text-yellow-500" />
+
+                                    {/* Pierce Card */}
+                                    <div className="bg-gradient-to-br from-yellow-500/5 to-transparent border border-yellow-500/20 rounded-xl p-3 flex justify-between items-center group hover:border-yellow-500/40 transition-colors">
+                                        <div className="flex items-center gap-3">
+                                            <div className="p-2 bg-yellow-500/10 rounded-lg group-hover:bg-yellow-500/20 transition-colors">
+                                                <Crosshair className="w-5 h-5 text-yellow-500" />
+                                            </div>
+                                            <div>
+                                                <span className="text-[10px] font-bold text-yellow-500 uppercase tracking-widest block">Pierce</span>
+                                                <span className="text-sm font-bold text-foreground">Armor Breaker</span>
+                                            </div>
                                         </div>
-                                        <span className="text-yellow-500 font-bold w-16">Pierce</span>
-                                        <div className="flex gap-3 text-muted-foreground text-xs">
-                                            <span>Brk:<span className="text-foreground ml-0.5 font-mono">{fmt(potentials.pierce.breaker)}</span></span>
-                                            <span>Prc:<span className="text-foreground ml-0.5 font-mono">{fmt(potentials.pierce.piercer)}</span></span>
-                                        </div>
+                                        <span className="text-lg font-mono font-bold text-yellow-100">{fmt(potentials.pierce.breaker)}</span>
                                     </div>
                                 </div>
                             ): (
                                 <span className="text-muted-foreground text-sm">Cannot calculate potential without stats.</span>
                             )}
                         </div>
-                    </div>
-
-                    {/* Manifested Talents */}
-                    <div className="space-y-4">
-                        <h4 className="text-lg font-bold text-foreground border-b border-border pb-2">Manifested Talents</h4>
-                        {pet.talents && pet.talents.length > 0 ? (
-                            <div className="flex flex-wrap gap-3">
-                                {pet.talents.map((t, i) => {
-                                    const val = localStats ? calculateTalentValue(t, localStats) : null;
-                                    return (
-                                        <Badge key={i} variant="outline" className="px-3 py-1.5 border-border text-foreground bg-muted/30 hover:bg-muted transition-colors rounded-full flex items-center gap-2">
-                                            <span className="uppercase font-bold tracking-wide text-xs">{t}</span>
-                                            {val && <span className="font-mono text-primary text-xs">({val})</span>}
-                                        </Badge>
-                                    );
-                                })}
-                            </div>
-                         ) : (
-                            <span className="text-muted-foreground text-sm italic">No talents manifested yet.</span>
-                         )}
                     </div>
 
                     {/* Floating Save Bar (Bleeding Edge) */}
