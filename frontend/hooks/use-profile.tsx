@@ -28,12 +28,20 @@ export function useProfile() {
         try {
             setLoading(true);
             const uid = session.user.id;
-            
+
+            // RACE CONDITION FIX: Wait for Firebase Auth to sync with Better Auth
+            // We poll for up to 3 seconds for auth.currentUser to match
+            let retries = 0;
+            while (retries < 30) {
+                // @ts-ignore
+                const fbUser = (await import('@/lib/firebase')).auth.currentUser;
+                if (fbUser && fbUser.uid === uid) break;
+                await new Promise(r => setTimeout(r, 100)); // wait 100ms
+                retries++;
+            }
+
             // 1. Ensure Profile Exists (Create default if new)
-            // Safety: We pass undefined for display name to force random generation
-            // or let ensureUserProfile fetch it if it can. 
-            // BetterAuth normalizes 'name' but for Google it might be Real Name.
-            // We choose Privacy First: Generate Random Handle initially.
+            // ... (rest of logic)
             const cleanDisplayName = undefined; 
 
             const userProfile = await ensureUserProfile(
